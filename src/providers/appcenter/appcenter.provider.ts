@@ -63,7 +63,7 @@ export class AppCenterProvider extends BaseProvider {
     try {
       // Set properties for this error
       const properties: Record<string, string> = {};
-      
+
       if (error.context) {
         Object.entries(error.context).forEach(([key, value]) => {
           properties[`context_${key}`] = String(value);
@@ -117,7 +117,7 @@ export class AppCenterProvider extends BaseProvider {
     try {
       if (user) {
         await this.appCenter.setUserId(user.id);
-        
+
         // Track user properties as events
         await this.analytics.trackEvent('UserContext', {
           userId: user.id || '',

@@ -1,10 +1,4 @@
-import {
-  NormalizedError,
-  UserContext,
-  Breadcrumb,
-  ErrorContext,
-  ErrorLevel,
-} from './errors';
+import { NormalizedError, UserContext, Breadcrumb, ErrorContext, ErrorLevel } from './errors';
 import { ProviderConfig } from './config';
 
 /**

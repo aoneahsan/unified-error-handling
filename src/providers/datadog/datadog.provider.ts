@@ -37,7 +37,15 @@ export class DataDogProvider extends BaseProvider {
         // Web implementation
         const { datadogRum } = await import('@datadog/browser-rum');
         this.datadogRum = datadogRum;
-        // Note: datadogLogs not available in browser-rum package
+        
+        // Initialize DataDog Logs
+        try {
+          const { datadogLogs } = await import('@datadog/browser-logs');
+          this.datadogLogs = datadogLogs;
+        } catch (error) {
+          console.warn('DataDog Logs not available, continuing without logs integration');
+          this.datadogLogs = null;
+        }
 
         // Initialize RUM
         this.datadogRum.init({
@@ -75,33 +83,35 @@ export class DataDogProvider extends BaseProvider {
           },
         });
 
-        // Initialize Logs
-        this.datadogLogs.init({
-          clientToken: datadogConfig.clientToken,
-          site: datadogConfig.site || 'datadoghq.com',
-          service: datadogConfig.service,
-          env: datadogConfig.environment || 'production',
-          version: datadogConfig.release,
-          sessionSampleRate: datadogConfig.sessionSampleRate || 100,
-          beforeSend: (log: any) => {
-            // Apply error filters
-            if (datadogConfig.ignoreErrors) {
-              const message = log.message || '';
-              for (const pattern of datadogConfig.ignoreErrors) {
-                if (typeof pattern === 'string') {
-                  if (message.includes(pattern)) {
-                    return false;
-                  }
-                } else if (pattern instanceof RegExp) {
-                  if (pattern.test(message)) {
-                    return false;
+        // Initialize Logs (if available)
+        if (this.datadogLogs) {
+          this.datadogLogs.init({
+            clientToken: datadogConfig.clientToken,
+            site: datadogConfig.site || 'datadoghq.com',
+            service: datadogConfig.service,
+            env: datadogConfig.environment || 'production',
+            version: datadogConfig.release,
+            sessionSampleRate: datadogConfig.sessionSampleRate || 100,
+            beforeSend: (log: any) => {
+              // Apply error filters
+              if (datadogConfig.ignoreErrors) {
+                const message = log.message || '';
+                for (const pattern of datadogConfig.ignoreErrors) {
+                  if (typeof pattern === 'string') {
+                    if (message.includes(pattern)) {
+                      return false;
+                    }
+                  } else if (pattern instanceof RegExp) {
+                    if (pattern.test(message)) {
+                      return false;
+                    }
                   }
                 }
               }
-            }
-            return true;
-          },
-        });
+              return true;
+            },
+          });
+        }
 
         // Start RUM
         this.datadogRum.startSessionReplayRecording();
@@ -174,14 +184,16 @@ export class DataDogProvider extends BaseProvider {
         });
       }
 
-      // Also log to DataDog Logs
-      this.datadogLogs.logger.error(error.message, {
-        error: error.originalError,
-        context: error.context,
-        tags: error.tags,
-        metadata: error.metadata,
-        level: error.level,
-      });
+      // Also log to DataDog Logs (if available)
+      if (this.datadogLogs) {
+        this.datadogLogs.logger.error(error.message, {
+          error: error.originalError,
+          context: error.context,
+          tags: error.tags,
+          metadata: error.metadata,
+          level: error.level,
+        });
+      }
     } catch (err) {
       console.error('Failed to send error to DataDog:', err);
       throw err;
@@ -230,12 +242,14 @@ export class DataDogProvider extends BaseProvider {
         ...breadcrumb.data,
       });
 
-      // Also log as a breadcrumb message
-      this.datadogLogs.logger.info(`[Breadcrumb] ${breadcrumb.message}`, {
-        category: breadcrumb.category,
-        level: breadcrumb.level,
-        data: breadcrumb.data,
-      });
+      // Also log as a breadcrumb message (if available)
+      if (this.datadogLogs) {
+        this.datadogLogs.logger.info(`[Breadcrumb] ${breadcrumb.message}`, {
+          category: breadcrumb.category,
+          level: breadcrumb.level,
+          data: breadcrumb.data,
+        });
+      }
     } catch (error) {
       console.error('Failed to add breadcrumb:', error);
     }

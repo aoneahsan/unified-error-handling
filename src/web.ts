@@ -1,8 +1,5 @@
 import { WebPlugin } from '@capacitor/core';
-import type {
-  UnifiedErrorHandlingPlugin,
-  InitializeOptions,
-} from './definitions';
+import type { UnifiedErrorHandlingPlugin, InitializeOptions } from './definitions';
 import {
   ErrorContext,
   UserContext,
@@ -15,13 +12,7 @@ import {
   ProviderRegistry,
   // NormalizedError,
 } from './types';
-import {
-  ErrorNormalizer,
-  BreadcrumbManager,
-  ContextManager,
-  networkMonitor,
-  StorageManager,
-} from './utils';
+import { ErrorNormalizer, BreadcrumbManager, ContextManager, networkMonitor, StorageManager } from './utils';
 import { ProviderRegistryImpl } from './providers/registry';
 import { OfflineQueue } from './native/offline-queue';
 
@@ -102,7 +93,7 @@ export class UnifiedErrorHandlingWeb extends WebPlugin implements UnifiedErrorHa
     if (this.currentProvider) {
       try {
         await this.currentProvider.logError(sanitized);
-        
+
         // Update metrics
         await StorageManager.updateMetrics((metrics) => ({
           ...metrics,
@@ -111,7 +102,7 @@ export class UnifiedErrorHandlingWeb extends WebPlugin implements UnifiedErrorHa
         }));
       } catch (error) {
         console.error('Failed to log error:', error);
-        
+
         // Queue for offline retry if enabled
         if (this.config?.provider.enableOffline && this.offlineQueue) {
           await this.offlineQueue.enqueue(sanitized, this.config.provider.provider);
@@ -129,11 +120,7 @@ export class UnifiedErrorHandlingWeb extends WebPlugin implements UnifiedErrorHa
     }
   }
 
-  async logMessage(
-    message: string,
-    level: ErrorLevel = ErrorLevel.INFO,
-    context?: ErrorContext
-  ): Promise<void> {
+  async logMessage(message: string, level: ErrorLevel = ErrorLevel.INFO, context?: ErrorContext): Promise<void> {
     this.ensureInitialized();
 
     if (this.currentProvider) {
@@ -212,10 +199,7 @@ export class UnifiedErrorHandlingWeb extends WebPlugin implements UnifiedErrorHa
     await this.setUser(null);
   }
 
-  async switchProvider(
-    provider: ErrorProviderType,
-    config?: ProviderConfig
-  ): Promise<void> {
+  async switchProvider(provider: ErrorProviderType, config?: ProviderConfig): Promise<void> {
     this.ensureInitialized();
 
     // Flush current provider
@@ -225,10 +209,12 @@ export class UnifiedErrorHandlingWeb extends WebPlugin implements UnifiedErrorHa
     }
 
     // Update config
-    const newConfig: ProviderConfig = config || {
-      ...this.config!.provider,
-      provider,
-    } as ProviderConfig;
+    const newConfig: ProviderConfig =
+      config ||
+      ({
+        ...this.config!.provider,
+        provider,
+      } as ProviderConfig);
 
     // Initialize new provider
     await this.initializeProvider(newConfig);

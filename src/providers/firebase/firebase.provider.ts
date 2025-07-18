@@ -34,9 +34,7 @@ export class FirebaseCrashlyticsProvider extends BaseProvider {
 
       if (this.isWeb) {
         // Web implementation - Firebase Crashlytics doesn't support web
-        console.warn(
-          'Firebase Crashlytics does not support web platform. Errors will be logged to console instead.'
-        );
+        console.warn('Firebase Crashlytics does not support web platform. Errors will be logged to console instead.');
       } else {
         // Native implementation using @capacitor-firebase/crashlytics
         try {
@@ -144,7 +142,7 @@ export class FirebaseCrashlyticsProvider extends BaseProvider {
       } else {
         // Clear user
         await this.crashlytics.setUserId({ userId: '' });
-        
+
         // Clear user-related custom keys
         for (const [key] of this.customAttributes) {
           if (key.startsWith('user_')) {
@@ -174,9 +172,9 @@ export class FirebaseCrashlyticsProvider extends BaseProvider {
       // Firebase Crashlytics doesn't have native breadcrumb support
       // Log breadcrumbs as custom logs
       const breadcrumbLog = `[${breadcrumb.category || 'default'}] ${breadcrumb.message}`;
-      
+
       await this.crashlytics.log({ message: breadcrumbLog });
-      
+
       // Keep local copy for web fallback
       this.logs.push(breadcrumbLog);
       if (this.logs.length > this.maxLogs) {

@@ -181,13 +181,13 @@ export class OfflineQueue {
     retryDistribution: Record<number, number>;
   }> {
     const queue = await StorageManager.getErrorQueue();
-    
+
     const retryDistribution: Record<number, number> = {};
     let oldestTimestamp: number | undefined;
 
     for (const item of queue) {
       retryDistribution[item.retryCount] = (retryDistribution[item.retryCount] || 0) + 1;
-      
+
       if (!oldestTimestamp || item.timestamp < oldestTimestamp) {
         oldestTimestamp = item.timestamp;
       }

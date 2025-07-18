@@ -16,10 +16,7 @@ export class ErrorNormalizer {
   /**
    * Normalize an error into standard format
    */
-  static normalize(
-    error: Error | string | any,
-    context?: ErrorContext
-  ): NormalizedError {
+  static normalize(error: Error | string | any, context?: ErrorContext): NormalizedError {
     let normalized: NormalizedError;
 
     if (typeof error === 'string') {
@@ -127,10 +124,7 @@ export class ErrorNormalizer {
   /**
    * Apply context to normalized error
    */
-  private static applyContext(
-    error: NormalizedError,
-    context: ErrorContext
-  ): NormalizedError {
+  private static applyContext(error: NormalizedError, context: ErrorContext): NormalizedError {
     return {
       ...error,
       level: context.level || error.level,
@@ -174,7 +168,7 @@ export class ErrorNormalizer {
       // Remove the first lines that reference this function
       const lines = stack.split('\n');
       const filteredLines = lines.filter(
-        (line: string) => !line.includes('ErrorNormalizer') && !line.includes('generateStackTrace')
+        (line: string) => !line.includes('ErrorNormalizer') && !line.includes('generateStackTrace'),
       );
       return filteredLines.join('\n');
     }
@@ -301,7 +295,7 @@ export class ErrorNormalizer {
       scrubPII?: boolean;
       piiPatterns?: RegExp[];
       redactedFields?: string[];
-    }
+    },
   ): NormalizedError {
     if (!options?.scrubPII) {
       return error;
@@ -312,7 +306,7 @@ export class ErrorNormalizer {
       /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b/g, // Email
       /\b(?:\d{4}[-\s]?){3}\d{4}\b/g, // Credit card
       /\b\d{3}-\d{2}-\d{4}\b/g, // SSN
-      /\b(?:\+\d{1,3}\s?)?(?:\(\d{1,4}\)\s?)?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,4}\b/g, // Phone
+      /(?:\+\d{1,3}\s?)?[(]?[\d\s\-()]{10,}[)]?/g, // Phone - more comprehensive pattern
     ];
 
     const redact = (obj: any, path: string = ''): any => {
@@ -331,9 +325,13 @@ export class ErrorNormalizer {
       if (obj && typeof obj === 'object') {
         const result: any = {};
         for (const key in obj) {
-          if (obj.hasOwnProperty(key)) {
+          if (Object.prototype.hasOwnProperty.call(obj, key)) {
             const fullPath = path ? `${path}.${key}` : key;
-            if (options.redactedFields?.includes(fullPath) || options.redactedFields?.includes(key)) {
+            const shouldRedact =
+              options.redactedFields?.some(
+                (field) => fullPath === field || fullPath.endsWith('.' + field) || key === field,
+              ) || false;
+            if (shouldRedact) {
               result[key] = '[REDACTED]';
             } else {
               result[key] = redact(obj[key], fullPath);

@@ -16,31 +16,31 @@ class MockProvider extends BaseProvider {
   readonly name = 'MockProvider';
   readonly version = '1.0.0';
 
-  protected async initializeProvider(config: ProviderConfig): Promise<void> {
+  protected async initializeProvider(_config: ProviderConfig): Promise<void> {
     // Mock implementation
   }
 
-  protected async sendError(error: NormalizedError): Promise<void> {
+  protected async sendError(_error: NormalizedError): Promise<void> {
     // Mock implementation
   }
 
-  protected async updateUserContext(user: UserContext | null): Promise<void> {
+  protected async updateUserContext(_user: UserContext | null): Promise<void> {
     // Mock implementation
   }
 
-  protected async updateCustomContext(key: string, context: any): Promise<void> {
+  protected async updateCustomContext(_key: string, _context: any): Promise<void> {
     // Mock implementation
   }
 
-  protected async updateBreadcrumb(breadcrumb: Breadcrumb): Promise<void> {
+  protected async updateBreadcrumb(_breadcrumb: Breadcrumb): Promise<void> {
     // Mock implementation
   }
 
-  protected async updateTags(tags: Record<string, string>): Promise<void> {
+  protected async updateTags(_tags: Record<string, string>): Promise<void> {
     // Mock implementation
   }
 
-  protected async updateExtraData(key: string, value: any): Promise<void> {
+  protected async updateExtraData(_key: string, _value: any): Promise<void> {
     // Mock implementation
   }
 
@@ -52,11 +52,11 @@ class MockProvider extends BaseProvider {
     // Mock implementation
   }
 
-  async flush(timeout?: number): Promise<boolean> {
+  async flush(_timeout?: number): Promise<boolean> {
     return true;
   }
 
-  supportsFeature(feature: ProviderFeature): boolean {
+  supportsFeature(_feature: ProviderFeature): boolean {
     return true;
   }
 
@@ -106,9 +106,7 @@ describe('BaseProvider', () => {
 
     it('should throw error if already initialized', async () => {
       await provider.initialize(config);
-      await expect(provider.initialize(config)).rejects.toThrow(
-        'MockProvider provider is already initialized'
-      );
+      await expect(provider.initialize(config)).rejects.toThrow('MockProvider provider is already initialized');
     });
 
     it('should apply tags from config', async () => {
@@ -138,7 +136,7 @@ describe('BaseProvider', () => {
         expect.objectContaining({
           message: 'Test error',
           name: 'TestError',
-        })
+        }),
       );
     });
 
@@ -151,9 +149,7 @@ describe('BaseProvider', () => {
         timestamp: Date.now(),
       };
 
-      await expect(uninitializedProvider.logError(error)).rejects.toThrow(
-        'MockProvider provider is not initialized'
-      );
+      await expect(uninitializedProvider.logError(error)).rejects.toThrow('MockProvider provider is not initialized');
     });
 
     it('should not log error when disabled', async () => {
@@ -228,7 +224,7 @@ describe('BaseProvider', () => {
         expect.objectContaining({
           message: 'User clicked button',
           timestamp: expect.any(Number),
-        })
+        }),
       );
     });
 

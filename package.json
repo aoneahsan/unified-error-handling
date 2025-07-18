@@ -2,6 +2,7 @@
   "name": "unified-error-handling",
   "version": "0.0.1",
   "description": "A comprehensive Capacitor plugin providing a unified API for multiple error handling platforms",
+  "type": "module",
   "main": "dist/plugin.cjs.js",
   "module": "dist/esm/index.js",
   "types": "dist/esm/index.d.ts",
@@ -49,7 +50,7 @@
     "lint": "npm run eslint && npm run prettier -- --check && npm run swiftlint -- lint",
     "fmt": "npm run eslint -- --fix && npm run prettier -- --write && npm run swiftlint -- --fix --format",
     "eslint": "eslint . --ext ts",
-    "prettier": "prettier \"**/*.{css,html,ts,js,java}\"",
+    "prettier": "prettier \"**/*.{css,html,ts,js}\"",
     "swiftlint": "node-swiftlint",
     "docgen": "docgen --api UnifiedErrorHandlingPlugin --output-readme README.md --output-json dist/docs.json",
     "build": "npm run clean && tsc && rollup -c rollup.config.js",
@@ -70,6 +71,7 @@
     "@ionic/eslint-config": "^0.4.0",
     "@ionic/prettier-config": "^4.0.0",
     "@ionic/swiftlint-config": "^1.1.2",
+    "@rollup/plugin-commonjs": "^28.0.6",
     "@rollup/plugin-node-resolve": "^15.3.0",
     "@types/node": "^22.10.0",
     "@types/react": "^18.3.17",
@@ -85,6 +87,7 @@
     "prettier-plugin-java": "~2.7.0",
     "rimraf": "^6.0.1",
     "rollup": "^4.32.0",
+    "rollup-plugin-polyfill-node": "^0.13.0",
     "swiftlint": "^1.0.2",
     "typescript": "~5.8.3",
     "vitest": "^3.2.4"
@@ -112,6 +115,7 @@
   },
   "dependencies": {
     "@capacitor/preferences": "^7.0.1",
+    "@datadog/browser-logs": "^6.13.0",
     "capacitor-firebase-kit": "^1.0.0"
   },
   "optionalDependencies": {

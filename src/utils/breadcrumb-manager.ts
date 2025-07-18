@@ -287,7 +287,7 @@ export class BreadcrumbManager {
           },
         });
       },
-      true
+      true,
     );
 
     // Track form submissions
@@ -308,7 +308,7 @@ export class BreadcrumbManager {
           },
         });
       },
-      true
+      true,
     );
 
     // Track input changes
@@ -332,7 +332,7 @@ export class BreadcrumbManager {
           });
         }
       },
-      true
+      true,
     );
   }
 
@@ -373,7 +373,7 @@ export class BreadcrumbManager {
     if (typeof arg === 'string') return arg;
     if (typeof arg === 'number' || typeof arg === 'boolean') return String(arg);
     if (arg instanceof Error) return `${arg.name}: ${arg.message}`;
-    
+
     try {
       return JSON.stringify(arg, null, 2);
     } catch {

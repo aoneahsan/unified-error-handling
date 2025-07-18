@@ -1,4 +1,6 @@
 import { nodeResolve } from '@rollup/plugin-node-resolve';
+import nodePolyfills from 'rollup-plugin-polyfill-node';
+import commonjs from '@rollup/plugin-commonjs';
 
 export default {
   input: 'dist/esm/index.js',
@@ -9,6 +11,11 @@ export default {
       name: 'capacitorUnifiedErrorHandling',
       globals: {
         '@capacitor/core': 'capacitorExports',
+        '@/types': 'types',
+        '@/utils': 'utils',
+        'react': 'React',
+        'react/jsx-runtime': 'ReactJSXRuntime',
+        'localforage': 'localforage',
       },
       sourcemap: true,
       inlineDynamicImports: true,
@@ -20,10 +27,33 @@ export default {
       inlineDynamicImports: true,
     },
   ],
-  external: ['@capacitor/core'],
+  external: [
+    '@capacitor/core', 
+    '@/types', 
+    '@/utils',
+    'react',
+    'react/jsx-runtime',
+    'localforage',
+    // External all provider SDKs to avoid bundling issues
+    '@sentry/browser',
+    '@sentry/integrations',
+    '@datadog/browser-logs',
+    '@datadog/browser-rum',
+    '@bugsnag/js',
+    'rollbar',
+    'logrocket',
+    'raygun4js',
+    'appcenter',
+    'capacitor-firebase-kit',
+  ],
   plugins: [
     nodeResolve({
       preferBuiltins: false,
+      browser: true,
     }),
+    commonjs({
+      include: ['node_modules/**'],
+    }),
+    nodePolyfills(),
   ],
 };

@@ -216,9 +216,7 @@ global code@/path/to/test.js:20`;
     });
 
     it('should replace dynamic values in message', () => {
-      const error = ErrorNormalizer.normalize(
-        'Failed to fetch https://api.example.com/users/abc123def456'
-      );
+      const error = ErrorNormalizer.normalize('Failed to fetch https://api.example.com/users/abc123def456');
 
       const fingerprint = ErrorNormalizer.extractFingerprint(error);
 
@@ -255,7 +253,7 @@ global code@/path/to/test.js:20`;
 
     it('should use custom PII patterns', () => {
       const error = ErrorNormalizer.normalize('Error with ABC123');
-      
+
       const sanitized = ErrorNormalizer.sanitize(error, {
         scrubPII: true,
         piiPatterns: [/ABC\d+/g],

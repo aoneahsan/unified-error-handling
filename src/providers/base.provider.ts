@@ -140,11 +140,7 @@ export abstract class BaseProvider implements ErrorProvider {
   /**
    * Log a message
    */
-  async logMessage(
-    message: string,
-    level: ErrorLevel = ErrorLevel.INFO,
-    context?: ErrorContext
-  ): Promise<void> {
+  async logMessage(message: string, level: ErrorLevel = ErrorLevel.INFO, context?: ErrorContext): Promise<void> {
     this.ensureInitialized();
 
     if (!this.state.enabled) {

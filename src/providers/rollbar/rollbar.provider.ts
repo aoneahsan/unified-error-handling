@@ -120,12 +120,14 @@ export class RollbarProvider extends BaseProvider {
     try {
       this.rollbar.configure({
         payload: {
-          person: user ? {
-            id: user.id,
-            email: user.email,
-            username: user.username,
-            ...user,
-          } : undefined,
+          person: user
+            ? {
+                id: user.id,
+                email: user.email,
+                username: user.username,
+                ...user,
+              }
+            : undefined,
         },
       });
     } catch (error) {
@@ -224,7 +226,7 @@ export class RollbarProvider extends BaseProvider {
         this.rollbar.wait(() => {
           resolve(true);
         });
-        
+
         if (timeout) {
           setTimeout(() => resolve(false), timeout);
         }

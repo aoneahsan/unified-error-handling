@@ -84,7 +84,7 @@ export class BugsnagProvider extends BaseProvider {
           if (bugsnagConfig.ignoreErrors) {
             const errorMessage = event.errors[0]?.errorMessage || '';
             const errorClass = event.errors[0]?.errorClass || '';
-            
+
             for (const pattern of bugsnagConfig.ignoreErrors) {
               if (typeof pattern === 'string') {
                 if (errorMessage.includes(pattern) || errorClass.includes(pattern)) {
@@ -176,13 +176,13 @@ export class BugsnagProvider extends BaseProvider {
     try {
       if (user) {
         this.bugsnag.setUser(user.id, user.email, user.username);
-        
+
         // Add additional user attributes as metadata
         const additionalAttributes = { ...user };
         delete additionalAttributes.id;
         delete additionalAttributes.email;
         delete additionalAttributes.username;
-        
+
         if (Object.keys(additionalAttributes).length > 0) {
           this.bugsnag.addMetadata('user', additionalAttributes);
         }
@@ -216,7 +216,7 @@ export class BugsnagProvider extends BaseProvider {
           category: breadcrumb.category,
           level: breadcrumb.level,
         },
-        this.mapBreadcrumbType(breadcrumb.category || 'manual')
+        this.mapBreadcrumbType(breadcrumb.category || 'manual'),
       );
     } catch (error) {
       console.error('Failed to add breadcrumb:', error);

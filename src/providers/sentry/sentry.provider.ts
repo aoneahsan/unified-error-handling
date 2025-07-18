@@ -35,16 +35,22 @@ export class SentryProvider extends BaseProvider {
 
       if (this.isWeb) {
         // Web implementation
-        const { init, getCurrentScope, captureException, captureMessage, addBreadcrumb } = await import('@sentry/browser');
+        const { init, getCurrentScope, captureException, captureMessage, addBreadcrumb } = await import(
+          '@sentry/browser'
+        );
         this.sentry = { init, getCurrentScope, captureException, captureMessage, addBreadcrumb };
       } else {
         // Native implementation
         try {
-          const { init, getCurrentScope, captureException, captureMessage, addBreadcrumb } = await import('@sentry/capacitor');
+          const { init, getCurrentScope, captureException, captureMessage, addBreadcrumb } = await import(
+            '@sentry/capacitor'
+          );
           this.sentry = { init, getCurrentScope, captureException, captureMessage, addBreadcrumb };
-        } catch (error) {
+        } catch {
           console.warn('Sentry Capacitor not available, falling back to browser SDK');
-          const { init, getCurrentScope, captureException, captureMessage, addBreadcrumb } = await import('@sentry/browser');
+          const { init, getCurrentScope, captureException, captureMessage, addBreadcrumb } = await import(
+            '@sentry/browser'
+          );
           this.sentry = { init, getCurrentScope, captureException, captureMessage, addBreadcrumb };
         }
       }
@@ -357,7 +363,7 @@ export class SentryProvider extends BaseProvider {
     try {
       const { startTransaction } = await import('@sentry/core');
       const transaction = startTransaction({ name, op });
-      
+
       try {
         await callback();
         transaction.setStatus('ok');

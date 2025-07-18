@@ -43,7 +43,7 @@ export class StorageManager {
    */
   static async queueError(error: NormalizedError, provider: string): Promise<void> {
     const queue = await this.getErrorQueue();
-    
+
     const item: QueueItem = {
       id: this.generateId(),
       error,
@@ -329,7 +329,7 @@ export class StorageManager {
         Preferences.set({
           key: STORAGE_KEYS.METRICS,
           value: JSON.stringify(data.metrics),
-        })
+        }),
       );
     }
 

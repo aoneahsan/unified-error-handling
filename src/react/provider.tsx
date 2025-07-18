@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState, useCallback, ReactNode } from 'react';
 import { UnifiedErrorConfig, ErrorLevel, UserContext, Breadcrumb, ErrorProviderType } from '../types';
-import { UnifiedErrorHandling } from '../index';
+import { ErrorHandlerService as UnifiedErrorHandling } from '../services/error-handler';
 
 /**
  * Error context interface
