@@ -58,3 +58,6 @@ export * from './native';
 
 // Export services
 export * from './services';
+
+// Export configuration system
+export * from './config';

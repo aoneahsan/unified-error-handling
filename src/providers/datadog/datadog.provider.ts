@@ -37,13 +37,13 @@ export class DataDogProvider extends BaseProvider {
         // Web implementation
         const { datadogRum } = await import('@datadog/browser-rum');
         this.datadogRum = datadogRum;
-        
+
         // Initialize DataDog Logs
         try {
           const { datadogLogs } = await import('@datadog/browser-logs');
           this.datadogLogs = datadogLogs;
         } catch (error) {
-          console.warn('DataDog Logs not available, continuing without logs integration');
+          console.warn('DataDog Logs not available, continuing without logs integration:', error);
           this.datadogLogs = null;
         }
 

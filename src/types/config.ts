@@ -139,6 +139,11 @@ export interface FirebaseConfig extends BaseProviderConfig {
    * Custom keys limit
    */
   customKeysLimit?: number;
+
+  /**
+   * Log limit
+   */
+  logLimit?: number;
 }
 
 /**
@@ -431,6 +436,96 @@ export interface UnifiedErrorConfig {
    * Active provider configuration
    */
   provider: ProviderConfig;
+
+  /**
+   * Enable debug mode
+   */
+  debug?: boolean;
+
+  /**
+   * Environment name
+   */
+  environment?: 'development' | 'staging' | 'production';
+
+  /**
+   * Enable offline support
+   */
+  enableOffline?: boolean;
+
+  /**
+   * Maximum offline queue size
+   */
+  maxOfflineQueueSize?: number;
+
+  /**
+   * Offline retry delay in ms
+   */
+  offlineRetryDelay?: number;
+
+  /**
+   * Enable network tracking
+   */
+  networkTracking?: boolean;
+
+  /**
+   * Enable console tracking
+   */
+  consoleTracking?: boolean;
+
+  /**
+   * Enable automatic session tracking
+   */
+  autoSessionTracking?: boolean;
+
+  /**
+   * Maximum breadcrumbs to store
+   */
+  maxBreadcrumbs?: number;
+
+  /**
+   * Sample rate (0-1)
+   */
+  sampleRate?: number;
+
+  /**
+   * Patterns to ignore errors
+   */
+  ignoreErrors?: (string | RegExp)[];
+
+  /**
+   * Enable performance monitoring
+   */
+  enablePerformanceMonitoring?: boolean;
+
+  /**
+   * Performance sample rate (0-1)
+   */
+  performanceSampleRate?: number;
+
+  /**
+   * Enable data sanitization
+   */
+  sanitizeData?: boolean;
+
+  /**
+   * Fields to scrub from data
+   */
+  scrubFields?: string[];
+
+  /**
+   * Retry delay in ms
+   */
+  retryDelay?: number;
+
+  /**
+   * Maximum retry attempts
+   */
+  retryMaxAttempts?: number;
+
+  /**
+   * Retry backoff multiplier
+   */
+  retryBackoffMultiplier?: number;
 
   /**
    * Enable multiple providers
