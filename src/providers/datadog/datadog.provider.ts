@@ -353,25 +353,25 @@ export class DataDogProvider extends BaseProvider {
     }
   }
 
-  /**
-   * Map error level to DataDog status
-   */
-  private _mapErrorLevelToDatadog(level: ErrorLevel): string {
-    switch (level) {
-      case ErrorLevel.DEBUG:
-        return 'debug';
-      case ErrorLevel.INFO:
-        return 'info';
-      case ErrorLevel.WARNING:
-        return 'warn';
-      case ErrorLevel.ERROR:
-        return 'error';
-      case ErrorLevel.FATAL:
-        return 'critical';
-      default:
-        return 'error';
-    }
-  }
+  // /**
+  //  * Map error level to DataDog status
+  //  */
+  // private _mapErrorLevelToDatadog(level: ErrorLevel): string {
+  //   switch (level) {
+  //     case ErrorLevel.DEBUG:
+  //       return 'debug';
+  //     case ErrorLevel.INFO:
+  //       return 'info';
+  //     case ErrorLevel.WARNING:
+  //       return 'warn';
+  //     case ErrorLevel.ERROR:
+  //       return 'error';
+  //     case ErrorLevel.FATAL:
+  //       return 'critical';
+  //     default:
+  //       return 'error';
+  //   }
+  // }
 
   /**
    * Start a new RUM view

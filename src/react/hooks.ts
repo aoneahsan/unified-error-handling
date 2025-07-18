@@ -400,9 +400,9 @@ export const useErrorDebug = () => {
     }
   }, [isDevelopment, breadcrumbs]);
 
-  const sendTestError = useCallback(() => {
+  const sendTestError = useCallback((): void => {
     if (isDevelopment) {
-      return testError();
+      testError();
     }
     console.warn('Test errors only available in development mode');
   }, [isDevelopment, testError]);

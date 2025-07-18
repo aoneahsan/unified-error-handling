@@ -253,12 +253,12 @@ export class BreadcrumbManager {
             }
 
             if (onreadystatechange) {
-              return onreadystatechange.apply(xhr, eventArgs);
+              return onreadystatechange.apply(xhr, eventArgs as any);
             }
           }.bind(xhr);
         }
 
-        return originalSend.apply(xhr, args.slice(0, 1));
+        return originalSend.apply(xhr, args as any);
       };
     }
   }

@@ -134,7 +134,7 @@ export function withErrorHandler<P extends object>(
 ) {
   const WithErrorHandlerComponent = forwardRef<any, P>((props, ref) => {
     const {
-      trackLifecycle = true,
+      trackLifecycle: _trackLifecycle = true,
       trackPerformance = false,
       context = {},
       tags = {},
@@ -143,7 +143,7 @@ export function withErrorHandler<P extends object>(
     } = options;
 
     const componentName = WrappedComponent.displayName || WrappedComponent.name || 'Component';
-    const { logError, logNavigation, logUserAction, setTags } = useErrorHandler();
+    const { logError: _logError, logNavigation, logUserAction, setTags } = useErrorHandler();
     const { logComponentError } = useComponentError(componentName);
     const { measurePerformance } = usePerformanceMonitor();
 
@@ -167,9 +167,9 @@ export function withErrorHandler<P extends object>(
     }, [logComponentError, context, props]);
 
     // Enhanced navigation logging
-    const handleNavigation = useCallback((from: string, to: string, metadata?: any) => {
+    const handleNavigation = useCallback((from: string, to: string, metadata?: any): void => {
       if (trackNavigation) {
-        return logNavigation(from, to, {
+        logNavigation(from, to, {
           ...metadata,
           component: componentName,
         });
@@ -177,9 +177,9 @@ export function withErrorHandler<P extends object>(
     }, [logNavigation, trackNavigation, componentName]);
 
     // Enhanced user action logging
-    const handleUserAction = useCallback((action: string, metadata?: any) => {
+    const handleUserAction = useCallback((action: string, metadata?: any): void => {
       if (trackUserActions) {
-        return logUserAction(action, {
+        logUserAction(action, {
           ...metadata,
           component: componentName,
         });
@@ -438,7 +438,7 @@ export const withFormErrorHandling = createErrorHandlingHOC(
 
 // HOC for critical components
 export const withCriticalErrorHandling = createErrorHandlingHOC(
-  { level: ErrorLevel.CRITICAL, isolate: true },
+  { level: ErrorLevel.FATAL, isolate: true },
   { trackLifecycle: true, trackPerformance: true },
   { autoRetry: true, maxRetries: 5 }
 );

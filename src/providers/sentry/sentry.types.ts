@@ -64,7 +64,7 @@ export interface SentryOptions extends SentryConfig {
   /**
    * Before send hook
    */
-  beforeSend?: (event: any, hint: any) => any | null;
+  beforeSend?: (event: any, hint?: any) => any | null;
 
   /**
    * Before breadcrumb hook

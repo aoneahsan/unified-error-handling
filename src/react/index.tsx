@@ -14,6 +14,10 @@ export type { ErrorContextValue, ErrorProviderProps } from './provider';
 export { ErrorBoundary, withErrorBoundary } from './error-boundary';
 export type { ErrorBoundaryProps, ErrorBoundaryState, ErrorFallbackProps } from './error-boundary';
 
+// Import for local use
+import { ErrorFallbackProps, ErrorBoundary } from './error-boundary';
+import { ErrorProviderProps, ErrorProvider } from './provider';
+
 // Hooks
 export {
   useErrorHandler,
@@ -29,7 +33,6 @@ export {
 
 // Higher-Order Components
 export {
-  withErrorBoundary,
   withErrorHandler,
   withAsyncErrorHandler,
   withErrorHandling,
@@ -75,7 +78,7 @@ export function createErrorProvider(
 ) {
   return function CustomErrorProvider(props: Partial<ErrorProviderProps> & { children: React.ReactNode }) {
     const mergedConfig = { ...defaultConfig, ...props };
-    return <ErrorProvider {...mergedConfig} />;
+    return <ErrorProvider {...mergedConfig as ErrorProviderProps} />;
   };
 }
 

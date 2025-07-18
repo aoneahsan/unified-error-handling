@@ -5,7 +5,7 @@ import { UnifiedErrorHandling } from '../index';
 /**
  * Error context interface
  */
-interface ErrorContextValue {
+export interface ErrorContextValue {
   /**
    * Whether the error handler is initialized
    */
@@ -49,7 +49,7 @@ interface ErrorContextValue {
 /**
  * Error provider props
  */
-interface ErrorProviderProps {
+export interface ErrorProviderProps {
   /**
    * Error handler configuration
    */
@@ -386,22 +386,22 @@ export const ErrorProvider: React.FC<ErrorProviderProps> = ({
   /**
    * Handle React errors
    */
-  const handleError = useCallback((error: Error, errorInfo: any) => {
-    setError(error);
-    setErrorInfo(errorInfo);
-    
-    if (onError) {
-      onError(error, errorInfo);
-    }
-    
-    if (autoCapture) {
-      logError(error, {
-        errorInfo,
-        componentStack: errorInfo.componentStack,
-        phase: 'react-error-boundary',
-      });
-    }
-  }, [onError, autoCapture, logError]);
+  // const handleError = useCallback((error: Error, errorInfo: any) => {
+  //   setError(error);
+  //   setErrorInfo(errorInfo);
+  //   
+  //   if (onError) {
+  //     onError(error, errorInfo);
+  //   }
+  //   
+  //   if (autoCapture) {
+  //     logError(error, {
+  //       errorInfo,
+  //       componentStack: errorInfo.componentStack,
+  //       phase: 'react-error-boundary',
+  //     });
+  //   }
+  // }, [onError, autoCapture, logError]);
 
   /**
    * Initialize on mount
@@ -487,7 +487,7 @@ export const DefaultErrorFallback: React.FC<{
   error: Error;
   errorInfo: any;
   resetError: () => void;
-}> = ({ error, errorInfo, resetError }) => {
+}> = ({ error, errorInfo: _errorInfo, resetError }) => {
   return (
     <div style={{
       padding: '20px',

@@ -18,7 +18,7 @@ export class SentryProvider extends BaseProvider {
   readonly version = '1.0.0';
 
   private sentry: any;
-  private _sentryCapacitor: any;
+  // private _sentryCapacitor: any;
   private isWeb: boolean = false;
 
   protected async initializeProvider(config: ProviderConfig): Promise<void> {
@@ -220,7 +220,7 @@ export class SentryProvider extends BaseProvider {
   protected async destroyProvider(): Promise<void> {
     this.state.initialized = false;
     this.sentry = null;
-    this._sentryCapacitor = null;
+    // this._sentryCapacitor = null;
   }
 
   async flush(timeout?: number): Promise<boolean> {

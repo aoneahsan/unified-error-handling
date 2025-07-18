@@ -140,7 +140,8 @@
       "Bash(do sed -i '' '/private isInitialized: boolean = false;/d' \"$file\")",
       "Bash(done)",
       "Bash(do sed -i '' 's/this\\.isInitialized = true;/this.state.initialized = true;/g' \"$file\")",
-      "Bash(do sed -i '' 's/this\\.isInitialized = false;/this.state.initialized = false;/g' \"$file\")"
+      "Bash(do sed -i '' 's/this\\.isInitialized = false;/this.state.initialized = false;/g' \"$file\")",
+      "Bash(yarn run eslint:*)"
     ],
     "deny": []
   }

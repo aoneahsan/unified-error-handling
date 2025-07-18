@@ -4,7 +4,7 @@ import { ErrorLevel } from '../types';
 /**
  * Error boundary props
  */
-interface ErrorBoundaryProps {
+export interface ErrorBoundaryProps {
   /**
    * Fallback component to render when an error occurs
    */
@@ -54,7 +54,7 @@ interface ErrorBoundaryProps {
 /**
  * Error boundary state
  */
-interface ErrorBoundaryState {
+export interface ErrorBoundaryState {
   hasError: boolean;
   error: Error | null;
   errorInfo: ErrorInfo | null;
@@ -209,7 +209,7 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
 
   render() {
     const { hasError, error, errorInfo, errorId } = this.state;
-    const { fallback: FallbackComponent, children, isolate } = this.props;
+    const { fallback: FallbackComponent, children, isolate: _isolate } = this.props;
 
     if (hasError && error && errorInfo) {
       // Render fallback component

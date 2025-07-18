@@ -146,7 +146,7 @@ export class ErrorNormalizer {
    */
   private static addPlatformInfo(error: NormalizedError): NormalizedError {
     const platform = Capacitor.getPlatform();
-    const _isNative = Capacitor.isNativePlatform();
+    // const _isNative = Capacitor.isNativePlatform();
 
     const device: DeviceContext = {
       platform,

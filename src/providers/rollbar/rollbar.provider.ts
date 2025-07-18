@@ -291,23 +291,23 @@ export class RollbarProvider extends BaseProvider {
     }
   }
 
-  /**
-   * Map error level to Rollbar level
-   */
-  private _mapErrorLevelToRollbar(level: ErrorLevel): string {
-    switch (level) {
-      case ErrorLevel.DEBUG:
-        return 'debug';
-      case ErrorLevel.INFO:
-        return 'info';
-      case ErrorLevel.WARNING:
-        return 'warning';
-      case ErrorLevel.ERROR:
-        return 'error';
-      case ErrorLevel.FATAL:
-        return 'critical';
-      default:
-        return 'error';
-    }
-  }
+  // /**
+  //  * Map error level to Rollbar level
+  //  */
+  // private _mapErrorLevelToRollbar(level: ErrorLevel): string {
+  //   switch (level) {
+  //     case ErrorLevel.DEBUG:
+  //       return 'debug';
+  //     case ErrorLevel.INFO:
+  //       return 'info';
+  //     case ErrorLevel.WARNING:
+  //       return 'warning';
+  //     case ErrorLevel.ERROR:
+  //       return 'error';
+  //     case ErrorLevel.FATAL:
+  //       return 'critical';
+  //     default:
+  //       return 'error';
+  //   }
+  // }
 }
