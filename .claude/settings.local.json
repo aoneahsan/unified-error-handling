@@ -133,7 +133,9 @@
       "Bash(npm info:*)",
       "Bash(npm ls:*)",
       "Bash(yarn init:*)",
-      "Bash(yarn husky:*)"
+      "Bash(yarn husky:*)",
+      "Bash(npx:*)",
+      "Bash(git init:*)"
     ],
     "deny": []
   }
