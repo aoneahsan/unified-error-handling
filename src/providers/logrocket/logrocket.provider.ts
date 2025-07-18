@@ -18,7 +18,6 @@ export class LogRocketProvider extends BaseProvider {
   readonly version = '1.0.0';
 
   private logrocket: any;
-  private isInitialized: boolean = false;
 
   protected async initializeProvider(config: ProviderConfig): Promise<void> {
     const logRocketConfig = config as LogRocketConfig;
@@ -38,11 +37,11 @@ export class LogRocketProvider extends BaseProvider {
         dom: logRocketConfig.dom !== false,
         shouldCaptureIP: logRocketConfig.shouldCaptureIP !== false,
         release: logRocketConfig.release,
-        serverURL: logRocketConfig.endpoint,
+        // serverURL: logRocketConfig.serverURL,
         reduxMiddleware: logRocketConfig.reduxMiddlewareOptions,
       });
 
-      this.isInitialized = true;
+      this.state.initialized = true;
     } catch (error) {
       console.error('Failed to initialize LogRocket provider:', error);
       throw error;
@@ -167,11 +166,11 @@ export class LogRocketProvider extends BaseProvider {
   }
 
   protected async destroyProvider(): Promise<void> {
-    this.isInitialized = false;
+    this.state.initialized = false;
     this.logrocket = null;
   }
 
-  async flush(timeout?: number): Promise<boolean> {
+  async flush(_timeout?: number): Promise<boolean> {
     if (!this.isInitialized) return false;
 
     try {

@@ -386,10 +386,11 @@ export abstract class BaseProvider implements ErrorProvider {
 
     // Apply beforeSend transformer
     if (this.config?.beforeSend) {
-      transformed = this.config.beforeSend(transformed);
-      if (!transformed) {
+      const beforeSendResult = this.config.beforeSend(transformed);
+      if (!beforeSendResult) {
         return null;
       }
+      transformed = beforeSendResult;
     }
 
     return transformed;

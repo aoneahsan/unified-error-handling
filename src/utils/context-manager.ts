@@ -82,7 +82,7 @@ export class ContextManager {
    */
   private static async updateDeviceContext(): Promise<void> {
     const platform = Capacitor.getPlatform();
-    const isNative = Capacitor.isNativePlatform();
+    const _isNative = Capacitor.isNativePlatform();
 
     this.deviceContext = {
       platform,

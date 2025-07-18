@@ -6,8 +6,8 @@ import {
   ProviderCapabilities,
   ProviderFeature,
   ProviderConfig,
-  ErrorProviderType,
-  FirebaseConfig,
+  // ErrorProviderType,
+  // FirebaseConfig,
 } from '@/types';
 import { FirebaseCrashlyticsOptions, FirebaseCustomAttribute } from './firebase.types';
 
@@ -40,8 +40,8 @@ export class FirebaseCrashlyticsProvider extends BaseProvider {
       } else {
         // Native implementation using @capacitor-firebase/crashlytics
         try {
-          const { FirebaseCrashlytics } = await import('@capacitor-firebase/crashlytics');
-          this.crashlytics = FirebaseCrashlytics;
+          const { FirebaseKit } = await import('capacitor-firebase-kit');
+          this.crashlytics = FirebaseKit;
 
           // Enable crash collection
           if (firebaseConfig.crashlyticsEnabled !== false) {
@@ -220,7 +220,7 @@ export class FirebaseCrashlyticsProvider extends BaseProvider {
     this.crashlytics = null;
   }
 
-  async flush(timeout?: number): Promise<boolean> {
+  async flush(_timeout?: number): Promise<boolean> {
     if (this.isWeb) return true;
 
     try {

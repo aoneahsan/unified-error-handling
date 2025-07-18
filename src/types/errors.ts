@@ -189,6 +189,11 @@ export interface AppContext {
   bundleId?: string;
 
   /**
+   * Release version
+   */
+  release?: string;
+
+  /**
    * Release stage (development, staging, production)
    */
   releaseStage?: string;

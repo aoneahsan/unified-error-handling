@@ -18,7 +18,6 @@ export class RollbarProvider extends BaseProvider {
   readonly version = '1.0.0';
 
   private rollbar: any;
-  private isInitialized: boolean = false;
 
   protected async initializeProvider(config: ProviderConfig): Promise<void> {
     const rollbarConfig = config as RollbarConfig;
@@ -80,7 +79,7 @@ export class RollbarProvider extends BaseProvider {
         });
       }
 
-      this.isInitialized = true;
+      this.state.initialized = true;
     } catch (error) {
       console.error('Failed to initialize Rollbar provider:', error);
       throw error;
@@ -213,7 +212,7 @@ export class RollbarProvider extends BaseProvider {
   }
 
   protected async destroyProvider(): Promise<void> {
-    this.isInitialized = false;
+    this.state.initialized = false;
     this.rollbar = null;
   }
 
@@ -295,7 +294,7 @@ export class RollbarProvider extends BaseProvider {
   /**
    * Map error level to Rollbar level
    */
-  private mapErrorLevelToRollbar(level: ErrorLevel): string {
+  private _mapErrorLevelToRollbar(level: ErrorLevel): string {
     switch (level) {
       case ErrorLevel.DEBUG:
         return 'debug';

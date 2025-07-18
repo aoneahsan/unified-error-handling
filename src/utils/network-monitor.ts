@@ -166,7 +166,7 @@ export class NetworkMonitor extends EventEmitter {
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 5000);
 
-      const response = await fetch(url, {
+      const _response = await fetch(url, {
         method: 'HEAD',
         mode: 'no-cors',
         cache: 'no-cache',

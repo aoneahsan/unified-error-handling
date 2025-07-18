@@ -4,12 +4,14 @@
  * This module provides React-specific components and hooks for error handling
  */
 
+import React from 'react';
+
 // Provider and Context
 export { ErrorProvider, useErrorContext, DefaultErrorFallback } from './provider';
 export type { ErrorContextValue, ErrorProviderProps } from './provider';
 
 // Error Boundary
-export { ErrorBoundary, DefaultErrorFallback as ErrorFallback, withErrorBoundary } from './error-boundary';
+export { ErrorBoundary, withErrorBoundary } from './error-boundary';
 export type { ErrorBoundaryProps, ErrorBoundaryState, ErrorFallbackProps } from './error-boundary';
 
 // Hooks
@@ -80,7 +82,3 @@ export function createErrorProvider(
 /**
  * Export types for easier consumption
  */
-import type { ErrorFallbackProps } from './error-boundary';
-import type { ErrorProviderProps } from './provider';
-
-export type { ErrorFallbackProps, ErrorProviderProps };

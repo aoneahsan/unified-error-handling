@@ -227,17 +227,18 @@ export class BreadcrumbManager {
         return originalOpen.apply(this, [method, url, ...args] as any);
       };
 
+      const self = this;
       XHR.send = function (...args: any[]) {
         const xhr = this;
         const breadcrumbData = (xhr as any)._breadcrumb;
 
-        if (breadcrumbData && !this.shouldIgnoreUrl(breadcrumbData.url)) {
+        if (breadcrumbData && !self.shouldIgnoreUrl(breadcrumbData.url)) {
           const onreadystatechange = xhr.onreadystatechange;
           xhr.onreadystatechange = function (...eventArgs: any[]) {
             if (xhr.readyState === 4) {
               const duration = Date.now() - breadcrumbData.startTime;
 
-              this.add({
+              self.add({
                 message: `${breadcrumbData.method} ${breadcrumbData.url}`,
                 category: 'network',
                 level: xhr.status >= 200 && xhr.status < 400 ? ErrorLevel.INFO : ErrorLevel.WARNING,
@@ -254,11 +255,11 @@ export class BreadcrumbManager {
             if (onreadystatechange) {
               return onreadystatechange.apply(xhr, eventArgs);
             }
-          }.bind(this);
+          }.bind(xhr);
         }
 
-        return originalSend.apply(xhr, args);
-      }.bind(this);
+        return originalSend.apply(xhr, args.slice(0, 1));
+      };
     }
   }
 

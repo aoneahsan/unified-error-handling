@@ -1,5 +1,4 @@
 import React, { createContext, useContext, useEffect, useState, useCallback, ReactNode } from 'react';
-import { UnifiedErrorHandlingPlugin } from '../definitions';
 import { UnifiedErrorConfig, ErrorLevel, UserContext, Breadcrumb, ErrorProviderType } from '../types';
 import { UnifiedErrorHandling } from '../index';
 
@@ -286,7 +285,8 @@ export const ErrorProvider: React.FC<ErrorProviderProps> = ({
       if (debug) {
         console.log('🗑️ Breadcrumbs cleared');
       }
-    } catch (err) {\n      console.error('Failed to clear breadcrumbs:', err);
+    } catch (err) {
+      console.error('Failed to clear breadcrumbs:', err);
     }
   }, [isInitialized, debug]);
 

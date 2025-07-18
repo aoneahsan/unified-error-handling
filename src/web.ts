@@ -2,8 +2,6 @@ import { WebPlugin } from '@capacitor/core';
 import type {
   UnifiedErrorHandlingPlugin,
   InitializeOptions,
-  LogErrorOptions,
-  SwitchProviderOptions,
 } from './definitions';
 import {
   ErrorContext,
@@ -15,7 +13,7 @@ import {
   ErrorProviderType,
   ErrorProvider,
   ProviderRegistry,
-  NormalizedError,
+  // NormalizedError,
 } from './types';
 import {
   ErrorNormalizer,
@@ -33,10 +31,10 @@ export class UnifiedErrorHandlingWeb extends WebPlugin implements UnifiedErrorHa
   private breadcrumbManager?: BreadcrumbManager;
   private offlineQueue?: OfflineQueue;
   private registry: ProviderRegistry = new ProviderRegistryImpl();
-  private isInitialized: boolean = false;
+  private initialized: boolean = false;
 
   async initialize(options: InitializeOptions): Promise<void> {
-    if (this.isInitialized) {
+    if (this.initialized) {
       throw new Error('UnifiedErrorHandling is already initialized');
     }
 
@@ -80,7 +78,7 @@ export class UnifiedErrorHandlingWeb extends WebPlugin implements UnifiedErrorHa
       this.offlineQueue.start(this.currentProvider);
     }
 
-    this.isInitialized = true;
+    this.initialized = true;
   }
 
   async logError(error: Error | string, context?: ErrorContext): Promise<void> {
@@ -230,7 +228,7 @@ export class UnifiedErrorHandlingWeb extends WebPlugin implements UnifiedErrorHa
     const newConfig: ProviderConfig = config || {
       ...this.config!.provider,
       provider,
-    };
+    } as ProviderConfig;
 
     // Initialize new provider
     await this.initializeProvider(newConfig);
@@ -265,7 +263,7 @@ export class UnifiedErrorHandlingWeb extends WebPlugin implements UnifiedErrorHa
   }
 
   async isInitialized(): Promise<{ initialized: boolean }> {
-    return { initialized: this.isInitialized };
+    return { initialized: this.initialized };
   }
 
   async getMetrics(): Promise<{
@@ -364,7 +362,7 @@ export class UnifiedErrorHandlingWeb extends WebPlugin implements UnifiedErrorHa
   }
 
   private ensureInitialized(): void {
-    if (!this.isInitialized) {
+    if (!this.initialized) {
       throw new Error('UnifiedErrorHandling is not initialized. Call initialize() first.');
     }
   }

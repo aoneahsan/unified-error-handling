@@ -18,9 +18,8 @@ export class SentryProvider extends BaseProvider {
   readonly version = '1.0.0';
 
   private sentry: any;
-  private sentryCapacitor: any;
+  private _sentryCapacitor: any;
   private isWeb: boolean = false;
-  private isInitialized: boolean = false;
 
   protected async initializeProvider(config: ProviderConfig): Promise<void> {
     const sentryConfig = config as SentryConfig;
@@ -88,7 +87,7 @@ export class SentryProvider extends BaseProvider {
         transport: sentryConfig.transportOptions,
       });
 
-      this.isInitialized = true;
+      this.state.initialized = true;
     } catch (error) {
       console.error('Failed to initialize Sentry provider:', error);
       throw error;
@@ -219,9 +218,9 @@ export class SentryProvider extends BaseProvider {
   }
 
   protected async destroyProvider(): Promise<void> {
-    this.isInitialized = false;
+    this.state.initialized = false;
     this.sentry = null;
-    this.sentryCapacitor = null;
+    this._sentryCapacitor = null;
   }
 
   async flush(timeout?: number): Promise<boolean> {

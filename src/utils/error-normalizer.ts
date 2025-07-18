@@ -4,7 +4,7 @@ import {
   ErrorContext,
   DeviceContext,
   AppContext,
-  NetworkContext,
+  // NetworkContext,
 } from '@/types';
 import { Capacitor } from '@capacitor/core';
 
@@ -146,7 +146,7 @@ export class ErrorNormalizer {
    */
   private static addPlatformInfo(error: NormalizedError): NormalizedError {
     const platform = Capacitor.getPlatform();
-    const isNative = Capacitor.isNativePlatform();
+    const _isNative = Capacitor.isNativePlatform();
 
     const device: DeviceContext = {
       platform,
@@ -174,7 +174,7 @@ export class ErrorNormalizer {
       // Remove the first lines that reference this function
       const lines = stack.split('\n');
       const filteredLines = lines.filter(
-        (line) => !line.includes('ErrorNormalizer') && !line.includes('generateStackTrace')
+        (line: string) => !line.includes('ErrorNormalizer') && !line.includes('generateStackTrace')
       );
       return filteredLines.join('\n');
     }

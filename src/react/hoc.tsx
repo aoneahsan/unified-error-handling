@@ -80,7 +80,7 @@ export function withErrorBoundary<P extends object>(
         resetOnPropsChange={resetOnPropsChange}
         resetKey={resetKey}
       >
-        <WrappedComponent {...props} ref={ref} />
+        <WrappedComponent {...(props as any)} ref={ref} />
       </ErrorBoundary>
     );
   });

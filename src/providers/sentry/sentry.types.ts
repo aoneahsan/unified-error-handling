@@ -1,4 +1,4 @@
-import { SentryConfig } from '@/types';
+import { SentryConfig } from '@/types/config';
 
 /**
  * Sentry SDK specific types

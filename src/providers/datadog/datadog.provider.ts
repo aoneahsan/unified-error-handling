@@ -20,7 +20,6 @@ export class DataDogProvider extends BaseProvider {
   private datadogRum: any;
   private datadogLogs: any;
   private isWeb: boolean = false;
-  private isInitialized: boolean = false;
 
   protected async initializeProvider(config: ProviderConfig): Promise<void> {
     const datadogConfig = config as DataDogConfig;
@@ -36,9 +35,9 @@ export class DataDogProvider extends BaseProvider {
 
       if (this.isWeb) {
         // Web implementation
-        const { datadogRum, datadogLogs } = await import('@datadog/browser-rum');
+        const { datadogRum } = await import('@datadog/browser-rum');
         this.datadogRum = datadogRum;
-        this.datadogLogs = datadogLogs;
+        // Note: datadogLogs not available in browser-rum package
 
         // Initialize RUM
         this.datadogRum.init({
@@ -119,7 +118,7 @@ export class DataDogProvider extends BaseProvider {
         });
       }
 
-      this.isInitialized = true;
+      this.state.initialized = true;
     } catch (error) {
       console.error('Failed to initialize DataDog provider:', error);
       throw error;
@@ -276,12 +275,12 @@ export class DataDogProvider extends BaseProvider {
   }
 
   protected async destroyProvider(): Promise<void> {
-    this.isInitialized = false;
+    this.state.initialized = false;
     this.datadogRum = null;
     this.datadogLogs = null;
   }
 
-  async flush(timeout?: number): Promise<boolean> {
+  async flush(_timeout?: number): Promise<boolean> {
     if (!this.isInitialized) return false;
 
     try {
@@ -357,7 +356,7 @@ export class DataDogProvider extends BaseProvider {
   /**
    * Map error level to DataDog status
    */
-  private mapErrorLevelToDatadog(level: ErrorLevel): string {
+  private _mapErrorLevelToDatadog(level: ErrorLevel): string {
     switch (level) {
       case ErrorLevel.DEBUG:
         return 'debug';

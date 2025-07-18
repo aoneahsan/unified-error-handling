@@ -19,7 +19,6 @@ export class BugsnagProvider extends BaseProvider {
 
   private bugsnag: any;
   private isWeb: boolean = false;
-  private isInitialized: boolean = false;
 
   protected async initializeProvider(config: ProviderConfig): Promise<void> {
     const bugsnagConfig = config as BugsnagConfig;
@@ -111,7 +110,7 @@ export class BugsnagProvider extends BaseProvider {
         });
       }
 
-      this.isInitialized = true;
+      this.state.initialized = true;
     } catch (error) {
       console.error('Failed to initialize Bugsnag provider:', error);
       throw error;
@@ -257,11 +256,11 @@ export class BugsnagProvider extends BaseProvider {
   }
 
   protected async destroyProvider(): Promise<void> {
-    this.isInitialized = false;
+    this.state.initialized = false;
     this.bugsnag = null;
   }
 
-  async flush(timeout?: number): Promise<boolean> {
+  async flush(_timeout?: number): Promise<boolean> {
     if (!this.isInitialized) return false;
 
     try {

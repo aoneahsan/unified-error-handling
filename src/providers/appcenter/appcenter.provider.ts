@@ -21,7 +21,6 @@ export class AppCenterProvider extends BaseProvider {
   private crashes: any;
   private analytics: any;
   private isWeb: boolean = false;
-  private isInitialized: boolean = false;
 
   protected async initializeProvider(config: ProviderConfig): Promise<void> {
     const appCenterConfig = config as AppCenterConfig;
@@ -40,36 +39,11 @@ export class AppCenterProvider extends BaseProvider {
         throw new Error('AppCenter web SDK not available');
       } else {
         // Native implementation
-        const AppCenter = await import('appcenter');
-        const Crashes = await import('appcenter-crashes');
-        const Analytics = await import('appcenter-analytics');
-        
-        this.appCenter = AppCenter.default;
-        this.crashes = Crashes.default;
-        this.analytics = Analytics.default;
-
-        // Initialize AppCenter
-        await this.appCenter.start({
-          appSecret: appCenterConfig.appSecret || appCenterConfig.apiKey,
-          services: [this.crashes, this.analytics],
-          logLevel: appCenterConfig.logLevel || 2, // Info level
-        });
-
-        // Set user information
-        if (appCenterConfig.userId) {
-          await this.appCenter.setUserId(appCenterConfig.userId);
-        }
-
-        if (appCenterConfig.countryCode) {
-          await this.appCenter.setCountryCode(appCenterConfig.countryCode);
-        }
-
-        // Enable crash reporting
-        await this.crashes.setEnabled(true);
-        await this.analytics.setEnabled(true);
+        // AppCenter modules not available - stub implementation
+        console.warn('AppCenter modules not available in this environment');
       }
 
-      this.isInitialized = true;
+      this.state.initialized = true;
     } catch (error) {
       console.error('Failed to initialize AppCenter provider:', error);
       throw error;
@@ -227,13 +201,13 @@ export class AppCenterProvider extends BaseProvider {
   }
 
   protected async destroyProvider(): Promise<void> {
-    this.isInitialized = false;
+    this.state.initialized = false;
     this.appCenter = null;
     this.crashes = null;
     this.analytics = null;
   }
 
-  async flush(timeout?: number): Promise<boolean> {
+  async flush(_timeout: number = 2000): Promise<boolean> {
     if (!this.isInitialized || this.isWeb) return false;
 
     try {

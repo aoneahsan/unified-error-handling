@@ -114,6 +114,9 @@ export enum ProviderFeature {
   USER_FEEDBACK = 'userFeedback',
   RELEASE_TRACKING = 'releaseTracking',
   CUSTOM_ENDPOINTS = 'customEndpoints',
+  ANALYTICS = 'analytics',
+  PERFORMANCE_MONITORING = 'performanceMonitoring',
+  ATTACHMENTS = 'attachments',
 }
 
 /**
