@@ -34,6 +34,11 @@ export interface BaseProviderConfig {
   debug?: boolean;
 
   /**
+   * Enable the provider
+   */
+  enabled?: boolean;
+
+  /**
    * Environment name
    */
   environment?: string;
@@ -307,6 +312,61 @@ export interface RollbarConfig extends BaseProviderConfig {
    * Payload options
    */
   payload?: Record<string, any>;
+
+  /**
+   * Code version
+   */
+  codeVersion?: string;
+
+  /**
+   * Enable auto instrumentation
+   */
+  autoInstrument?: boolean;
+
+  /**
+   * Maximum items to send
+   */
+  maxItems?: number;
+
+  /**
+   * Items per minute limit
+   */
+  itemsPerMinute?: number;
+
+  /**
+   * Capture IP setting
+   */
+  captureIp?: string | boolean;
+
+  /**
+   * Capture email
+   */
+  captureEmail?: boolean;
+
+  /**
+   * Capture username
+   */
+  captureUsername?: boolean;
+
+  /**
+   * Verbose logging
+   */
+  verbose?: boolean;
+
+  /**
+   * Transform function
+   */
+  transform?: (payload: any) => any;
+
+  /**
+   * Check ignore function
+   */
+  checkIgnore?: (isUncaught: boolean, args: any[], payload: any) => boolean;
+
+  /**
+   * On send callback
+   */
+  onSendCallback?: (isUncaught: boolean, args: any[], payload: any) => void;
 }
 
 /**

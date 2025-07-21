@@ -7,9 +7,6 @@
   "module": "dist/esm/index.js",
   "types": "dist/esm/index.d.ts",
   "unpkg": "dist/plugin.js",
-  "bin": {
-    "unified-error-handling": "dist/bin/cli.js"
-  },
   "files": [
     "android/src/main/",
     "android/build.gradle",

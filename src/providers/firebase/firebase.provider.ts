@@ -85,7 +85,7 @@ export class FirebaseCrashlyticsProvider extends BaseProvider {
         });
       } else {
         // For other errors, log as fatal or non-fatal based on level
-        await this.crashlytics.log({ message: `${error.level}: ${error.message}` });
+        await this.crashlytics.log({ message: `${error.level.toLowerCase()}: ${error.message}` });
 
         if (error.level === 'fatal') {
           // Force a crash for fatal errors
@@ -231,7 +231,23 @@ export class FirebaseCrashlyticsProvider extends BaseProvider {
     }
   }
 
-  supportsFeature(feature: ProviderFeature): boolean {
+  supportsFeature(feature: ProviderFeature | string): boolean {
+    // Map string literals (enum keys) to enum values
+    const featureMap: Record<string, ProviderFeature> = {
+      'BREADCRUMBS': ProviderFeature.BREADCRUMBS,
+      'USER_CONTEXT': ProviderFeature.USER_CONTEXT,
+      'CUSTOM_CONTEXT': ProviderFeature.CUSTOM_CONTEXT,
+      'TAGS': ProviderFeature.TAGS,
+      'EXTRA_DATA': ProviderFeature.EXTRA_DATA,
+      'ERROR_FILTERING': ProviderFeature.ERROR_FILTERING,
+      'RELEASE_TRACKING': ProviderFeature.RELEASE_TRACKING,
+    };
+
+    // Convert string literal to enum value if needed
+    const actualFeature = typeof feature === 'string' && feature in featureMap 
+      ? featureMap[feature] 
+      : feature as ProviderFeature;
+
     const supportedFeatures = [
       ProviderFeature.USER_CONTEXT,
       ProviderFeature.CUSTOM_CONTEXT,
@@ -241,7 +257,7 @@ export class FirebaseCrashlyticsProvider extends BaseProvider {
       ProviderFeature.RELEASE_TRACKING,
     ];
 
-    return supportedFeatures.includes(feature);
+    return supportedFeatures.includes(actualFeature);
   }
 
   getCapabilities(): ProviderCapabilities {
@@ -254,7 +270,7 @@ export class FirebaseCrashlyticsProvider extends BaseProvider {
         ProviderFeature.ERROR_FILTERING,
         ProviderFeature.RELEASE_TRACKING,
       ],
-      maxBreadcrumbs: this.maxLogs,
+      maxBreadcrumbs: 0, // Firebase doesn't support breadcrumbs
       maxContextSize: 64, // Firebase limit for custom keys
       maxTags: 64,
       supportsOffline: true,
@@ -296,7 +312,9 @@ export class FirebaseCrashlyticsProvider extends BaseProvider {
           type = 'float';
         }
       } else {
-        finalValue = String(value);
+        finalValue = typeof value === 'object' && value !== null 
+          ? JSON.stringify(value) 
+          : String(value);
         type = 'string';
       }
 
@@ -383,5 +401,26 @@ export class FirebaseCrashlyticsProvider extends BaseProvider {
       console.error('Failed to check crash status:', error);
       return false;
     }
+  }
+
+  /**
+   * Check for unsent reports
+   */
+  async checkForUnsentReports(): Promise<boolean> {
+    throw new Error('checkForUnsentReports is not implemented in Firebase provider');
+  }
+
+  /**
+   * Send unsent reports
+   */
+  async sendUnsentReports(): Promise<void> {
+    throw new Error('sendUnsentReports is not implemented in Firebase provider');
+  }
+
+  /**
+   * Log analytics event
+   */
+  async logAnalyticsEvent(_eventName: string, _parameters?: Record<string, any>): Promise<void> {
+    throw new Error('logAnalyticsEvent is not implemented in Firebase provider');
   }
 }

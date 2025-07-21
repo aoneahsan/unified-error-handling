@@ -146,7 +146,7 @@ export class BugsnagProvider extends BaseProvider {
       // Send error
       if (error.originalError instanceof Error) {
         this.bugsnag.notify(error.originalError, (event: any) => {
-          event.severity = this.mapErrorLevelToBugsnag(error.level);
+          event.severity = this.mapErrorLevel(error.level);
           event.context = error.context?.screen || error.context?.route || 'unknown';
           return true;
         });
@@ -159,7 +159,7 @@ export class BugsnagProvider extends BaseProvider {
         }
 
         this.bugsnag.notify(syntheticError, (event: any) => {
-          event.severity = this.mapErrorLevelToBugsnag(error.level);
+          event.severity = this.mapErrorLevel(error.level);
           event.context = error.context?.screen || error.context?.route || 'unknown';
           return true;
         });
@@ -273,7 +273,24 @@ export class BugsnagProvider extends BaseProvider {
     }
   }
 
-  supportsFeature(feature: ProviderFeature): boolean {
+  supportsFeature(feature: ProviderFeature | string): boolean {
+    // Map string literals (enum keys) to enum values
+    const featureMap: Record<string, ProviderFeature> = {
+      'BREADCRUMBS': ProviderFeature.BREADCRUMBS,
+      'USER_CONTEXT': ProviderFeature.USER_CONTEXT,
+      'CUSTOM_CONTEXT': ProviderFeature.CUSTOM_CONTEXT,
+      'TAGS': ProviderFeature.TAGS,
+      'EXTRA_DATA': ProviderFeature.EXTRA_DATA,
+      'ERROR_FILTERING': ProviderFeature.ERROR_FILTERING,
+      'RELEASE_TRACKING': ProviderFeature.RELEASE_TRACKING,
+      'SESSION_TRACKING': ProviderFeature.SESSION_TRACKING,
+    };
+
+    // Convert string literal to enum value if needed
+    const actualFeature = typeof feature === 'string' && feature in featureMap 
+      ? featureMap[feature] 
+      : feature as ProviderFeature;
+
     const supportedFeatures = [
       ProviderFeature.BREADCRUMBS,
       ProviderFeature.USER_CONTEXT,
@@ -285,7 +302,7 @@ export class BugsnagProvider extends BaseProvider {
       ProviderFeature.SESSION_TRACKING,
     ];
 
-    return supportedFeatures.includes(feature);
+    return supportedFeatures.includes(actualFeature);
   }
 
   getCapabilities(): ProviderCapabilities {
@@ -316,7 +333,7 @@ export class BugsnagProvider extends BaseProvider {
   /**
    * Map error level to Bugsnag severity
    */
-  private mapErrorLevelToBugsnag(level: ErrorLevel): string {
+  mapErrorLevel(level: ErrorLevel): string {
     switch (level) {
       case ErrorLevel.DEBUG:
       case ErrorLevel.INFO:
@@ -449,5 +466,26 @@ export class BugsnagProvider extends BaseProvider {
     } catch (error) {
       console.error('Failed to clear feature flags:', error);
     }
+  }
+
+  /**
+   * Add feature flags (not implemented)
+   */
+  async addFeatureFlags(_flags: Record<string, string>): Promise<void> {
+    throw new Error('addFeatureFlags is not implemented in Bugsnag provider');
+  }
+
+  /**
+   * Mark launch completed (not implemented)
+   */
+  async markLaunchCompleted(): Promise<void> {
+    throw new Error('markLaunchCompleted is not implemented in Bugsnag provider');
+  }
+
+  /**
+   * Get last run info (not implemented)
+   */
+  async getLastRunInfo(): Promise<any> {
+    throw new Error('getLastRunInfo is not implemented in Bugsnag provider');
   }
 }

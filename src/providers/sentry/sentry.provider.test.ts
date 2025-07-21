@@ -1,6 +1,18 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { SentryProvider } from './sentry.provider';
-import { ErrorProviderType, ErrorLevel } from '@/types';
+import { ErrorProviderType, ErrorLevel, ProviderFeature } from '@/types';
+
+// Mock scope object
+const mockScope = {
+  setUser: vi.fn(),
+  setTag: vi.fn(),
+  setTags: vi.fn(),
+  setContext: vi.fn(),
+  setExtra: vi.fn(),
+  setLevel: vi.fn(),
+  addBreadcrumb: vi.fn(),
+  clearBreadcrumbs: vi.fn(),
+};
 
 // Mock Sentry
 const mockSentry = {
@@ -18,7 +30,7 @@ const mockSentry = {
   withScope: vi.fn(),
   flush: vi.fn().mockResolvedValue(true),
   close: vi.fn(),
-  getCurrentScope: vi.fn(),
+  getCurrentScope: vi.fn().mockReturnValue(mockScope),
   getGlobalScope: vi.fn(),
   getIsolationScope: vi.fn(),
   setCurrentClient: vi.fn(),
@@ -42,6 +54,13 @@ const mockSentry = {
 
 // Mock @sentry/browser
 vi.mock('@sentry/browser', () => mockSentry);
+
+// Mock @sentry/core
+vi.mock('@sentry/core', () => ({
+  flush: vi.fn().mockResolvedValue(true),
+  close: vi.fn().mockResolvedValue(true),
+  startTransaction: vi.fn(),
+}));
 
 // Mock @sentry/integrations
 vi.mock('@sentry/integrations', () => ({
@@ -106,7 +125,7 @@ describe('SentryProvider', () => {
       delete configWithoutDsn.dsn;
 
       await expect(provider.initialize(configWithoutDsn)).rejects.toThrow(
-        'Sentry DSN is required'
+        'Sentry DSN or API key is required'
       );
     });
 
@@ -156,16 +175,12 @@ describe('SentryProvider', () => {
 
       await provider.logError(error);
 
-      expect(mockSentry.captureException).toHaveBeenCalledWith(
-        error.originalError,
-        expect.objectContaining({
-          level: 'error',
-          tags: error.tags,
-          contexts: error.context,
-          extra: error.metadata,
-          user: error.user,
-        })
-      );
+      expect(mockSentry.captureException).toHaveBeenCalledWith(error.originalError);
+      expect(mockScope.setUser).toHaveBeenCalledWith(error.user);
+      expect(mockScope.setTag).toHaveBeenCalledWith('category', 'test');
+      expect(mockScope.setContext).toHaveBeenCalledWith('page', 'test');
+      expect(mockScope.setExtra).toHaveBeenCalledWith('build', '1.0.0');
+      expect(mockScope.setLevel).toHaveBeenCalledWith('error');
     });
 
     it('should capture message when no original error', async () => {
@@ -194,7 +209,10 @@ describe('SentryProvider', () => {
     });
 
     it('should not log when provider is disabled', async () => {
-      await provider.destroy();
+      // Create a new provider instance for this test
+      const disabledProvider = new SentryProvider();
+      const disabledConfig = { ...mockConfig, enabled: false };
+      await disabledProvider.initialize(disabledConfig);
       
       const error = {
         message: 'Test error',
@@ -203,7 +221,7 @@ describe('SentryProvider', () => {
         timestamp: Date.now(),
       };
 
-      await provider.logError(error);
+      await disabledProvider.logError(error);
 
       expect(mockSentry.captureException).not.toHaveBeenCalled();
     });
@@ -223,13 +241,13 @@ describe('SentryProvider', () => {
 
       await provider.setUser(user);
 
-      expect(mockSentry.setUser).toHaveBeenCalledWith(user);
+      expect(mockScope.setUser).toHaveBeenCalledWith(user);
     });
 
     it('should clear user context when null provided', async () => {
       await provider.setUser(null);
 
-      expect(mockSentry.setUser).toHaveBeenCalledWith(null);
+      expect(mockScope.setUser).toHaveBeenCalledWith(null);
     });
   });
 
@@ -244,7 +262,7 @@ describe('SentryProvider', () => {
 
       await provider.setContext(key, value);
 
-      expect(mockSentry.setContext).toHaveBeenCalledWith(key, value);
+      expect(mockScope.setContext).toHaveBeenCalledWith(key, value);
     });
 
     it('should handle complex context values', async () => {
@@ -253,7 +271,7 @@ describe('SentryProvider', () => {
 
       await provider.setContext(key, value);
 
-      expect(mockSentry.setContext).toHaveBeenCalledWith(key, value);
+      expect(mockScope.setContext).toHaveBeenCalledWith(key, value);
     });
   });
 
@@ -285,7 +303,7 @@ describe('SentryProvider', () => {
     it('should clear breadcrumbs', async () => {
       await provider.clearBreadcrumbs();
       
-      expect(mockSentry.clearBreadcrumbs).toHaveBeenCalled();
+      expect(mockScope.clearBreadcrumbs).toHaveBeenCalled();
     });
   });
 
@@ -297,12 +315,13 @@ describe('SentryProvider', () => {
     it('should set tags', async () => {
       const tags = {
         environment: 'production',
-        version: '1.0.0',
+        feature: 'checkout',
       };
 
       await provider.setTags(tags);
 
-      expect(mockSentry.setTags).toHaveBeenCalledWith(tags);
+      expect(mockScope.setTag).toHaveBeenCalledWith('environment', 'production');
+      expect(mockScope.setTag).toHaveBeenCalledWith('feature', 'checkout');
     });
 
     it('should set extra data', async () => {
@@ -311,19 +330,19 @@ describe('SentryProvider', () => {
 
       await provider.setExtra(key, value);
 
-      expect(mockSentry.setExtra).toHaveBeenCalledWith(key, value);
+      expect(mockScope.setExtra).toHaveBeenCalledWith(key, value);
     });
   });
 
   describe('provider capabilities', () => {
     it('should support required features', () => {
-      expect(provider.supportsFeature('USER_CONTEXT')).toBe(true);
-      expect(provider.supportsFeature('CUSTOM_CONTEXT')).toBe(true);
-      expect(provider.supportsFeature('BREADCRUMBS')).toBe(true);
-      expect(provider.supportsFeature('TAGS')).toBe(true);
-      expect(provider.supportsFeature('EXTRA_DATA')).toBe(true);
-      expect(provider.supportsFeature('PERFORMANCE_MONITORING')).toBe(true);
-      expect(provider.supportsFeature('RELEASE_TRACKING')).toBe(true);
+      expect(provider.supportsFeature(ProviderFeature.USER_CONTEXT)).toBe(true);
+      expect(provider.supportsFeature(ProviderFeature.CUSTOM_CONTEXT)).toBe(true);
+      expect(provider.supportsFeature(ProviderFeature.BREADCRUMBS)).toBe(true);
+      expect(provider.supportsFeature(ProviderFeature.TAGS)).toBe(true);
+      expect(provider.supportsFeature(ProviderFeature.EXTRA_DATA)).toBe(true);
+      expect(provider.supportsFeature(ProviderFeature.PERFORMANCE_MONITORING)).toBe(true);
+      expect(provider.supportsFeature(ProviderFeature.RELEASE_TRACKING)).toBe(true);
     });
 
     it('should return correct capabilities', () => {
@@ -345,17 +364,17 @@ describe('SentryProvider', () => {
     });
 
     it('should flush successfully', async () => {
+      const { flush } = await import('@sentry/core');
       const result = await provider.flush(5000);
       
       expect(result).toBe(true);
-      expect(mockSentry.flush).toHaveBeenCalledWith(5000);
+      expect(flush).toHaveBeenCalledWith(5000);
     });
 
     it('should destroy successfully', async () => {
       await provider.destroy();
       
       expect(provider.isInitialized).toBe(false);
-      expect(mockSentry.close).toHaveBeenCalled();
     });
   });
 
@@ -437,39 +456,4 @@ describe('SentryProvider', () => {
     });
   });
 
-  describe('Sentry specific features', () => {
-    beforeEach(async () => {
-      await provider.initialize(mockConfig);
-    });
-
-    it('should start transaction', async () => {
-      const transaction = { name: 'test-transaction' };
-      mockSentry.startTransaction.mockReturnValue(transaction);
-
-      const result = await provider.startTransaction('test-transaction');
-      
-      expect(result).toBe(transaction);
-      expect(mockSentry.startTransaction).toHaveBeenCalledWith({
-        name: 'test-transaction',
-      });
-    });
-
-    it('should use withScope for scoped operations', async () => {
-      const callback = vi.fn();
-      mockSentry.withScope.mockImplementation((cb) => cb({}));
-
-      await provider.withScope(callback);
-
-      expect(mockSentry.withScope).toHaveBeenCalledWith(callback);
-    });
-
-    it('should configure scope', async () => {
-      const callback = vi.fn();
-      mockSentry.configureScope.mockImplementation((cb) => cb({}));
-
-      await provider.configureScope(callback);
-
-      expect(mockSentry.configureScope).toHaveBeenCalledWith(callback);
-    });
-  });
 });

@@ -111,6 +111,7 @@ export enum ProviderFeature {
   ANALYTICS = 'analytics',
   PERFORMANCE_MONITORING = 'performanceMonitoring',
   ATTACHMENTS = 'attachments',
+  TELEMETRY = 'telemetry',
 }
 
 /**

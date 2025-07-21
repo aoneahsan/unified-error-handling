@@ -77,10 +77,13 @@ export abstract class BaseProvider implements ErrorProvider {
    */
   async initialize(config: ProviderConfig): Promise<void> {
     if (this.state.initialized) {
-      throw new Error(`${this.name} provider is already initialized`);
+      throw new Error(`${this.name.charAt(0).toUpperCase() + this.name.slice(1)} provider is already initialized`);
     }
 
     this.config = config;
+    
+    // Set enabled state
+    this.state.enabled = config.enabled !== false;
 
     // Apply global configuration
     if (config.tags) {
@@ -320,7 +323,7 @@ export abstract class BaseProvider implements ErrorProvider {
    */
   protected ensureInitialized(): void {
     if (!this.state.initialized) {
-      throw new Error(`${this.name} provider is not initialized`);
+      throw new Error(`${this.name.charAt(0).toUpperCase() + this.name.slice(1)} provider is not initialized`);
     }
   }
 

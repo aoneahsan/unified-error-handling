@@ -307,7 +307,25 @@ export class DataDogProvider extends BaseProvider {
     }
   }
 
-  supportsFeature(feature: ProviderFeature): boolean {
+  supportsFeature(feature: ProviderFeature | string): boolean {
+    // Map string literals (enum keys) to enum values
+    const featureMap: Record<string, ProviderFeature> = {
+      'BREADCRUMBS': ProviderFeature.BREADCRUMBS,
+      'USER_CONTEXT': ProviderFeature.USER_CONTEXT,
+      'CUSTOM_CONTEXT': ProviderFeature.CUSTOM_CONTEXT,
+      'TAGS': ProviderFeature.TAGS,
+      'EXTRA_DATA': ProviderFeature.EXTRA_DATA,
+      'ERROR_FILTERING': ProviderFeature.ERROR_FILTERING,
+      'RELEASE_TRACKING': ProviderFeature.RELEASE_TRACKING,
+      'PERFORMANCE_MONITORING': ProviderFeature.PERFORMANCE_MONITORING,
+      'SESSION_TRACKING': ProviderFeature.SESSION_TRACKING,
+    };
+
+    // Convert string literal to enum value if needed
+    const actualFeature = typeof feature === 'string' && feature in featureMap 
+      ? featureMap[feature] 
+      : feature as ProviderFeature;
+
     const supportedFeatures = [
       ProviderFeature.USER_CONTEXT,
       ProviderFeature.CUSTOM_CONTEXT,
@@ -319,7 +337,7 @@ export class DataDogProvider extends BaseProvider {
       ProviderFeature.SESSION_TRACKING,
     ];
 
-    return supportedFeatures.includes(feature);
+    return supportedFeatures.includes(actualFeature);
   }
 
   getCapabilities(): ProviderCapabilities {
