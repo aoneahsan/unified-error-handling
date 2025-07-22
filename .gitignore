@@ -138,7 +138,7 @@ docusaurus/build/
 # Capacitor Plugin Specific
 # =======================
 # Plugin build artifacts
-Plugin/
+# Plugin/  # Commented out - iOS Plugin directory needs to be tracked
 
 # Example app (if present)
 example/dist/
