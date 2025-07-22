@@ -1,21 +1,146 @@
-# Unified Error Handling Plugin - Development Plan
+# Unified Error Handling
 
-## Project Overview
+📚 **[Documentation](./docs/index.md)** | 🚀 **[Quick Start](./docs/guides/quick-start.md)** | 🔧 **[API Reference](./docs/api/core-api.md)** | 🎯 **[Examples](./docs/examples/index.md)**
 
-**Package Name**: `unified-error-handling`
+[![npm version](https://img.shields.io/npm/v/unified-error-handling.svg)](https://www.npmjs.com/package/unified-error-handling)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-**Description**: A comprehensive Capacitor plugin providing a unified API for multiple error handling platforms with React-first design, minimal configuration, and seamless provider switching.
+> A comprehensive Capacitor plugin providing a unified API for multiple error handling platforms with React-first design, minimal configuration, and seamless provider switching.
 
-## Supported Error Handling Providers
+## ✨ Features
 
-1. **Firebase Crashlytics** (via capacitor-firebase-kit)
-2. **Sentry**
-3. **DataDog RUM**
-4. **Bugsnag**
-5. **Rollbar**
-6. **LogRocket**
-7. **Raygun**
-8. **Microsoft AppCenter**
+- 🔌 **Unified API** - Single interface for 8+ error tracking services
+- ⚛️ **React-First Design** - Built-in hooks, error boundaries, and HOCs
+- 🎯 **Zero Configuration** - Works out of the box with sensible defaults
+- 🔄 **Provider Flexibility** - Switch between providers without code changes
+- 📱 **Cross-Platform** - Full support for iOS, Android, and Web
+- 🔒 **Type Safety** - Complete TypeScript support with comprehensive types
+- 🌐 **Offline Support** - Automatic error queuing and retry
+- 📊 **Performance Monitoring** - Built-in performance tracking
+- 🎨 **Customizable** - Extensive configuration options for all providers
+- 🔧 **Developer Friendly** - Excellent DX with helpful error messages
+
+## 🏢 Supported Error Handling Providers
+
+| Provider | Web | iOS | Android | Performance | Session Replay |
+|----------|:---:|:---:|:-------:|:-----------:|:--------------:|
+| Firebase Crashlytics | ❌ | ✅ | ✅ | ✅ | ❌ |
+| Sentry | ✅ | ✅ | ✅ | ✅ | ✅ |
+| DataDog | ✅ | ✅ | ✅ | ✅ | ✅ |
+| Bugsnag | ✅ | ✅ | ✅ | ✅ | ❌ |
+| Rollbar | ✅ | ✅ | ✅ | ❌ | ❌ |
+| LogRocket | ✅ | ✅ | ✅ | ✅ | ✅ |
+| Raygun | ✅ | ✅ | ✅ | ✅ | ❌ |
+| AppCenter | ❌ | ✅ | ✅ | ❌ | ❌ |
+
+## 📦 Installation
+
+```bash
+# Using npm
+npm install unified-error-handling
+
+# Using yarn
+yarn add unified-error-handling
+
+# Using pnpm
+pnpm add unified-error-handling
+```
+
+### Platform Setup
+
+For iOS, add to your `Info.plist`:
+```xml
+<key>NSUserTrackingUsageDescription</key>
+<string>This app uses error tracking to improve app stability</string>
+```
+
+For Android, the plugin automatically handles permissions.
+
+## 🚀 Quick Start
+
+### 1. Initialize the Plugin
+
+```typescript
+import { ErrorHandler } from 'unified-error-handling';
+
+// Initialize with your preferred provider
+await ErrorHandler.initialize({
+  provider: 'sentry',
+  apiKey: 'your-api-key',
+  environment: 'production',
+  debug: false
+});
+```
+
+### 2. React Integration
+
+```tsx
+import { ErrorProvider, ErrorBoundary } from 'unified-error-handling/react';
+
+// Wrap your app with ErrorProvider
+function App() {
+  return (
+    <ErrorProvider config={{
+      provider: 'sentry',
+      apiKey: 'your-api-key'
+    }}>
+      <ErrorBoundary fallback={<ErrorFallback />}>
+        <YourApp />
+      </ErrorBoundary>
+    </ErrorProvider>
+  );
+}
+```
+
+### 3. Use Error Handling Hooks
+
+```tsx
+import { useErrorHandler } from 'unified-error-handling/react';
+
+function MyComponent() {
+  const { logError, addBreadcrumb } = useErrorHandler();
+
+  const handleClick = async () => {
+    try {
+      addBreadcrumb({
+        message: 'User clicked button',
+        category: 'ui'
+      });
+      
+      await riskyOperation();
+    } catch (error) {
+      logError(error, {
+        context: { component: 'MyComponent' }
+      });
+    }
+  };
+
+  return <button onClick={handleClick}>Click Me</button>;
+}
+```
+
+### 4. Manual Error Logging
+
+```typescript
+import { ErrorHandler } from 'unified-error-handling';
+
+// Log an error
+ErrorHandler.logError(new Error('Something went wrong'), {
+  level: 'error',
+  tags: { feature: 'checkout' },
+  context: { userId: '123' }
+});
+
+// Log a message
+ErrorHandler.logMessage('Payment processed', 'info');
+
+// Add breadcrumbs
+ErrorHandler.addBreadcrumb({
+  message: 'User navigated to checkout',
+  category: 'navigation',
+  level: 'info'
+});
+```
 
 ## Architecture Design
 

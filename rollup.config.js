@@ -11,8 +11,6 @@ export default {
       name: 'capacitorUnifiedErrorHandling',
       globals: {
         '@capacitor/core': 'capacitorExports',
-        '@/types': 'types',
-        '@/utils': 'utils',
         react: 'React',
         'react/jsx-runtime': 'ReactJSXRuntime',
         localforage: 'localforage',
@@ -29,8 +27,6 @@ export default {
   ],
   external: [
     '@capacitor/core',
-    '@/types',
-    '@/utils',
     'react',
     'react/jsx-runtime',
     'localforage',

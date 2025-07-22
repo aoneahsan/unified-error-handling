@@ -397,7 +397,7 @@ describe('RollbarProvider', () => {
         ...mockConfig,
         ignoreErrors: ['NetworkError', /timeout/i],
         minLevel: ErrorLevel.ERROR,
-        checkIgnore: vi.fn((isUncaught, args, payload) => {
+        checkIgnore: vi.fn((isUncaught, args, _payload) => {
           const message = args[0]?.message || args[0] || '';
           return message.includes('NetworkError');
         }),
