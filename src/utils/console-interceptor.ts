@@ -1,7 +1,7 @@
 import { errorStore } from '../store/error-store';
 
 export class ConsoleInterceptor {
-  private originalConsole = {
+  public readonly originalConsole = {
     error: console.error,
     warn: console.warn,
     log: console.log,

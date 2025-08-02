@@ -384,13 +384,19 @@ class ErrorStoreImpl implements ErrorStore {
         return {
           name: 'console',
           async initialize() {
-            console.log('[ConsoleAdapter] Initialized');
+            // Use original console to avoid circular reference
+            const originalLog = consoleInterceptor['originalConsole']?.log || console.log;
+            originalLog('[ConsoleAdapter] Initialized');
           },
           async captureError(error: NormalizedError) {
-            console.error('[Error]', error);
+            // Use original console to avoid circular reference
+            const originalError = consoleInterceptor['originalConsole']?.error || console.error;
+            originalError('[Error]', error);
           },
           async captureMessage(message: string, level?: string) {
-            console.log(`[${level || 'info'}]`, message);
+            // Use original console to avoid circular reference
+            const originalLog = consoleInterceptor['originalConsole']?.log || console.log;
+            originalLog(`[${level || 'info'}]`, message);
           },
         };
       
@@ -410,18 +416,16 @@ class ErrorStoreImpl implements ErrorStore {
 export const errorStore = new ErrorStoreImpl();
 
 // Export convenience methods
-export const {
-  initialize,
-  captureError,
-  captureMessage,
-  setUser,
-  setContext,
-  addBreadcrumb,
-  clearBreadcrumbs,
-  useAdapter,
-  removeAdapter,
-  flush,
-  reset,
-  subscribe,
-  registerAdapter,
-} = errorStore;
+export const initialize = errorStore.initialize.bind(errorStore);
+export const captureError = errorStore.captureError.bind(errorStore);
+export const captureMessage = errorStore.captureMessage.bind(errorStore);
+export const setUser = errorStore.setUser.bind(errorStore);
+export const setContext = errorStore.setContext.bind(errorStore);
+export const addBreadcrumb = errorStore.addBreadcrumb.bind(errorStore);
+export const clearBreadcrumbs = errorStore.clearBreadcrumbs.bind(errorStore);
+export const useAdapter = errorStore.useAdapter.bind(errorStore);
+export const removeAdapter = errorStore.removeAdapter.bind(errorStore);
+export const flush = errorStore.flush.bind(errorStore);
+export const reset = errorStore.reset.bind(errorStore);
+export const subscribe = errorStore.subscribe.bind(errorStore);
+export const registerAdapter = errorStore.registerAdapter.bind(errorStore);
