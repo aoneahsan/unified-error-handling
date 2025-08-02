@@ -6,7 +6,7 @@
     "forceConsistentCasingInFileNames": true,
     "lib": ["dom", "ES2022"],
     "module": "ESNext",
-    "moduleResolution": "bundler",
+    "moduleResolution": "node",
     "noFallthroughCasesInSwitch": true,
     "noImplicitAny": true,
     "noImplicitReturns": true,
@@ -37,6 +37,9 @@
     "android",
     "ios",
     "**/*.spec.ts",
-    "**/*.test.ts"
+    "**/*.test.ts",
+    "**/*.test.tsx",
+    "test-app",
+    "examples"
   ]
 }

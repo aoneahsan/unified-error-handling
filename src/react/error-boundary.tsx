@@ -1,5 +1,5 @@
 import React, { Component, ReactNode, ErrorInfo } from 'react';
-import { ErrorLevel } from '../types';
+import { errorStore } from '../store/error-store';
 
 /**
  * Error boundary props
@@ -18,7 +18,7 @@ export interface ErrorBoundaryProps {
   /**
    * Error level to report
    */
-  level?: ErrorLevel;
+  level?: 'debug' | 'info' | 'warning' | 'error' | 'fatal';
 
   /**
    * Additional context to include with the error
@@ -138,7 +138,7 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
    * Handle error reporting
    */
   private handleError = async (error: Error, errorInfo: ErrorInfo) => {
-    const { onError, level = ErrorLevel.ERROR, context = {}, tags = {} } = this.props;
+    const { onError, level = 'error', context = {}, tags = {} } = this.props;
 
     // Call custom error handler
     if (onError) {
@@ -149,29 +149,21 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
       }
     }
 
-    // Report to error tracking (will be handled by ErrorProvider)
+    // Report to error store
     try {
-      const errorContext = {
-        ...context,
-        componentStack: errorInfo.componentStack,
-        errorBoundary: true,
-        errorId: this.state.errorId,
-        retryCount: this.retryCount,
-        timestamp: new Date().toISOString(),
-      };
-
-      // Create a custom error event that can be caught by global handlers
-      const errorEvent = new CustomEvent('errorBoundaryError', {
-        detail: {
-          error,
-          errorInfo,
-          context: errorContext,
-          tags,
+      errorStore.captureError(error, {
+        tags,
+        extra: {
+          ...context,
+          componentStack: errorInfo.componentStack,
+          errorBoundary: true,
+          errorId: this.state.errorId,
+          retryCount: this.retryCount,
+          timestamp: new Date().toISOString(),
           level,
+          source: 'react',
         },
       });
-
-      window.dispatchEvent(errorEvent);
     } catch (reportError) {
       console.error('Failed to report error:', reportError);
     }

@@ -1,0 +1,21 @@
+{
+  "name": "unified-error-handling-test-app",
+  "version": "1.0.0",
+  "description": "Test application for unified-error-handling library",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test:bundle": "node test-bundle.js"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "unified-error-handling": "file:../"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.4",
+    "vite": "^6.0.7"
+  }
+}

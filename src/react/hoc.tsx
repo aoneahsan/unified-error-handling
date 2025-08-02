@@ -1,7 +1,7 @@
 import React, { ComponentType, forwardRef, useCallback, useRef, useEffect } from 'react';
 import { ErrorBoundary, ErrorFallbackProps } from './error-boundary';
-import { useErrorHandler, useComponentError, usePerformanceMonitor } from './hooks';
-import { ErrorLevel } from '../types';
+import { useComponentError, usePerformanceMonitor, useExtendedErrorHandler } from './hooks-extensions';
+import { ErrorLevel } from '../store/types';
 
 /**
  * Options for withErrorBoundary HOC
@@ -143,7 +143,7 @@ export function withErrorHandler<P extends object>(
     } = options;
 
     const componentName = WrappedComponent.displayName || WrappedComponent.name || 'Component';
-    const { logError: _logError, logNavigation, logUserAction, setTags } = useErrorHandler();
+    const { logError: _logError, logNavigation, logUserAction, setTags } = useExtendedErrorHandler();
     const { logComponentError } = useComponentError(componentName);
     const { measurePerformance } = usePerformanceMonitor();
 
@@ -203,8 +203,8 @@ export function withErrorHandler<P extends object>(
       measurePerformance: measureComponentPerformance,
     } as P & {
       onError: (error: Error, phase?: string) => Promise<void>;
-      onNavigation: (from: string, to: string, metadata?: any) => Promise<void>;
-      onUserAction: (action: string, metadata?: any) => Promise<void>;
+      onNavigation: (from: string, to: string, metadata?: any) => void;
+      onUserAction: (action: string, metadata?: any) => void;
       measurePerformance: (name: string, fn: () => any) => any;
     };
 
@@ -263,7 +263,7 @@ export function withAsyncErrorHandler<P extends object>(
     } = options;
 
     const componentName = WrappedComponent.displayName || WrappedComponent.name || 'Component';
-    const { logError } = useErrorHandler();
+    const { logError } = useExtendedErrorHandler();
     const [isLoading, setIsLoading] = React.useState(false);
     const [error, setError] = React.useState<Error | null>(null);
     const retryCount = useRef(0);
@@ -424,7 +424,7 @@ export const withPageErrorHandling = createErrorHandlingHOC(
 
 // HOC for API components
 export const withApiErrorHandling = createErrorHandlingHOC(
-  { level: ErrorLevel.ERROR },
+  { level: 'error' as ErrorLevel },
   { trackLifecycle: false, trackPerformance: true },
   { autoRetry: true, maxRetries: 3, showLoading: true }
 );
@@ -438,7 +438,7 @@ export const withFormErrorHandling = createErrorHandlingHOC(
 
 // HOC for critical components
 export const withCriticalErrorHandling = createErrorHandlingHOC(
-  { level: ErrorLevel.FATAL, isolate: true },
+  { level: 'fatal' as ErrorLevel, isolate: true },
   { trackLifecycle: true, trackPerformance: true },
   { autoRetry: true, maxRetries: 5 }
 );

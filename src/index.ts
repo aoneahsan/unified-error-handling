@@ -1,63 +1,53 @@
-// Import the service
-import { ErrorHandlerService } from './services/error-handler';
-
-// Export as UnifiedErrorHandling for backward compatibility
-export const UnifiedErrorHandling = ErrorHandlerService;
-
-export * from './definitions';
-export * from './types';
-
-// Export React components and hooks - use explicit exports to avoid conflicts
+// Core exports
 export {
-  ErrorProvider as ReactErrorProvider,
-  useErrorContext,
-  DefaultErrorFallback,
-  ErrorBoundary,
-  withErrorBoundary,
-  createErrorBoundary,
-  createErrorProvider,
-  useErrorHandler,
-  useAsyncError,
-  useComponentError,
-  useUserContext,
-  usePerformanceMonitor,
-  useErrorRetry,
-  useProviderManager,
-  useErrorMetrics,
-  useErrorDebug,
-  withErrorHandler,
-  withAsyncErrorHandler,
-  withErrorHandling,
-  withCompleteErrorHandling,
-  createErrorHandlingHOC,
-  withPageErrorHandling,
-  withApiErrorHandling,
-  withFormErrorHandling,
-  withCriticalErrorHandling,
-} from './react';
+  errorStore,
+  initialize,
+  captureError,
+  captureMessage,
+  setUser,
+  setContext,
+  addBreadcrumb,
+  clearBreadcrumbs,
+  useAdapter,
+  removeAdapter,
+  flush,
+  reset,
+  subscribe,
+  registerAdapter,
+} from './store/error-store';
 
+// Type exports
 export type {
-  ErrorContextValue,
-  ErrorProviderProps,
-  ErrorBoundaryProps,
-  ErrorBoundaryState,
-  ErrorFallbackProps,
-  WithErrorBoundaryOptions,
-  WithErrorHandlerOptions,
-  WithAsyncErrorHandlerOptions,
-} from './react';
+  ErrorStore,
+  ErrorStoreState,
+  ErrorStoreActions,
+  ErrorStoreConfig,
+  ErrorContext,
+  UserContext,
+  DeviceContext,
+  Breadcrumb,
+  NormalizedError,
+  ErrorAdapter,
+  ErrorListener,
+  StorageAdapter,
+  ErrorLevel,
+} from './store/types';
 
-// Export provider classes for advanced usage
-export * from './providers';
+// Adapter exports
+export {
+  createCustomAdapter,
+  type CustomAdapterConfig,
+} from './adapters/custom-adapter';
 
-// Export utility classes
-export * from './utils';
+// Re-export adapter classes for advanced usage
+export { SentryAdapter } from './adapters/sentry-adapter';
+export { FirebaseAdapter } from './adapters/firebase-adapter';
+export { CustomAdapter } from './adapters/custom-adapter';
 
-// Export native components
-export * from './native';
-
-// Export services
-export * from './services';
-
-// Export configuration system
-export * from './config';
+// Utility function to create and register a custom adapter
+import { createCustomAdapter, type CustomAdapterConfig as CAC } from './adapters/custom-adapter';
+import { errorStore as store } from './store/error-store';
+export function createAdapter(name: string, config: CAC): void {
+  const adapter = createCustomAdapter(config);
+  store.registerAdapter(name, adapter);
+}

@@ -1,474 +1,319 @@
 # Unified Error Handling
 
-📚 **[Documentation](./docs/index.md)** | 🚀 **[Quick Start](./docs/guides/quick-start.md)** | 🔧 **[API Reference](./docs/api/core-api.md)** | 🎯 **[Examples](./docs/examples/index.md)**
-
 [![npm version](https://img.shields.io/npm/v/unified-error-handling.svg)](https://www.npmjs.com/package/unified-error-handling)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Bundle Size](https://img.shields.io/bundlephobia/minzip/unified-error-handling)](https://bundlephobia.com/package/unified-error-handling)
 
-> A comprehensive Capacitor plugin providing a unified API for multiple error handling platforms with React-first design, minimal configuration, and seamless provider switching.
+A lightweight, zero-dependency error handling library with dynamic adapter loading for multiple error tracking services. Works everywhere - browsers, Node.js, React, and more.
 
-## ✨ Features
+## Features
 
-- 🔌 **Unified API** - Single interface for 8+ error tracking services
-- ⚛️ **React-First Design** - Built-in hooks, error boundaries, and HOCs
-- 🎯 **Zero Configuration** - Works out of the box with sensible defaults
-- 🔄 **Provider Flexibility** - Switch between providers without code changes
-- 📱 **Cross-Platform** - Full support for iOS, Android, and Web
-- 🔒 **Type Safety** - Complete TypeScript support with comprehensive types
-- 🌐 **Offline Support** - Automatic error queuing and retry
-- 📊 **Performance Monitoring** - Built-in performance tracking
-- 🎨 **Customizable** - Extensive configuration options for all providers
-- 🔧 **Developer Friendly** - Excellent DX with helpful error messages
+- 🚀 **Zero Dependencies** - Core library has no dependencies
+- 🔌 **Dynamic Adapter Loading** - Only load SDKs when you use them
+- 🎯 **Provider-less Architecture** - No React Context required, works in any component
+- 📦 **Tree-shakeable** - Only bundle what you use
+- 🔧 **Framework Agnostic** - Works with React, Vue, Angular, or vanilla JS
+- 🌐 **Universal** - Works in browsers, Node.js, React Native
+- 🎨 **Customizable** - Create your own adapters easily
+- 📊 **Rich Context** - Automatic breadcrumbs, user context, and device info
+- 🔄 **Offline Support** - Queue errors when offline, send when back online
+- 🛡️ **Type Safe** - Full TypeScript support
 
-## 🏢 Supported Error Handling Providers
-
-| Provider | Web | iOS | Android | Performance | Session Replay |
-|----------|:---:|:---:|:-------:|:-----------:|:--------------:|
-| Firebase Crashlytics | ❌ | ✅ | ✅ | ✅ | ❌ |
-| Sentry | ✅ | ✅ | ✅ | ✅ | ✅ |
-| DataDog | ✅ | ✅ | ✅ | ✅ | ✅ |
-| Bugsnag | ✅ | ✅ | ✅ | ✅ | ❌ |
-| Rollbar | ✅ | ✅ | ✅ | ❌ | ❌ |
-| LogRocket | ✅ | ✅ | ✅ | ✅ | ✅ |
-| Raygun | ✅ | ✅ | ✅ | ✅ | ❌ |
-| AppCenter | ❌ | ✅ | ✅ | ❌ | ❌ |
-
-## 📦 Installation
+## Installation
 
 ```bash
-# Using npm
 npm install unified-error-handling
-
-# Using yarn
+# or
 yarn add unified-error-handling
-
-# Using pnpm
+# or
 pnpm add unified-error-handling
 ```
 
-### Platform Setup
+## Quick Start
 
-For iOS, add to your `Info.plist`:
-```xml
-<key>NSUserTrackingUsageDescription</key>
-<string>This app uses error tracking to improve app stability</string>
-```
+### Basic Usage (Vanilla JavaScript)
 
-For Android, the plugin automatically handles permissions.
+```javascript
+import { initialize, captureError, useAdapter } from 'unified-error-handling';
 
-## 🚀 Quick Start
-
-### 1. Initialize the Plugin
-
-```typescript
-import { ErrorHandler } from 'unified-error-handling';
-
-// Initialize with your preferred provider
-await ErrorHandler.initialize({
-  provider: 'sentry',
-  apiKey: 'your-api-key',
-  environment: 'production',
-  debug: false
+// Initialize the error store
+initialize({
+  enableGlobalHandlers: true,
+  enableConsoleCapture: true
 });
-```
 
-### 2. React Integration
+// Use the built-in console adapter
+await useAdapter('console');
 
-```tsx
-import { ErrorProvider, ErrorBoundary } from 'unified-error-handling/react';
-
-// Wrap your app with ErrorProvider
-function App() {
-  return (
-    <ErrorProvider config={{
-      provider: 'sentry',
-      apiKey: 'your-api-key'
-    }}>
-      <ErrorBoundary fallback={<ErrorFallback />}>
-        <YourApp />
-      </ErrorBoundary>
-    </ErrorProvider>
-  );
+// Capture errors
+try {
+  throw new Error('Something went wrong!');
+} catch (error) {
+  captureError(error);
 }
 ```
 
-### 3. Use Error Handling Hooks
+### React Usage
 
-```tsx
-import { useErrorHandler } from 'unified-error-handling/react';
+```jsx
+import { initialize, useAdapter } from 'unified-error-handling';
+import { ErrorBoundary, useErrorHandler } from 'unified-error-handling/react';
 
+// Initialize once in your app
+initialize({ enableGlobalHandlers: true });
+
+// In your App component
+function App() {
+  useEffect(() => {
+    useAdapter('sentry', { dsn: 'your-sentry-dsn' });
+  }, []);
+
+  return (
+    <ErrorBoundary>
+      <YourApp />
+    </ErrorBoundary>
+  );
+}
+
+// In any component (no provider needed!)
 function MyComponent() {
-  const { logError, addBreadcrumb } = useErrorHandler();
+  const handleError = useErrorHandler();
 
-  const handleClick = async () => {
+  const handleClick = () => {
     try {
-      addBreadcrumb({
-        message: 'User clicked button',
-        category: 'ui'
-      });
-      
-      await riskyOperation();
+      // risky operation
     } catch (error) {
-      logError(error, {
-        context: { component: 'MyComponent' }
-      });
+      handleError(error);
     }
   };
 
-  return <button onClick={handleClick}>Click Me</button>;
+  return <button onClick={handleClick}>Click me</button>;
 }
 ```
 
-### 4. Manual Error Logging
+## Supported Adapters
 
-```typescript
-import { ErrorHandler } from 'unified-error-handling';
+### Built-in Adapters
 
-// Log an error
-ErrorHandler.logError(new Error('Something went wrong'), {
-  level: 'error',
+- **console** - Logs errors to console (great for development)
+- **sentry** - Sentry error tracking (requires `@sentry/browser`)
+- **firebase** - Firebase Crashlytics (requires `firebase`)
+
+### Using Adapters
+
+Adapters are loaded dynamically when you use them. The required SDKs are not bundled with this library.
+
+```javascript
+// Sentry adapter
+await useAdapter('sentry', {
+  dsn: 'your-sentry-dsn',
+  environment: 'production'
+});
+
+// Firebase adapter
+await useAdapter('firebase', {
+  firebaseConfig: {
+    // your firebase config
+  }
+});
+
+// Multiple adapters (last one wins)
+await useAdapter('console'); // for development
+await useAdapter('sentry', config); // switches to Sentry
+```
+
+## Creating Custom Adapters
+
+```javascript
+import { createAdapter } from 'unified-error-handling';
+
+createAdapter('my-service', {
+  async initialize(config) {
+    // Setup your service
+  },
+  
+  async send(error, context) {
+    // Send error to your service
+    await fetch('https://my-api.com/errors', {
+      method: 'POST',
+      body: JSON.stringify({ error, context })
+    });
+  }
+});
+
+// Use your custom adapter
+await useAdapter('my-service', { apiKey: 'secret' });
+```
+
+## API Reference
+
+### Core Functions
+
+#### `initialize(config)`
+Initialize the error store with configuration.
+
+```javascript
+initialize({
+  maxBreadcrumbs: 100,        // Maximum breadcrumbs to keep
+  enableGlobalHandlers: true,  // Catch unhandled errors
+  enableConsoleCapture: true,  // Capture console.error
+  enableNetworkCapture: true,  // Capture failed network requests
+  beforeSend: (error) => {     // Filter or modify errors
+    if (error.message.includes('ignore')) {
+      return null; // Don't send
+    }
+    return error;
+  }
+});
+```
+
+#### `captureError(error, context?)`
+Capture an error with optional context.
+
+```javascript
+captureError(new Error('Oops!'), {
   tags: { feature: 'checkout' },
-  context: { userId: '123' }
-});
-
-// Log a message
-ErrorHandler.logMessage('Payment processed', 'info');
-
-// Add breadcrumbs
-ErrorHandler.addBreadcrumb({
-  message: 'User navigated to checkout',
-  category: 'navigation',
-  level: 'info'
+  extra: { orderId: '12345' }
 });
 ```
 
-## Architecture Design
+#### `captureMessage(message, level?)`
+Capture a message.
 
-### Core Structure
-
-```
-unified-error-handling/
-├── src/
-│   ├── index.ts                    # Main entry point
-│   ├── definitions.ts              # TypeScript definitions
-│   ├── web.ts                      # Web implementation
-│   ├── plugin.ts                   # Core plugin logic
-│   ├── providers/
-│   │   ├── base.provider.ts        # Abstract base provider
-│   │   ├── firebase/
-│   │   │   ├── firebase.provider.ts
-│   │   │   └── firebase.types.ts
-│   │   ├── sentry/
-│   │   │   ├── sentry.provider.ts
-│   │   │   └── sentry.types.ts
-│   │   ├── datadog/
-│   │   │   ├── datadog.provider.ts
-│   │   │   └── datadog.types.ts
-│   │   ├── bugsnag/
-│   │   ├── rollbar/
-│   │   ├── logrocket/
-│   │   ├── raygun/
-│   │   └── appcenter/
-│   ├── react/
-│   │   ├── provider.tsx            # React Context Provider
-│   │   ├── hoc.tsx                # Higher-Order Components
-│   │   ├── hooks.ts               # React Hooks
-│   │   ├── error-boundary.tsx     # Error Boundary Component
-│   │   └── index.ts
-│   ├── utils/
-│   │   ├── error-normalizer.ts    # Error normalization
-│   │   ├── breadcrumb-manager.ts  # Breadcrumb tracking
-│   │   ├── context-manager.ts     # Context management
-│   │   ├── network-monitor.ts     # Network state tracking
-│   │   └── storage.ts             # Offline storage
-│   ├── native/
-│   │   ├── bridge.ts              # Native bridge interface
-│   │   └── platform-detector.ts   # Platform detection
-│   └── types/
-│       ├── errors.ts              # Error type definitions
-│       ├── config.ts              # Configuration types
-│       └── providers.ts           # Provider interfaces
-├── android/
-│   └── src/main/java/.../         # Android implementation
-├── ios/
-│   └── Plugin/                    # iOS implementation
-├── scripts/
-│   ├── setup.ts                   # NPX setup script
-│   ├── doctor.ts                  # Diagnostic tool
-│   └── migrate.ts                 # Migration helper
-├── examples/
-│   ├── basic/                     # Basic usage example
-│   ├── advanced/                  # Advanced features
-│   └── multi-provider/            # Multi-provider setup
-└── package.json
+```javascript
+captureMessage('User completed onboarding', 'info');
 ```
 
-## Development Phases
+#### `setUser(user)`
+Set user context.
 
-### Phase 1: Core Infrastructure (Week 1)
-- [x] Project setup with TypeScript, ESLint, Prettier
-- [x] Define core interfaces and types
-- [x] Implement base provider abstract class
-- [x] Create error normalization system
-- [x] Setup build pipeline for multi-platform
-- [x] Implement platform detection utilities
+```javascript
+setUser({
+  id: '12345',
+  email: 'user@example.com',
+  plan: 'premium'
+});
+```
 
-### Phase 2: Provider Implementations (Week 2-4)
-- [ ] Firebase Crashlytics integration (using capacitor-firebase-kit)
-- [ ] Sentry provider implementation
-- [ ] DataDog RUM provider
-- [ ] Bugsnag provider
-- [ ] Rollbar provider
-- [ ] LogRocket provider
-- [ ] Raygun provider
-- [ ] AppCenter provider
+#### `addBreadcrumb(breadcrumb)`
+Add a breadcrumb.
 
-### Phase 3: React Integration (Week 5)
-- [ ] Error Boundary component with provider integration
-- [ ] React Context Provider for global error handling
-- [ ] HOC for component-level error handling
-- [ ] Custom hooks (useErrorHandler, useErrorContext, useBreadcrumb)
-- [ ] TypeScript declarations for all React components
+```javascript
+addBreadcrumb({
+  message: 'User clicked button',
+  category: 'ui',
+  level: 'info',
+  data: { buttonId: 'submit' }
+});
+```
 
-### Phase 4: Advanced Features (Week 6)
-- [ ] Breadcrumb management system
-- [ ] Context enrichment (user, device, app info)
-- [ ] Network state monitoring
-- [ ] Offline error queue with retry logic
-- [ ] Custom error filtering and transformation
-- [ ] Performance monitoring integration
+### React Hooks
 
-### Phase 5: Developer Experience (Week 7)
-- [ ] NPX setup script with interactive configuration
-- [ ] Automatic provider detection
-- [ ] Migration utilities from direct SDK usage
-- [ ] Doctor command for troubleshooting
-- [ ] VSCode snippets and IntelliSense
+#### `useErrorHandler()`
+Returns a function to capture errors.
 
-### Phase 6: Testing & Documentation (Week 8)
-- [ ] Unit tests for all providers
-- [ ] Integration tests
-- [ ] E2E tests with example apps
-- [ ] API documentation
-- [ ] Setup guides for each provider
-- [ ] Migration guides
-- [ ] Best practices documentation
+```javascript
+const handleError = useErrorHandler();
+handleError(error);
+```
 
-## Key Features
+#### `useErrorStore()`
+Access the full error store.
 
-### 1. Unified Error API
+```javascript
+const { setUser, addBreadcrumb } = useErrorStore();
+```
+
+#### `useAsyncOperation()`
+Handle async operations with automatic error capture.
+
+```javascript
+const { data, loading, error, execute } = useAsyncOperation(
+  async () => fetch('/api/data'),
+  [dependency]
+);
+```
+
+## Advanced Features
+
+### Offline Support
+Errors are automatically queued when offline and sent when connection is restored.
+
+### Error Enrichment
+Errors are automatically enriched with:
+- Device information
+- Browser/environment details
+- Stack trace parsing
+- Fingerprinting for grouping
+- Timestamp and context
+
+### Console & Network Capture
+When enabled, automatically captures:
+- `console.error` calls
+- Failed network requests (fetch & XHR)
+- Unhandled promise rejections
+- Global errors
+
+## TypeScript Support
+
+Full TypeScript support with type definitions included.
+
 ```typescript
-// Same API regardless of provider
-ErrorHandler.logError(error, {
-  level: 'error',
-  context: { userId: '123', action: 'checkout' },
-  tags: { feature: 'payment' }
-});
+import { ErrorContext, NormalizedError } from 'unified-error-handling';
+
+const context: ErrorContext = {
+  user: { id: '123' },
+  tags: { version: '1.0.0' }
+};
 ```
 
-### 2. Zero-Config Setup
-```bash
-npx unified-error-handling init --provider sentry
+## Bundle Size
+
+- Core: ~10KB minified
+- React integration: ~5KB minified
+- Zero dependencies in production
+
+## Migration Guide
+
+### From Capacitor Plugin
+
+```javascript
+// Before (Capacitor plugin)
+import { UnifiedErrorHandling } from 'capacitor-unified-error-handling';
+await UnifiedErrorHandling.initialize({ provider: 'sentry' });
+
+// After (New library)
+import { initialize, useAdapter } from 'unified-error-handling';
+initialize();
+await useAdapter('sentry', config);
 ```
 
-### 3. React Integration
-```tsx
-// Provider wrapper
-<ErrorProvider config={config}>
+### From React Context
+
+```javascript
+// Before (Context-based)
+<ErrorProvider>
   <App />
 </ErrorProvider>
 
-// HOC
-export default withErrorHandler(MyComponent);
+// After (No provider needed!)
+// Just initialize once
+initialize();
 
-// Hooks
-const { logError, addBreadcrumb } = useErrorHandler();
+// Use anywhere
+const handleError = useErrorHandler();
 ```
 
-### 4. Smart Error Boundary
-```tsx
-<ErrorBoundary
-  fallback={<ErrorFallback />}
-  onError={(error, errorInfo) => console.log(error)}
-  level="warning"
->
-  <RiskyComponent />
-</ErrorBoundary>
-```
+## License
 
-### 5. Provider Switching
-```typescript
-// Switch providers without code changes
-await ErrorHandler.switchProvider('sentry', sentryConfig);
-```
+MIT © Ahsan Mahmood
 
-### 6. Advanced Context Management
-```typescript
-// Automatic context enrichment
-ErrorHandler.setUserContext({ id: '123', email: 'user@example.com' });
-ErrorHandler.setTags({ version: '2.0.0', environment: 'production' });
-ErrorHandler.addBreadcrumb({
-  message: 'User clicked checkout',
-  category: 'ui',
-  level: 'info'
-});
-```
+## Contributing
 
-## Technical Specifications
+Contributions are welcome! Please read our [Contributing Guide](CONTRIBUTING.md) for details.
 
-### Core Interfaces
+## Support
 
-```typescript
-interface ErrorProvider {
-  name: string;
-  initialize(config: ProviderConfig): Promise<void>;
-  logError(error: NormalizedError): Promise<void>;
-  logMessage(message: string, level: ErrorLevel): Promise<void>;
-  setUser(user: UserContext): Promise<void>;
-  setContext(key: string, context: any): Promise<void>;
-  addBreadcrumb(breadcrumb: Breadcrumb): Promise<void>;
-  flush(): Promise<void>;
-  destroy(): Promise<void>;
-}
-
-interface UnifiedErrorConfig {
-  provider: ErrorProviderType;
-  apiKey?: string;
-  debug?: boolean;
-  environment?: string;
-  beforeSend?: (error: NormalizedError) => NormalizedError | null;
-  ignoreErrors?: (string | RegExp)[];
-  sampleRate?: number;
-  maxBreadcrumbs?: number;
-  networkTracking?: boolean;
-  consoleTracking?: boolean;
-  autoSessionTracking?: boolean;
-}
-```
-
-### React Components
-
-```typescript
-// Error Provider Props
-interface ErrorProviderProps {
-  config: UnifiedErrorConfig;
-  children: React.ReactNode;
-  fallback?: React.ComponentType<ErrorFallbackProps>;
-  onError?: (error: Error, errorInfo: ErrorInfo) => void;
-}
-
-// Hook Returns
-interface UseErrorHandler {
-  logError: (error: Error | string, context?: ErrorContext) => void;
-  logMessage: (message: string, level?: ErrorLevel) => void;
-  addBreadcrumb: (breadcrumb: Breadcrumb) => void;
-  setUser: (user: UserContext) => void;
-  setContext: (key: string, value: any) => void;
-  clearUser: () => void;
-}
-```
-
-## Implementation Strategy
-
-### 1. Provider Abstraction
-- Single interface for all providers
-- Provider-specific adapters
-- Lazy loading of provider SDKs
-- Graceful fallbacks
-
-### 2. Error Normalization
-- Consistent error format across providers
-- Stack trace parsing
-- Source map support
-- Error grouping logic
-
-### 3. Performance Optimization
-- Minimal bundle size impact
-- Tree-shaking support
-- Lazy provider initialization
-- Batched error reporting
-
-### 4. Security Considerations
-- API key encryption
-- PII scrubbing
-- Secure transmission
-- GDPR compliance helpers
-
-## Quality Assurance
-
-### Testing Strategy
-- Unit tests: 90%+ coverage
-- Integration tests per provider
-- React component testing
-- Cross-platform E2E tests
-- Performance benchmarks
-
-### Code Quality
-- TypeScript strict mode
-- ESLint with custom rules
-- Prettier formatting
-- Husky pre-commit hooks
-- Automated dependency updates
-
-### Documentation Standards
-- TSDoc for all public APIs
-- Interactive examples
-- Video tutorials
-- Provider comparison matrix
-- Troubleshooting guides
-
-## NPX Setup Script Features
-
-```bash
-npx unified-error-handling init
-```
-
-- Interactive provider selection
-- Automatic dependency installation
-- Platform-specific setup (iOS/Android)
-- Environment detection
-- Config file generation
-- Git hooks setup
-- VS Code settings
-
-## Migration Support
-
-### From Direct SDK Usage
-- Automated code migration tools
-- Side-by-side comparison
-- Gradual migration path
-- Backward compatibility mode
-
-### Provider Switching
-- Configuration migration
-- Data export/import
-- Feature parity mapping
-- Testing utilities
-
-## Success Metrics
-
-- **Setup Time**: < 5 minutes from install to first error
-- **Bundle Size**: < 25KB per provider (gzipped)
-- **Performance**: < 1ms error logging overhead
-- **Type Safety**: 100% TypeScript coverage
-- **Documentation**: 100% API coverage
-- **Provider Support**: 8 major platforms
-
-## Release Timeline
-
-- **Week 1-2**: Core infrastructure
-- **Week 3-4**: Provider implementations
-- **Week 5**: React integration
-- **Week 6**: Advanced features
-- **Week 7**: Developer experience
-- **Week 8**: Testing & documentation
-- **Week 9**: Beta release
-- **Week 10**: Production release
-
-## Post-Launch Roadmap
-
-1. **v1.1**: Performance monitoring integration
-2. **v1.2**: Custom provider support
-3. **v1.3**: Advanced debugging tools
-4. **v1.4**: AI-powered error insights
-5. **v2.0**: Real-time error analytics dashboard
+- 📧 Email: aoneahsan@gmail.com
+- 🐛 Issues: [GitHub Issues](https://github.com/aoneahsan/unified-error-handling/issues)
+- 💬 Discussions: [GitHub Discussions](https://github.com/aoneahsan/unified-error-handling/discussions)
