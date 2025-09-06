@@ -1,6 +1,6 @@
 {
   "name": "unified-error-handling",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "A lightweight, zero-dependency error handling library with dynamic adapter loading for multiple error tracking services",
   "type": "module",
   "main": "dist/index.js",

@@ -107,7 +107,10 @@ async function installDependencies(options: SetupOptions) {
       deps.push('capacitor-firebase-kit');
       break;
     case 'sentry':
-      deps.push('@sentry/capacitor', '@sentry/react');
+      deps.push('@sentry/browser');
+      if (options.framework === 'react') {
+        deps.push('@sentry/react');
+      }
       break;
     case 'datadog':
       deps.push('@datadog/browser-logs', '@datadog/browser-rum');
