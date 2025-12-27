@@ -2,28 +2,53 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## 📦 Package Manager: pnpm (CRITICAL)
+
+**This project uses pnpm exclusively for package management.**
+
+### Package Manager Hierarchy
+- **npm**: ONLY for installing pnpm globally (if not available): `npm install -g pnpm`
+- **pnpm**: For EVERYTHING ELSE (dependencies, scripts, global packages)
+
+### Commands
+```bash
+# Install dependencies
+pnpm install
+
+# Add packages
+pnpm add <package>
+pnpm add -D <package>        # Dev dependency
+
+# Run scripts
+pnpm dev                     # Development mode
+pnpm build                   # Build the project
+pnpm test                    # Run tests
+pnpm lint                    # Lint code
+pnpm format                  # Format code
+
+# Update packages
+pnpm update --latest         # Update to latest versions
+```
+
+### Lock Files
+- ✅ Use `pnpm-lock.yaml`
+- ❌ Delete `yarn.lock` and `package-lock.json` if found
+
 ## Project Overview
 
-This is a Capacitor plugin called "unified-error-handling" that provides a unified API for multiple error handling platforms (Firebase Crashlytics, Sentry, DataDog, Bugsnag, etc.) with React-first design and minimal configuration.
-
-The project is currently in the planning phase with a detailed development plan outlined in Readme.md.
+This is a lightweight, zero-dependency error handling library called "unified-error-handling" that provides a unified API for multiple error handling platforms (Firebase Crashlytics, Sentry, DataDog, Bugsnag, etc.) with React-first design and dynamic adapter loading.
 
 ## Development Setup
 
-Since this is a new project, initial setup will involve:
-
 ```bash
-# Initialize the Capacitor plugin structure
-npm init @capacitor/plugin unified-error-handling
-
 # Install dependencies
-yarn install
+pnpm install
 
-# Setup TypeScript configuration
-yarn add -D typescript @types/node
+# Setup TypeScript configuration (already configured)
+pnpm add -D typescript @types/node
 
-# Add development tools
-yarn add -D eslint prettier husky lint-staged vitest @vitest/ui
+# Add development tools (already configured)
+pnpm add -D eslint prettier husky lint-staged vitest @vitest/ui
 ```
 
 ## Key Architecture Decisions
@@ -47,20 +72,22 @@ yarn add -D eslint prettier husky lint-staged vitest @vitest/ui
 
 ```bash
 # Development
-yarn dev          # Run in watch mode
-yarn build        # Build the plugin
-yarn test         # Run tests with Vitest
-yarn lint         # Run ESLint
-yarn format       # Format with Prettier
+pnpm dev              # Run in watch mode
+pnpm build            # Build the plugin
+pnpm test             # Run tests with Vitest
+pnpm lint             # Run ESLint
+pnpm format           # Format with Prettier
 
 # Testing
-yarn test:unit    # Unit tests only
-yarn test:e2e     # End-to-end tests
-yarn test:watch   # Watch mode for tests
+pnpm test:watch       # Watch mode for tests
+pnpm test:coverage    # Run tests with coverage
 
-# Release
-yarn verify       # Verify iOS and Android builds
-yarn release      # Create a new release
+# Type checking
+pnpm typecheck        # Run TypeScript type checking
+
+# Size analysis
+pnpm size             # Check bundle size
+pnpm analyze          # Analyze bundle size
 ```
 
 ## Implementation Guidelines
@@ -98,13 +125,13 @@ Errors that occur offline are queued in `src/utils/storage.ts` and retried when 
 
 ## Current Development Status
 
-As per the Readme.md, the project is organized into 6 development phases:
-- Phase 1: Core Infrastructure (Week 1) - Completed checkmarks indicate this is done
-- Phase 2: Provider Implementations (Week 2-4) - Not started
-- Phase 3: React Integration (Week 5) - Not started
-- Phase 4: Advanced Features (Week 6) - Not started
-- Phase 5: Developer Experience (Week 7) - Not started
-- Phase 6: Testing & Documentation (Week 8) - Not started
+The project is organized into 6 development phases:
+- Phase 1: Core Infrastructure - Completed
+- Phase 2: Provider Implementations - Not started
+- Phase 3: React Integration - Not started
+- Phase 4: Advanced Features - Not started
+- Phase 5: Developer Experience - Not started
+- Phase 6: Testing & Documentation - Not started
 
 The next immediate tasks would be to:
 1. Set up the basic Capacitor plugin structure
