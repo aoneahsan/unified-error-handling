@@ -49,7 +49,7 @@ export abstract class BaseAdapter implements ErrorAdapter {
     try {
       // Try to import from node_modules first
       return await import(packageName);
-    } catch (error) {
+    } catch (_error) {
       // If that fails, provide helpful error message
       throw new Error(
         `Failed to load ${packageName}. Please install it:\n` +

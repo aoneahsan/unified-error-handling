@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState, useSyncExternalStore } from 'react';
+import { useCallback, useEffect, useState, useSyncExternalStore, type DependencyList } from 'react';
 import { errorStore } from '../store/error-store';
 import type { ErrorContext, NormalizedError } from '../store/types';
 
@@ -88,7 +88,7 @@ export function useErrorTracking(componentName: string) {
 // Hook to capture errors from async operations
 export function useAsyncOperation<T>(
   operation: () => Promise<T>,
-  deps: React.DependencyList = []
+  deps: DependencyList = []
 ) {
   const [data, setData] = useState<T | null>(null);
   const [loading, setLoading] = useState(false);

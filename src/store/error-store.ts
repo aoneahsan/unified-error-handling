@@ -401,11 +401,12 @@ class ErrorStoreImpl implements ErrorStore {
         };
       
       case 'sentry':
-      case 'firebase':
+      case 'firebase': {
         // Dynamically load adapter
         const { loadAdapter } = await import('../adapters');
         return await loadAdapter(name);
-      
+      }
+
       default:
         return null;
     }

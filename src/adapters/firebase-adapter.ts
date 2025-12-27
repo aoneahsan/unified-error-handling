@@ -38,7 +38,7 @@ export class FirebaseAdapter extends BaseAdapter {
       }
 
       this.sdkLoaded = true;
-    } catch (error) {
+    } catch (_error) {
       throw new Error(
         `Failed to load Firebase SDK. Please install:\n` +
         `npm install firebase\n` +

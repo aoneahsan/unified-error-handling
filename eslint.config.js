@@ -39,6 +39,7 @@ export default [
         {
           argsIgnorePattern: '^_',
           varsIgnorePattern: '^_',
+          caughtErrorsIgnorePattern: '^_',
         },
       ],
       '@typescript-eslint/no-explicit-any': 'off', // Allow any for now
@@ -53,6 +54,17 @@ export default [
     },
   },
   {
-    ignores: ['dist/**', 'node_modules/**', 'android/**', 'ios/**', '*.config.js', '*.config.ts'],
+    ignores: [
+      'dist/**',
+      'node_modules/**',
+      'android/**',
+      'ios/**',
+      'examples/**',
+      'test-app/**',
+      '*.config.js',
+      '*.config.ts',
+      '*.config.mjs',
+      'test-production.mjs',
+    ],
   },
 ];
