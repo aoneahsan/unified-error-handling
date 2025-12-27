@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <defs>
+    <linearGradient id="bgGradDark" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1e1b4b;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#312e81;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="shieldGradDark" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#4f46e5;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#3730a3;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background circle -->
+  <circle cx="100" cy="100" r="95" fill="url(#bgGradDark)"/>
+
+  <!-- Shield shape -->
+  <path d="M100 30 L150 55 L150 110 Q150 150 100 170 Q50 150 50 110 L50 55 Z"
+        fill="url(#shieldGradDark)"
+        stroke="#6366f1"
+        stroke-width="2"/>
+
+  <!-- Check mark (representing error handling success) -->
+  <path d="M75 100 L90 115 L125 75"
+        fill="none"
+        stroke="#a5b4fc"
+        stroke-width="8"
+        stroke-linecap="round"
+        stroke-linejoin="round"/>
+
+  <!-- Error catching symbol - brackets around shield -->
+  <path d="M35 65 L25 65 L25 135 L35 135"
+        fill="none"
+        stroke="#4f46e5"
+        stroke-width="4"
+        stroke-linecap="round"/>
+  <path d="M165 65 L175 65 L175 135 L165 135"
+        fill="none"
+        stroke="#4f46e5"
+        stroke-width="4"
+        stroke-linecap="round"/>
+</svg>

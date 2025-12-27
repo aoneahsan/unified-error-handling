@@ -1,20 +1,18 @@
 # Getting Started
 
-This guide will help you install and set up the Unified Error Handling plugin in your Capacitor project.
+This guide will help you install and set up the Unified Error Handling library in your project.
 
 ## Prerequisites
 
-- Capacitor 5.0 or higher
 - Node.js 18 or higher
-- React 18 or higher (for React features)
-- iOS 13+ / Android 5.0+ (API 21+)
+- React 19 or higher (for React features - optional)
 
 ## Installation
 
-Install the plugin using yarn:
+Install the library using pnpm (recommended):
 
 ```bash
-yarn add unified-error-handling
+pnpm add unified-error-handling
 ```
 
 Or using npm:
@@ -23,170 +21,162 @@ Or using npm:
 npm install unified-error-handling
 ```
 
-### Platform-Specific Setup
+Or using yarn:
 
-#### iOS Setup
-
-1. Install the iOS platform:
 ```bash
-npx cap add ios
+yarn add unified-error-handling
 ```
 
-2. Update your `Info.plist` with required permissions:
-```xml
-<key>NSUserTrackingUsageDescription</key>
-<string>This app uses error tracking to improve user experience</string>
-```
+## Basic Setup
 
-3. Sync the project:
-```bash
-npx cap sync ios
-```
+### 1. Initialize the Library
 
-#### Android Setup
+In your app's entry point (e.g., `main.js`, `index.js`, or `App.tsx`):
 
-1. Install the Android platform:
-```bash
-npx cap add android
-```
+```javascript
+import { initialize } from 'unified-error-handling';
 
-2. Add required permissions in `AndroidManifest.xml`:
-```xml
-<uses-permission android:name="android.permission.INTERNET" />
-<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-```
+// Initialize with default settings
+initialize();
 
-3. Sync the project:
-```bash
-npx cap sync android
-```
-
-## Basic Configuration
-
-### 1. Initialize the Plugin
-
-In your app's entry point (e.g., `App.tsx` or `index.js`):
-
-```typescript
-import { UnifiedErrorHandler } from 'unified-error-handling';
-
-// Initialize with a single provider
-await UnifiedErrorHandler.initialize({
-  providers: [{
-    type: 'sentry',
-    config: {
-      dsn: 'YOUR_SENTRY_DSN',
-      environment: 'production'
-    }
-  }]
+// Or with custom configuration
+initialize({
+  maxBreadcrumbs: 100,
+  enableGlobalHandlers: true,
+  enableConsoleCapture: true,
+  enableNetworkCapture: false,
+  debug: false,
 });
 ```
 
-### 2. React Integration (Optional)
+### 2. Choose an Adapter
 
-Wrap your app with the error handling provider:
+Adapters send errors to your error tracking service. The library includes built-in adapters:
 
-```tsx
-import { ErrorHandlerProvider } from 'unified-error-handling/react';
+```javascript
+import { useAdapter } from 'unified-error-handling';
 
-function App() {
-  return (
-    <ErrorHandlerProvider>
-      <YourAppContent />
-    </ErrorHandlerProvider>
-  );
-}
+// Console adapter (great for development)
+await useAdapter('console');
+
+// Sentry adapter (requires @sentry/browser)
+await useAdapter('sentry', {
+  dsn: 'YOUR_SENTRY_DSN',
+  environment: 'production'
+});
+
+// Firebase adapter (requires firebase)
+await useAdapter('firebase', {
+  firebaseConfig: {
+    // your firebase config
+  }
+});
 ```
 
 ### 3. Capture Your First Error
 
-```typescript
-import { UnifiedErrorHandler } from 'unified-error-handling';
+```javascript
+import { captureError } from 'unified-error-handling';
 
 try {
   // Your code that might throw an error
   riskyOperation();
 } catch (error) {
-  await UnifiedErrorHandler.captureException(error, {
-    level: 'error',
-    tags: { module: 'user-auth' }
+  captureError(error, {
+    tags: { module: 'user-auth' },
+    extra: { userId: '12345' }
   });
 }
 ```
 
-## Configuration Options
+## React Integration
 
-### Provider Configuration
+### Using Hooks
 
-Each provider can be configured with specific options:
+```jsx
+import { useErrorHandler } from 'unified-error-handling/react';
 
-```typescript
-const config = {
-  providers: [
-    {
-      type: 'sentry',
-      config: {
-        dsn: 'YOUR_DSN',
-        environment: 'production',
-        sampleRate: 0.9,
-        tracesSampleRate: 0.1
-      }
-    },
-    {
-      type: 'firebase',
-      config: {
-        crashlyticsCollectionEnabled: true,
-        projectPrefix: 'myapp_'
-      }
+function MyComponent() {
+  const handleError = useErrorHandler();
+
+  const handleClick = async () => {
+    try {
+      await dangerousOperation();
+    } catch (error) {
+      handleError(error);
     }
-  ],
-  global: {
-    enabledInDebug: false,
-    maxBreadcrumbs: 100,
-    beforeSend: (event) => {
-      // Filter or modify events before sending
-      return event;
-    }
-  }
-};
+  };
+
+  return <button onClick={handleClick}>Do Something</button>;
+}
 ```
 
-### Global Options
+### Using Error Boundary
 
-- `enabledInDebug`: Enable error tracking in debug mode (default: `false`)
-- `maxBreadcrumbs`: Maximum number of breadcrumbs to store (default: `100`)
-- `beforeSend`: Function to filter or modify events before sending
-- `offlineQueueSize`: Maximum number of errors to queue offline (default: `50`)
-- `retryAttempts`: Number of retry attempts for failed submissions (default: `3`)
+```jsx
+import { ErrorBoundary } from 'unified-error-handling/react';
+
+function App() {
+  return (
+    <ErrorBoundary
+      fallback={<div>Something went wrong!</div>}
+      onError={(error, errorInfo) => {
+        console.log('Error caught:', error);
+      }}
+    >
+      <YourApp />
+    </ErrorBoundary>
+  );
+}
+```
+
+### No Provider Required!
+
+Unlike other error handling libraries, this one uses a singleton pattern. No need to wrap your app in a provider - just call `initialize()` once and use the hooks anywhere.
+
+## Configuration Options
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `maxBreadcrumbs` | number | 100 | Maximum breadcrumbs to keep |
+| `enableGlobalHandlers` | boolean | true | Catch unhandled errors |
+| `enableConsoleCapture` | boolean | true | Capture console.error calls |
+| `enableNetworkCapture` | boolean | false | Capture failed network requests |
+| `enableOfflineQueue` | boolean | true | Queue errors when offline |
+| `debug` | boolean | false | Enable debug logging |
+| `beforeSend` | function | null | Filter/modify errors before sending |
 
 ## Next Steps
 
-- Learn about [React Integration](./react-integration.md)
-- Explore [Provider-Specific Features](../providers/index.md)
-- See [Code Examples](../examples/basic-usage.md)
-- Configure [Advanced Features](./configuration.md)
+- Learn about [Configuration](./configuration.md)
+- Explore the [Core API](../api/core-api.md)
+- Check out [React Hooks](../api/react-hooks.md)
+- Set up [Firebase Crashlytics](../providers/firebase-crashlytics.md)
 
 ## Common Issues
 
-### Plugin Not Loading
+### Adapter Not Loading
 
-If the plugin doesn't load, ensure you've run:
+Make sure you've installed the required SDK:
+
 ```bash
-npx cap sync
-```
+# For Sentry
+pnpm add @sentry/browser
 
-### Provider Not Initialized
-
-Make sure to await the initialization:
-```typescript
-await UnifiedErrorHandler.initialize(config);
+# For Firebase
+pnpm add firebase
 ```
 
 ### TypeScript Types Not Found
 
 Import types from the main package:
+
 ```typescript
-import type { ErrorEvent, ErrorLevel } from 'unified-error-handling';
+import type { ErrorContext, NormalizedError } from 'unified-error-handling';
 ```
 
-For more troubleshooting, see our [Troubleshooting Guide](./troubleshooting.md).
+### Errors Not Being Captured
+
+1. Make sure `initialize()` was called
+2. Check if an adapter is active with `useAdapter()`
+3. Enable debug mode: `initialize({ debug: true })`
