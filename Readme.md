@@ -93,17 +93,26 @@ function MyComponent() {
 
 ## Supported Adapters
 
-### Built-in Adapters
+All adapters are loaded dynamically - SDKs are only loaded when you use them. The required SDKs are not bundled with this library.
 
-- **console** - Logs errors to console (great for development)
-- **sentry** - Sentry error tracking (requires `@sentry/browser`)
-- **firebase** - Firebase Crashlytics (requires `firebase`)
+| Adapter | Package Required | Description |
+|---------|------------------|-------------|
+| `console` | None (built-in) | Logs errors to console (great for development) |
+| `sentry` | `@sentry/browser` | Sentry error tracking |
+| `firebase` | `firebase` | Firebase Crashlytics |
+| `datadog` | `@datadog/browser-rum` + `@datadog/browser-logs` | DataDog RUM & Logs |
+| `bugsnag` | `@bugsnag/js` | Bugsnag error monitoring |
+| `rollbar` | `rollbar` | Rollbar error tracking |
+| `logrocket` | `logrocket` | LogRocket session replay |
+| `raygun` | `raygun4js` | Raygun crash reporting |
+| `appcenter` | `appcenter-crashes` + `appcenter-analytics` | Microsoft AppCenter |
 
 ### Using Adapters
 
-Adapters are loaded dynamically when you use them. The required SDKs are not bundled with this library.
-
 ```javascript
+// Console adapter (no SDK needed)
+await useAdapter('console');
+
 // Sentry adapter
 await useAdapter('sentry', {
   dsn: 'your-sentry-dsn',
@@ -112,12 +121,42 @@ await useAdapter('sentry', {
 
 // Firebase adapter
 await useAdapter('firebase', {
-  firebaseConfig: {
-    // your firebase config
-  }
+  firebaseConfig: { /* your firebase config */ }
 });
 
-// Multiple adapters (last one wins)
+// DataDog adapter
+await useAdapter('datadog', {
+  applicationId: 'your-app-id',
+  clientToken: 'your-client-token',
+  site: 'datadoghq.com'
+});
+
+// Bugsnag adapter
+await useAdapter('bugsnag', {
+  apiKey: 'your-api-key'
+});
+
+// Rollbar adapter
+await useAdapter('rollbar', {
+  accessToken: 'your-access-token'
+});
+
+// LogRocket adapter
+await useAdapter('logrocket', {
+  appId: 'your-app-id'
+});
+
+// Raygun adapter
+await useAdapter('raygun', {
+  apiKey: 'your-api-key'
+});
+
+// AppCenter adapter
+await useAdapter('appcenter', {
+  appSecret: 'your-app-secret'
+});
+
+// Switch adapters (last one becomes active)
 await useAdapter('console'); // for development
 await useAdapter('sentry', config); // switches to Sentry
 ```
