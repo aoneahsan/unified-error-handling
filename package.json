@@ -1,6 +1,6 @@
 {
   "name": "unified-error-handling",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "A lightweight, zero-dependency error handling library with dynamic adapter loading for multiple error tracking services",
   "type": "module",
   "main": "dist/index.js",
@@ -21,7 +21,8 @@
   "files": [
     "dist/",
     "README.md",
-    "LICENSE"
+    "LICENSE",
+    "AI-INTEGRATION-GUIDE.md"
   ],
   "author": {
     "name": "Ahsan Mahmood",
@@ -53,19 +54,19 @@
     "typescript"
   ],
   "scripts": {
-    "build": "pnpm run clean && pnpm run build:esm && pnpm run build:cjs && pnpm run build:types",
+    "build": "yarn clean && yarn build:esm && yarn build:cjs && yarn build:types",
     "build:esm": "esbuild src/index.ts src/react/index.ts --bundle --format=esm --outdir=dist --platform=browser --target=es2020 --sourcemap --external:react --external:react-dom",
     "build:cjs": "esbuild src/index.ts --bundle --format=cjs --outfile=dist/index.cjs --platform=node --target=node16 && esbuild src/react/index.ts --bundle --format=cjs --outfile=dist/react/index.cjs --platform=node --target=node16 --external:react --external:react-dom",
     "build:types": "tsc --emitDeclarationOnly --declaration --declarationMap",
     "clean": "rimraf ./dist",
-    "dev": "pnpm run build:esm -- --watch",
+    "dev": "yarn build:esm -- --watch",
     "test": "vitest run",
     "test:watch": "vitest watch",
     "test:coverage": "vitest run --coverage",
     "lint": "eslint . --ext ts,tsx",
     "format": "prettier --write \"**/*.{ts,tsx,js,json,md}\"",
     "typecheck": "tsc --noEmit",
-    "prepublishOnly": "pnpm run build",
+    "prepublishOnly": "yarn build",
     "size": "size-limit",
     "analyze": "size-limit --why"
   },
@@ -83,21 +84,21 @@
   },
   "devDependencies": {
     "@size-limit/preset-small-lib": "^12.0.0",
-    "@types/node": "^25.0.3",
-    "@types/react": "^19.2.7",
-    "@typescript-eslint/eslint-plugin": "^8.50.1",
-    "@typescript-eslint/parser": "^8.50.1",
-    "@vitest/coverage-v8": "^4.0.16",
-    "@vitest/ui": "^4.0.16",
+    "@types/node": "^25.0.10",
+    "@types/react": "^19.2.9",
+    "@typescript-eslint/eslint-plugin": "^8.53.1",
+    "@typescript-eslint/parser": "^8.53.1",
+    "@vitest/coverage-v8": "^4.0.18",
+    "@vitest/ui": "^4.0.18",
     "esbuild": "^0.27.2",
     "eslint": "^9.39.2",
     "husky": "^9.1.7",
     "lint-staged": "^16.2.7",
-    "prettier": "~3.7.4",
+    "prettier": "~3.8.1",
     "rimraf": "^6.1.2",
     "size-limit": "^12.0.0",
     "typescript": "~5.9.3",
-    "vitest": "^4.0.16"
+    "vitest": "^4.0.18"
   },
   "size-limit": [
     {
@@ -110,7 +111,7 @@
     }
   ],
   "engines": {
-    "node": ">=24.2.0"
+    "node": ">=24.13.0"
   },
   "lint-staged": {
     "*.{ts,tsx}": [

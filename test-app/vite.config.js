@@ -8,5 +8,6 @@ export default defineConfig({
       'unified-error-handling/react': '../src/react/index.ts',
       'unified-error-handling': '../src/index.ts'
     }
-  }
+  },
+  logLevel: process.env.NODE_ENV === 'production' ? 'error' : 'info',
 });

@@ -2,37 +2,33 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-## 📦 Package Manager: pnpm (CRITICAL)
+## 📦 Package Manager: yarn (CRITICAL)
 
-**This project uses pnpm exclusively for package management.**
-
-### Package Manager Hierarchy
-- **npm**: ONLY for installing pnpm globally (if not available): `npm install -g pnpm`
-- **pnpm**: For EVERYTHING ELSE (dependencies, scripts, global packages)
+**This project uses yarn exclusively for package management.**
 
 ### Commands
 ```bash
 # Install dependencies
-pnpm install
+yarn install
 
 # Add packages
-pnpm add <package>
-pnpm add -D <package>        # Dev dependency
+yarn add <package>
+yarn add -D <package>        # Dev dependency
 
 # Run scripts
-pnpm dev                     # Development mode
-pnpm build                   # Build the project
-pnpm test                    # Run tests
-pnpm lint                    # Lint code
-pnpm format                  # Format code
+yarn dev                     # Development mode
+yarn build                   # Build the project
+yarn test                    # Run tests
+yarn lint                    # Lint code
+yarn format                  # Format code
 
 # Update packages
-pnpm update --latest         # Update to latest versions
+yarn upgrade --latest        # Update to latest versions
 ```
 
 ### Lock Files
-- ✅ Use `pnpm-lock.yaml`
-- ❌ Delete `yarn.lock` and `package-lock.json` if found
+- ✅ Use `yarn.lock`
+- ❌ Delete `pnpm-lock.yaml` and `package-lock.json` if found
 
 ## Project Overview
 
@@ -42,13 +38,13 @@ This is a lightweight, zero-dependency error handling library called "unified-er
 
 ```bash
 # Install dependencies
-pnpm install
+yarn install
 
 # Setup TypeScript configuration (already configured)
-pnpm add -D typescript @types/node
+yarn add -D typescript @types/node
 
 # Add development tools (already configured)
-pnpm add -D eslint prettier husky lint-staged vitest @vitest/ui
+yarn add -D eslint prettier husky lint-staged vitest @vitest/ui
 ```
 
 ## Key Architecture Decisions
@@ -72,22 +68,22 @@ pnpm add -D eslint prettier husky lint-staged vitest @vitest/ui
 
 ```bash
 # Development
-pnpm dev              # Run in watch mode
-pnpm build            # Build the plugin
-pnpm test             # Run tests with Vitest
-pnpm lint             # Run ESLint
-pnpm format           # Format with Prettier
+yarn dev              # Run in watch mode
+yarn build            # Build the plugin
+yarn test             # Run tests with Vitest
+yarn lint             # Run ESLint
+yarn format           # Format with Prettier
 
 # Testing
-pnpm test:watch       # Watch mode for tests
-pnpm test:coverage    # Run tests with coverage
+yarn test:watch       # Watch mode for tests
+yarn test:coverage    # Run tests with coverage
 
 # Type checking
-pnpm typecheck        # Run TypeScript type checking
+yarn typecheck        # Run TypeScript type checking
 
 # Size analysis
-pnpm size             # Check bundle size
-pnpm analyze          # Analyze bundle size
+yarn size             # Check bundle size
+yarn analyze          # Analyze bundle size
 ```
 
 ## Implementation Guidelines
@@ -137,3 +133,23 @@ The next immediate tasks would be to:
 1. Set up the basic Capacitor plugin structure
 2. Implement the base provider abstract class
 3. Start with Firebase Crashlytics integration using capacitor-firebase-kit
+
+---
+
+## Comprehensive Audit Record
+
+| Date | Audit Type | Status | Issues Found | Issues Resolved |
+|------|------------|--------|--------------|-----------------|
+| 2026-01-23 | Full Audit | Passed | 0 | 0 |
+
+### Last Audit Details
+- **Package Manager**: yarn confirmed
+- **Dependencies**: Updated to latest
+- **Build**: Passes (0 errors)
+- **Lint**: Passes (0 warnings)
+- **Features**: Core features complete
+- **TODOs**: None found
+- **SEO**: N/A (npm package)
+- **OG Assets**: N/A (npm package)
+
+### Next Audit Due: 2026-01-30 (7 days from last)
