@@ -1,165 +1,84 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+This file provides guidance for working in the `unified-error-handling` repository.
 
-## 📦 Package Manager: yarn (CRITICAL)
+## Package Manager
 
-**This project uses yarn exclusively for package management.**
-
-### Commands
-```bash
-# Install dependencies
-yarn install
-
-# Add packages
-yarn add <package>
-yarn add -D <package>        # Dev dependency
-
-# Run scripts
-yarn dev                     # Development mode
-yarn build                   # Build the project
-yarn test                    # Run tests
-yarn lint                    # Lint code
-yarn format                  # Format code
-
-# Update packages
-yarn upgrade --latest        # Update to latest versions
-```
-
-### Lock Files
-- ✅ Use `yarn.lock`
-- ❌ Delete `pnpm-lock.yaml` and `package-lock.json` if found
+This project uses `yarn` as the default workflow.
 
 ## Project Overview
 
-This is a lightweight, zero-dependency error handling library called "unified-error-handling" that provides a unified API for multiple error handling platforms (Firebase Crashlytics, Sentry, DataDog, Bugsnag, etc.) with React-first design and dynamic adapter loading.
+`unified-error-handling` is a lightweight, zero-dependency error handling library with dynamic adapter loading for multiple error tracking services. It exposes a framework-agnostic core API plus React-specific error boundary and hook helpers.
 
-## Development Setup
+## Current Verified State
 
-```bash
-# Install dependencies
-yarn install
+- Reviewed on: `2026-03-24`
+- Package version: `2.1.1`
+- Build: `yarn build` passed
+- Typecheck: `yarn typecheck` passed
+- Tests: `yarn test` passed with 33 tests
 
-# Setup TypeScript configuration (already configured)
-yarn add -D typescript @types/node
-
-# Add development tools (already configured)
-yarn add -D eslint prettier husky lint-staged vitest @vitest/ui
-```
-
-## Key Architecture Decisions
-
-### Provider Pattern
-- All error providers extend from `base.provider.ts`
-- Each provider has its own directory under `src/providers/`
-- Provider-specific types are kept in separate `.types.ts` files
-
-### React Integration
-- Error handling is exposed through React Context (`src/react/provider.tsx`)
-- Custom hooks provide easy access to error handling functions
-- Error Boundary component wraps React component trees
-
-### Native Bridge
-- Platform-specific code goes in `android/` and `ios/` directories
-- Web implementation in `src/web.ts`
-- Native bridge interface defined in `src/native/bridge.ts`
-
-## Development Commands
+## Commands
 
 ```bash
-# Development
-yarn dev              # Run in watch mode
-yarn build            # Build the plugin
-yarn test             # Run tests with Vitest
-yarn lint             # Run ESLint
-yarn format           # Format with Prettier
-
-# Testing
-yarn test:watch       # Watch mode for tests
-yarn test:coverage    # Run tests with coverage
-
-# Type checking
-yarn typecheck        # Run TypeScript type checking
-
-# Size analysis
-yarn size             # Check bundle size
-yarn analyze          # Analyze bundle size
+yarn build
+yarn dev
+yarn test
+yarn test:watch
+yarn test:coverage
+yarn lint
+yarn format
+yarn typecheck
+yarn size
+yarn analyze
 ```
 
-## Implementation Guidelines
+## Architecture
 
-### Adding a New Provider
-1. Create directory: `src/providers/{provider-name}/`
-2. Implement provider extending `BaseProvider` class
-3. Define provider-specific types in `{provider-name}.types.ts`
-4. Add provider to the registry in `src/providers/index.ts`
-5. Update TypeScript definitions in `src/definitions.ts`
-6. Add tests in `src/providers/{provider-name}/__tests__/`
+- `src/adapters/`: built-in adapters for console/custom plus Sentry, Firebase, DataDog, Bugsnag, Rollbar, LogRocket, Raygun, and AppCenter
+- `src/config/`: defaults, validation, merging, and support helpers
+- `src/store/`: core error store state
+- `src/react/`: React error boundary, HOC, hooks, and related exports
+- `src/utils/`: console interception, network interception, enrichment, and shared helpers
+- `src/types/`: config, provider, and error typing
 
-### React Component Development
-- All React components should be functional with TypeScript
-- Use the custom hooks from `src/react/hooks.ts`
-- Error boundaries should use the provided `ErrorBoundary` component
-- Follow React 18+ best practices with proper error handling
+## Working Rules
 
-### Testing Strategy
-- Unit tests for each provider implementation
-- Integration tests for React components
-- Mock native implementations for web testing
-- Use Vitest for all JavaScript/TypeScript tests
+- Keep docs aligned with the actual implemented adapter and React surface. Do not describe the project as “provider implementations not started”.
+- Use `yarn` as the documented workflow.
+- When refreshing package info, update `Readme.md`, this file, and the dated root portfolio info file in the same pass.
+- Preserve the package’s zero-dependency core positioning.
 
-## Important Patterns
+## Root Portfolio File Maintenance Rule
 
-### Error Normalization
-All errors must be normalized through `src/utils/error-normalizer.ts` before being sent to providers. This ensures consistent error format across all platforms.
-
-### Breadcrumb Management
-Breadcrumbs are managed centrally through `src/utils/breadcrumb-manager.ts` with a configurable maximum count.
-
-### Offline Queue
-Errors that occur offline are queued in `src/utils/storage.ts` and retried when connection is restored.
-
-## Current Development Status
-
-The project is organized into 6 development phases:
-- Phase 1: Core Infrastructure - Completed
-- Phase 2: Provider Implementations - Not started
-- Phase 3: React Integration - Not started
-- Phase 4: Advanced Features - Not started
-- Phase 5: Developer Experience - Not started
-- Phase 6: Testing & Documentation - Not started
-
-The next immediate tasks would be to:
-1. Set up the basic Capacitor plugin structure
-2. Implement the base provider abstract class
-3. Start with Firebase Crashlytics integration using capacitor-firebase-kit
-
----
+- Maintain exactly one current root portfolio info file for this package.
+- File naming format: `UNIFIED-ERROR-HANDLING_portfolio-info_YYYY-MM-DD.md`
+- Refresh the portfolio file only after at least 7 days have passed unless a major release or material capability change happens sooner.
+- Keep at most 10 update-history records inside the portfolio file.
+- When the portfolio file changes, update `Readme.md` and this `CLAUDE.md` in the same pass.
 
 ## Package Update History
 
 | Date | Updated By | Notes |
-|------|------------|-------|
+| --- | --- | --- |
+| 2026-03-24 | Codex | Refreshed docs, verified package state, added portfolio maintenance rule |
 | 2026-02-02 | Claude | Full update to latest versions, all checks passing |
-
----
 
 ## Comprehensive Audit Record
 
 | Date | Audit Type | Status | Issues Found | Issues Resolved |
-|------|------------|--------|--------------|-----------------|
+| --- | --- | --- | --- | --- |
+| 2026-03-24 | Portfolio + Docs Refresh | Passed | 0 | 0 |
 | 2026-02-02 | Package Update | Passed | 0 | 0 |
 | 2026-01-23 | Full Audit | Passed | 0 | 0 |
 
 ### Last Audit Details
-- **Package Manager**: yarn confirmed
-- **Dependencies**: Updated to latest (2026-02-02)
-- **Build**: Passes (0 errors)
-- **Lint**: Passes (0 warnings)
-- **TypeScript**: Passes (0 errors)
-- **Features**: Core features complete
-- **TODOs**: None found
-- **SEO**: N/A (npm package)
-- **OG Assets**: N/A (npm package)
 
-### Next Audit Due: 2026-02-09 (7 days from last)
+- Package Manager: yarn confirmed
+- Dependencies: no dependency audit performed in this pass
+- Build: passes
+- TypeScript: passes
+- Tests: passes
+- Features: current adapter and React surface reflected in docs
+
+### Next Audit Due: 2026-03-31

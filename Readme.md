@@ -8,6 +8,32 @@
 
 A lightweight, zero-dependency error handling library with dynamic adapter loading for multiple error tracking services. Works everywhere - browsers, Node.js, React, and more.
 
+## Current State
+
+- Package version: `2.1.1`
+- Verified on: `2026-03-24`
+- Build: `yarn build` succeeds
+- Typecheck: `yarn typecheck` succeeds
+- Tests: `yarn test` passes with 33 tests
+- Root portfolio info file:
+  - `UNIFIED-ERROR-HANDLING_portfolio-info_2026-03-24.md`
+
+## Verified Package Architecture
+
+- `src/adapters/` contains console/custom and third-party tracking adapters.
+- `src/config/` contains defaults, validation, merging, and support helpers.
+- `src/store/` contains the core error store.
+- `src/react/` contains error boundaries, hooks, HOCs, and React-specific exports.
+- `src/utils/` contains enrichment and interception helpers.
+
+## Verification Commands
+
+```bash
+yarn build
+yarn typecheck
+yarn test
+```
+
 ## Features
 
 - 🚀 **Zero Dependencies** - Core library has no dependencies
