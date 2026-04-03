@@ -88,7 +88,7 @@ Each subdirectory has its own `CLAUDE.md` + `AGENTS.md` with domain-specific rul
 
 ## Working Rules
 
-- Keep docs aligned with actual implemented adapter and React surface
+- Keep docs aligned with actual implemented adapter and React surface. Do not describe the project as "provider implementations not started".
 - Use `yarn` as the documented workflow — never npm/pnpm for local work
 - When refreshing package info, update `Readme.md`, this file, and the portfolio info file in the same pass
 - Preserve the package's zero-dependency core positioning
