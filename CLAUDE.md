@@ -122,6 +122,7 @@ Each subdirectory has its own `CLAUDE.md` + `AGENTS.md` with domain-specific rul
 ### Last Audit Details
 
 - Package Manager: yarn confirmed
+- Dependencies: no dependency audit performed in this pass
 - Build: passes
 - TypeScript: passes
 - Tests: passes
