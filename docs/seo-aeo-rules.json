@@ -1,0 +1,3043 @@
+{
+  "metadata": {
+    "title": "Comprehensive SEO & AEO Rules and Guidelines",
+    "version": "1.0.0",
+    "lastUpdated": "2026-04-12",
+    "description": "Complete reference of SEO and AEO (Answer Engine Optimization) rules compiled from Google, Bing, and authoritative third-party sources. Covers technical SEO, on-page optimization, structured data, AI search optimization, and monitoring.",
+    "totalRules": 236,
+    "sources": [
+      "https://developers.google.com/search/docs/fundamentals/seo-starter-guide",
+      "https://developers.google.com/search/docs/fundamentals/how-search-works",
+      "https://developers.google.com/search/docs/fundamentals/creating-helpful-content",
+      "https://developers.google.com/search/docs/fundamentals/get-started",
+      "https://developers.google.com/search/docs/fundamentals/get-started-developers",
+      "https://developers.google.com/search/docs/fundamentals/get-on-google",
+      "https://developers.google.com/search/docs/fundamentals/using-gen-ai-content",
+      "https://developers.google.com/search/docs/appearance",
+      "https://developers.google.com/search/docs/appearance/ai-features",
+      "https://developers.google.com/search/docs/appearance/structured-data/intro-structured-data",
+      "https://developers.google.com/search/docs/appearance/structured-data/sd-policies",
+      "https://developers.google.com/search/docs/appearance/enriched-search-results",
+      "https://developers.google.com/search/docs/appearance/structured-data/generate-structured-data-with-javascript",
+      "https://developers.google.com/search/docs/appearance/publication-dates",
+      "https://developers.google.com/search/docs/appearance/favicon-in-search",
+      "https://developers.google.com/search/docs/appearance/featured-snippets",
+      "https://developers.google.com/search/docs/appearance/flexible-sampling",
+      "https://developers.google.com/search/docs/appearance/google-discover",
+      "https://developers.google.com/search/docs/appearance/google-images",
+      "https://developers.google.com/search/docs/appearance/preferred-sources",
+      "https://developers.google.com/search/docs/appearance/site-names",
+      "https://developers.google.com/search/docs/appearance/sitelinks",
+      "https://developers.google.com/search/docs/appearance/snippet",
+      "https://developers.google.com/search/docs/appearance/title-link",
+      "https://developers.google.com/search/docs/appearance/video",
+      "https://www.bing.com/webmasters/help/webmaster-guidelines-30fba23a",
+      "https://www.bing.com/webmasters/help/marking-up-your-site-with-structured-data-3a93e731",
+      "https://www.bing.com/webmasters/help/404pages-best-practices-1c9f53b3",
+      "https://www.bing.com/webmasters/help/media-rss-mrss-video-feed-specification-350cfabf",
+      "https://www.bing.com/webmasters/help/special-announcement-specifications-5cbd6249",
+      "https://www.bing.com/webmasters/help/link-building-7a3f99b7",
+      "https://www.bing.com/webmasters/help/pubhub-publisher-guidelines-32ce5239",
+      "https://www.bing.com/webmasters/help/block-urls-from-bing-264e560a",
+      "https://www.bing.com/webmasters/help/how-to-verify-bingbot-3905dc26",
+      "https://www.bing.com/webmasters/help/how-to-create-a-robotstxt-file-cb7c31ec",
+      "https://www.bing.com/webmasters/help/robots-meta-tags-and-attributes-that-bing-supports-5198d240",
+      "https://www.bing.com/webmasters/help/first-click-free-implementation-details-c6b0f0b9",
+      "https://www.yotpo.com/blog/full-technical-seo-checklist/",
+      "https://www.incremys.com/en/resources/blog/schema-seo",
+      "https://www.digitalapplied.com/blog/structured-data-seo-2026-rich-results-guide",
+      "https://www.seologist.com/knowledge-sharing/beginners-guide-on-page-seo-2026/",
+      "https://www.w3era.com/blog/seo/technical-seo-complete-guide/",
+      "https://almcorp.com/blog/seo-checklist/",
+      "https://webcraftdev.com/en/blog/seo-2026-complete-guide-website-visibility"
+    ]
+  },
+  "categories": {
+    "title_tags": {
+      "name": "Title Tags",
+      "description": "Rules for HTML <title> elements which appear as the clickable headline in search results. Titles are a strong ranking signal for both Google and Bing.",
+      "rules": [
+        {
+          "id": "title-001",
+          "rule": "Title length under 60-70 characters",
+          "description": "Google truncates titles based on pixel width (roughly 600px on desktop). Bing recommends under 65 characters. Keep titles concise to avoid truncation in SERPs.",
+          "priority": "critical",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Set <title> content to 60 characters max for safety. Use a character counter during content creation. For Bing, aim for under 65 characters.",
+          "validation": "Run a crawl tool (Screaming Frog) to check all page titles. Flag any over 60 characters. Use Google Search Console to see how titles render."
+        },
+        {
+          "id": "title-002",
+          "rule": "Place primary keyword in first part of title",
+          "description": "Front-loading the primary keyword improves relevance signals and ensures visibility even if truncated.",
+          "priority": "high",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Structure titles as: Primary Keyword - Secondary Info | Brand. Example: 'JSON Formatter - Free Online Tool | ZTools' rather than 'ZTools | JSON Formatter Tool'.",
+          "validation": "For each page, verify the target keyword appears within the first 30 characters of the title tag."
+        },
+        {
+          "id": "title-003",
+          "rule": "Each page must have a unique descriptive title",
+          "description": "Duplicate titles confuse search engines about which page to rank. Every page should have a title that uniquely describes its content.",
+          "priority": "critical",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Maintain a title inventory. For dynamic pages, use templates with unique identifiers. Never use the same title for multiple URLs.",
+          "validation": "Crawl the site and export all title tags. Sort and check for duplicates. Google Search Console reports duplicate titles under 'Page indexing'."
+        },
+        {
+          "id": "title-004",
+          "rule": "Title must match visible H1/primary heading",
+          "description": "The title tag and H1 should reinforce each other. They don't need to be identical but should convey the same topic.",
+          "priority": "high",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "When setting page titles, ensure the H1 covers the same primary topic. Core keyword/topic must align.",
+          "validation": "For each page, compare <title> with <h1>. Flag pages where primary keyword differs between them."
+        },
+        {
+          "id": "title-005",
+          "rule": "Include brand name with delimiter",
+          "description": "Including brand name builds recognition and trust. Use dash, pipe, or colon as delimiter.",
+          "priority": "medium",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Use consistent pattern: 'Page Topic - Brand Name' or 'Page Topic | Brand Name'. Brand at end for most pages.",
+          "validation": "Check all titles follow chosen brand delimiter pattern. Verify consistency."
+        },
+        {
+          "id": "title-006",
+          "rule": "No keyword stuffing or repeated words in titles",
+          "description": "Repeating keywords looks spammy and can trigger Google to rewrite the title or demote the page.",
+          "priority": "high",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Use each keyword once. Avoid 'Free JSON Formatter | JSON Format | JSON Formatting Tool'. Instead: 'Free JSON Formatter - Format & Validate JSON | ZTools'.",
+          "validation": "Review titles for repeated words. No word should appear more than twice. Use a script to flag repetitive titles."
+        },
+        {
+          "id": "title-007",
+          "rule": "No vague or generic titles",
+          "description": "Titles like 'Home', 'Profile', 'Page 1' provide no ranking signal and poor UX.",
+          "priority": "high",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Every page must have descriptive title. Homepage: 'ZTools - 500+ Free Online Developer Tools'. Profile: 'Your Profile Settings | ZTools'.",
+          "validation": "Crawl and flag generic titles (Home, Untitled, Page, Profile without context)."
+        },
+        {
+          "id": "title-008",
+          "rule": "Avoid boilerplate text repeated across pages",
+          "description": "Same long boilerplate in every title wastes characters and makes pages look identical in SERPs.",
+          "priority": "medium",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Keep shared text minimal (just brand). Rest should be page-specific. Avoid 'MyBrand - The Best Tool Platform - [Page Name]' on every page.",
+          "validation": "Extract titles and check boilerplate percentage. Should be under 30%."
+        },
+        {
+          "id": "title-009",
+          "rule": "Title language must match page content language",
+          "description": "Mismatched languages confuse search engines about target audience.",
+          "priority": "medium",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Set title in same language as primary content. Multilingual sites need properly translated titles.",
+          "validation": "Verify title language matches lang attribute and body content."
+        },
+        {
+          "id": "title-010",
+          "rule": "Google may rewrite titles if issues detected",
+          "description": "Google algorithmically rewrites titles it considers too long, stuffed, inaccurate, or boilerplate-heavy.",
+          "priority": "medium",
+          "applies_to": [
+            "google"
+          ],
+          "implementation": "Follow all title rules. If Google rewrites, check: too long? Matches H1? Keyword-stuffed? Fix underlying issue.",
+          "validation": "Compare titles in GSC (Search Results > Pages) with actual <title> tags. Investigate discrepancies."
+        }
+      ]
+    },
+    "meta_descriptions": {
+      "name": "Meta Descriptions",
+      "description": "Rules for meta description tags that provide page summaries for search engine result snippets.",
+      "rules": [
+        {
+          "id": "meta-001",
+          "rule": "Keep between 25-160 characters",
+          "description": "Google truncates based on device width. Stay within 155-160 for desktop, core message in first 120 for mobile.",
+          "priority": "high",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Write descriptions 120-155 characters. Front-load important information. Include call-to-action.",
+          "validation": "Crawl all pages. Flag under 25 (too short) or over 160 (truncated)."
+        },
+        {
+          "id": "meta-002",
+          "rule": "Write unique descriptions for each page",
+          "description": "Duplicate descriptions waste opportunity to differentiate pages in results.",
+          "priority": "high",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Create unique description for every indexable page. Use templates with variables for dynamic pages.",
+          "validation": "Export all descriptions. Sort and check for duplicates. GSC flags duplicates."
+        },
+        {
+          "id": "meta-003",
+          "rule": "Include page-specific details",
+          "description": "For articles: author/date. For products: price. For tools: what it does. Specifics increase CTR.",
+          "priority": "medium",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Articles: 'By [Author] - [Date]. [Summary].' Tools: 'Free online [tool]. [What it does] instantly.'",
+          "validation": "Review descriptions per content type. Verify appropriate details included."
+        },
+        {
+          "id": "meta-004",
+          "rule": "Must be truly descriptive and human-readable",
+          "description": "Descriptions should read as natural sentences. They serve as ad copy in search results.",
+          "priority": "high",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Write 1-2 complete sentences. Include primary keyword naturally. Add value proposition or CTA.",
+          "validation": "Read aloud. Should sound natural and compelling. Flag keyword lists or incoherent descriptions."
+        },
+        {
+          "id": "meta-005",
+          "rule": "No keyword lists without explanation",
+          "description": "Comma-separated keyword lists may cause Google to ignore your description entirely.",
+          "priority": "high",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Instead of 'JSON formatter, JSON validator, JSON beautifier', write 'Format, validate, and beautify JSON with our free online tool.'",
+          "validation": "Check for 3+ comma-separated keywords without sentence structure. Rewrite."
+        },
+        {
+          "id": "meta-006",
+          "rule": "Google does NOT use meta keywords tag for ranking",
+          "description": "The <meta name='keywords'> tag has been ignored by Google since 2009 and Bing since 2014.",
+          "priority": "low",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Don't waste time on meta keywords tags. Focus on title and description.",
+          "validation": "Optional: check if meta keywords exist. Harmless but unnecessary."
+        },
+        {
+          "id": "meta-007",
+          "rule": "Use nosnippet/max-snippet to control snippets",
+          "description": "Prevent or limit snippet display with meta robots directives.",
+          "priority": "low",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Prevent: <meta name='robots' content='nosnippet'>. Limit: content='max-snippet:150'>. Exclude sections: data-nosnippet attribute.",
+          "validation": "Check snippet directives. Verify intentional, not accidentally blocking important pages."
+        }
+      ]
+    },
+    "headings_structure": {
+      "name": "Headings Structure",
+      "description": "Rules for HTML heading elements (H1-H6) that define content hierarchy and help search engines understand page structure.",
+      "rules": [
+        {
+          "id": "heading-001",
+          "rule": "One H1 per page as main topic indicator",
+          "description": "Best practice is one H1 per page clearly stating the primary topic.",
+          "priority": "critical",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Every page: exactly one <h1>. First heading, describes main topic.",
+          "validation": "Crawl and count H1s per page. Flag 0 or 2+ H1 tags."
+        },
+        {
+          "id": "heading-001b",
+          "rule": "Check UI library Heading defaults — Radix UI defaults to h1",
+          "description": "Radix UI Themes Heading component defaults to as='h1' when no as prop is specified. This silently creates multiple H1 tags. Always use as='h2' or as='h3' for non-primary headings. Same issue may apply to other component libraries.",
+          "priority": "critical",
+          "applies_to": ["all"],
+          "implementation": "Every <Heading> without as='h1' must explicitly set as='h2' or as='h3'. Only the page's primary heading should be as='h1'.",
+          "validation": "grep '<Heading' src/ | grep -v 'as=' to find implicit H1s. Crawl pages and count rendered <h1> elements."
+        },
+        {
+          "id": "heading-002",
+          "rule": "H1 must be visible, not hidden with CSS",
+          "description": "Hiding H1 with display:none, visibility:hidden, font-size:0 is considered deceptive.",
+          "priority": "high",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "H1 must be visually rendered. Redesign if needed rather than hiding. sr-only/clip for accessibility is acceptable.",
+          "validation": "Inspect H1 for hiding CSS properties. Only sr-only/clip acceptable."
+        },
+        {
+          "id": "heading-003",
+          "rule": "Use H2s for major subtopics",
+          "description": "H2 headings break the page into major sections under H1.",
+          "priority": "high",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Under H1, use H2 for each major section. Each H2 introduces distinct subtopic.",
+          "validation": "Review page outlines. Each H2 should represent meaningful subtopic."
+        },
+        {
+          "id": "heading-004",
+          "rule": "Semantic H1-H6 hierarchy for structure not styling",
+          "description": "Headings for document structure, not visual styling. Use CSS for sizing.",
+          "priority": "high",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Follow logical hierarchy: H1>H2>H3>H4. Don't skip levels. Don't use headings for styling.",
+          "validation": "Extract heading outline. Verify no skipped levels. Check headings aren't purely for styling."
+        },
+        {
+          "id": "heading-005",
+          "rule": "Heading hierarchy shows parent-child relationships",
+          "description": "Nesting communicates topic relationships. Content under H3 is subtopic of preceding H2.",
+          "priority": "medium",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Treat headings like outline: H1=title, H2=chapters, H3=sections within chapters.",
+          "validation": "Generate heading outline. Verify it reads logically as table of contents."
+        },
+        {
+          "id": "heading-006",
+          "rule": "No penalty for order violations but best practice",
+          "description": "Google confirmed no ranking penalty for heading order violations. Proper order still best practice.",
+          "priority": "medium",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Always aim for proper order. Fix legacy issues but don't panic.",
+          "validation": "Use HTML validator to flag out-of-order headings. Fix on high-traffic pages."
+        },
+        {
+          "id": "heading-007",
+          "rule": "H1 content should match and reinforce title tag",
+          "description": "H1 and title should convey same primary topic. Core message must align.",
+          "priority": "high",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "If title is 'JSON Formatter - Free Tool | ZTools', H1 should be 'JSON Formatter' or similar.",
+          "validation": "Compare title and H1 per page. Primary keyword should match."
+        }
+      ]
+    },
+    "content_quality": {
+      "name": "Content Quality",
+      "description": "Rules for creating high-quality, helpful content satisfying users and search engine quality guidelines.",
+      "rules": [
+        {
+          "id": "content-001",
+          "rule": "Original, helpful, people-first content",
+          "description": "Google's Helpful Content system rewards content created primarily to help people.",
+          "priority": "critical",
+          "applies_to": [
+            "google",
+            "bing",
+            "ai_engines"
+          ],
+          "implementation": "Ask: 'Would someone find this useful regardless of search engines?' Write from genuine expertise. Add unique insights.",
+          "validation": "Review against Google's helpful content questions: substantial value? Expert-written? Goes beyond obvious?"
+        },
+        {
+          "id": "content-002",
+          "rule": "E-E-A-T: Experience, Expertise, Authoritativeness, Trustworthiness",
+          "description": "Google evaluates content on creator's Experience, Expertise, Authoritativeness, and Trustworthiness. YMYL requires high E-E-A-T.",
+          "priority": "critical",
+          "applies_to": [
+            "google",
+            "bing",
+            "ai_engines"
+          ],
+          "implementation": "Show credentials: author bios. Demonstrate experience: first-hand accounts. Build authority: cite sources. Build trust: accurate info, HTTPS.",
+          "validation": "Check: author identified? Credentials shown? Experience demonstrated? Claims sourced? HTTPS? About page?"
+        },
+        {
+          "id": "content-003",
+          "rule": "No keyword stuffing",
+          "description": "Unnaturally repeating keywords is a spam signal. Write naturally for humans.",
+          "priority": "critical",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Use primary keyword 2-3 times naturally. Use synonyms. If awkward, rewrite naturally.",
+          "validation": "Calculate density (<2-3%). Read aloud. Check alt text and meta data."
+        },
+        {
+          "id": "content-004",
+          "rule": "No copied or scraped content",
+          "description": "Duplicating content from other sites provides no unique value. Spam policies target this.",
+          "priority": "critical",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "All content must be original. Add substantial original analysis if referencing sources. Never copy-paste.",
+          "validation": "Use Copyscape. Check GSC for manual actions related to copied content."
+        },
+        {
+          "id": "content-005",
+          "rule": "Keep content current and updated",
+          "description": "Outdated content loses relevance. Regular updates signal freshness.",
+          "priority": "high",
+          "applies_to": [
+            "google",
+            "bing",
+            "ai_engines"
+          ],
+          "implementation": "Review quarterly. Update statistics, check links, refresh examples. Show 'Last updated' dates.",
+          "validation": "Track update dates. Flag content not updated in 6+ months."
+        },
+        {
+          "id": "content-006",
+          "rule": "Short paragraphs, bullet lists, tables",
+          "description": "Well-structured content improves readability and featured snippet/AI citation chances.",
+          "priority": "high",
+          "applies_to": [
+            "google",
+            "bing",
+            "ai_engines"
+          ],
+          "implementation": "2-3 sentence paragraphs. Bullet lists for features/steps. Tables for comparisons. Bold key terms. Subheadings every 200-300 words.",
+          "validation": "Check paragraph length (<4 sentences). Verify lists/tables where appropriate."
+        },
+        {
+          "id": "content-007",
+          "rule": "BLUF - Bottom Line Up Front",
+          "description": "Core answer in first paragraph satisfies quick answers and increases AI citation.",
+          "priority": "high",
+          "applies_to": [
+            "google",
+            "bing",
+            "ai_engines"
+          ],
+          "implementation": "Start with direct answer. For 'What is JSON?', start with definition before history.",
+          "validation": "Check if first paragraph directly addresses primary topic. Key info in first paragraph?"
+        },
+        {
+          "id": "content-008",
+          "rule": "Include author bios with credentials",
+          "description": "Visible author information builds E-E-A-T signals.",
+          "priority": "medium",
+          "applies_to": [
+            "google",
+            "bing",
+            "ai_engines"
+          ],
+          "implementation": "Add author section: name, photo, role, qualifications, links. Use Person schema.",
+          "validation": "Check articles have visible author info with credentials. Check for Person schema."
+        },
+        {
+          "id": "content-009",
+          "rule": "No artificial freshness signals",
+          "description": "Changing dates without updating content is deceptive. Google detects this.",
+          "priority": "high",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Only update dateModified with substantive changes. Keep changelog.",
+          "validation": "Compare dateModified changes with actual content diffs."
+        },
+        {
+          "id": "content-010",
+          "rule": "Depth over volume",
+          "description": "10 comprehensive 2000-word articles outperform 50 shallow 500-word articles.",
+          "priority": "high",
+          "applies_to": [
+            "google",
+            "bing",
+            "ai_engines"
+          ],
+          "implementation": "Aim to be most comprehensive resource. Cover all aspects, answer questions, include examples and data.",
+          "validation": "Compare depth with top-ranking competitors. Should cover equal or more subtopics."
+        },
+        {
+          "id": "content-011",
+          "rule": "Primary keyword in first 100 words",
+          "description": "Including primary keyword early confirms topic. Reinforces title and H1 signals.",
+          "priority": "medium",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Include keyword in first 100 words naturally. Should happen organically with BLUF.",
+          "validation": "Check if target keyword appears in first 100 words."
+        }
+      ]
+    },
+    "urls": {
+      "name": "URL Structure",
+      "description": "Rules for clean, descriptive URLs that help users and search engines understand page content.",
+      "rules": [
+        {
+          "id": "url-001",
+          "rule": "Use descriptive, human-readable URLs",
+          "description": "URLs should be readable and give clear idea of page content. Avoid query strings, random IDs.",
+          "priority": "high",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Use /tools/json-formatter not /tool?id=47. Include keywords. Lowercase only.",
+          "validation": "Review sitemap URLs. Flag query parameters, random IDs, non-descriptive segments."
+        },
+        {
+          "id": "url-002",
+          "rule": "Hyphens not underscores in URLs",
+          "description": "Google treats hyphens as word separators, underscores as joiners. 'json-formatter' = two words.",
+          "priority": "high",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Always hyphens (-). Never underscores (_), spaces (%20), or camelCase.",
+          "validation": "Crawl URLs. Flag underscores or spaces. Set up redirects if both versions exist."
+        },
+        {
+          "id": "url-003",
+          "rule": "Keep URLs short and keyword-rich",
+          "description": "Shorter URLs are easier to share and display. Include primary keyword.",
+          "priority": "medium",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "3-5 words in path. Remove stop words. /blog/json-guide not /blog/the-complete-guide-to-json-formatting-in-2026.",
+          "validation": "Flag URLs over 75 characters in path."
+        },
+        {
+          "id": "url-004",
+          "rule": "Group topically similar pages in directories",
+          "description": "Logical directory structure helps search engines understand site organization.",
+          "priority": "medium",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Group: /tools/json/formatter, /tools/json/validator. Consistent directory naming.",
+          "validation": "Review URL hierarchy. Similar content should share parent directories."
+        },
+        {
+          "id": "url-005",
+          "rule": "Keywords in domain/path have minimal ranking effect",
+          "description": "Google confirmed keywords in URL have minimal direct ranking effect.",
+          "priority": "low",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Choose domains for brand identity, not keyword matching. Include keywords in paths for user clarity.",
+          "validation": "Informational - don't over-optimize URLs for keywords."
+        }
+      ]
+    },
+    "images": {
+      "name": "Image Optimization",
+      "description": "Rules for optimizing images for search discovery, performance, and visual search results.",
+      "rules": [
+        {
+          "id": "img-001",
+          "rule": "Short, descriptive filenames",
+          "description": "Filenames are signals for image understanding. Describe content with keywords.",
+          "priority": "medium",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Use 'json-formatter-screenshot.webp' not 'IMG_20260412_001.jpg'. Hyphens, 3-5 words.",
+          "validation": "Flag generic camera names (IMG_, DSC_, Screenshot_) or random strings."
+        },
+        {
+          "id": "img-002",
+          "rule": "Alt text describes image purpose in context",
+          "description": "Alt text should describe function on page, not just appearance. No keyword stuffing.",
+          "priority": "high",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Describe what image shows AND why it's there. 'JSON Formatter showing formatted output' not 'json formatter free online json'.",
+          "validation": "Flag missing alt, keyword-stuffed alt (5+ keywords), or generic alt ('image', 'photo')."
+        },
+        {
+          "id": "img-003",
+          "rule": "Decorative images use empty alt",
+          "description": "Purely decorative images should have alt='' to be skipped by screen readers.",
+          "priority": "medium",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "<img src='divider.svg' alt='' role='presentation'>. Not alt='decorative image'.",
+          "validation": "Review decorative images for empty alt attribute."
+        },
+        {
+          "id": "img-004",
+          "rule": "Compress images and serve in modern formats",
+          "description": "Large images slow load, hurting Core Web Vitals. Use WebP/AVIF.",
+          "priority": "high",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Convert to WebP/AVIF. Use <picture> with fallbacks. Compress to 80-85% quality. Use srcset.",
+          "validation": "Flag JPEG/PNG that could be WebP/AVIF. Photos over 200KB need investigation. Run Lighthouse."
+        },
+        {
+          "id": "img-005",
+          "rule": "Set explicit width and height to prevent CLS",
+          "description": "Without dimensions, images cause layout shift hurting CLS scores.",
+          "priority": "high",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Add width and height to every <img>. CSS aspect-ratio as alternative.",
+          "validation": "Flag <img> missing width/height. Run Lighthouse CLS audit."
+        },
+        {
+          "id": "img-006",
+          "rule": "Use fetchpriority='high' on LCP image",
+          "description": "LCP image should be prioritized. fetchpriority tells browser to load first.",
+          "priority": "high",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Identify LCP element. Add fetchpriority='high'. Ensure not lazy-loaded.",
+          "validation": "Use Lighthouse to identify LCP. Verify fetchpriority='high' and no loading='lazy'."
+        },
+        {
+          "id": "img-007",
+          "rule": "Responsive images with max-width 100%",
+          "description": "Images must not overflow containers on mobile.",
+          "priority": "high",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "CSS: img { max-width: 100%; height: auto; }. Use srcset and sizes for responsive serving.",
+          "validation": "Test at 320px. No horizontal scroll from images."
+        },
+        {
+          "id": "img-008",
+          "rule": "Google does NOT index CSS background images",
+          "description": "Only <img> with src are indexed. CSS background-image is not discoverable.",
+          "priority": "medium",
+          "applies_to": [
+            "google"
+          ],
+          "implementation": "For indexable images, use <img> not CSS background-image.",
+          "validation": "Check if important images use CSS backgrounds. Convert to <img> if needed."
+        },
+        {
+          "id": "img-009",
+          "rule": "Use image sitemaps for hard-to-discover images",
+          "description": "JS-loaded or behind-interaction images may need image sitemap.",
+          "priority": "low",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Add <image:image> in sitemap entries. Include URL, caption, title, license.",
+          "validation": "Verify important images in Google Images results. Add to sitemap if missing."
+        }
+      ]
+    },
+    "structured_data": {
+      "name": "Structured Data / Schema.org",
+      "description": "Rules for structured data markup enabling rich results and helping AI systems understand page content.",
+      "rules": [
+        {
+          "id": "schema-001",
+          "rule": "JSON-LD is the preferred format",
+          "description": "Google recommends JSON-LD over Microdata or RDFa. Easier to implement and maintain.",
+          "priority": "critical",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Add as <script type='application/ld+json'> in <head> or <body>. Don't use Microdata/RDFa for new implementations.",
+          "validation": "Check all structured data uses JSON-LD. Test with Rich Results Test and Schema.org Validator."
+        },
+        {
+          "id": "schema-002",
+          "rule": "Embed in head or body as script tag",
+          "description": "JSON-LD can be placed anywhere in HTML. <head> preferred for clarity.",
+          "priority": "high",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Place in <head> for consistency. For SPAs, ensure present in server-rendered HTML.",
+          "validation": "View page source (not DevTools) to confirm structured data in initial HTML."
+        },
+        {
+          "id": "schema-003",
+          "rule": "Must match visible page content exactly",
+          "description": "Structured data must accurately represent visible content. Violations result in manual actions.",
+          "priority": "critical",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Every property should correspond to visible content. Rating 4.8 must be displayed. Price must be visible.",
+          "validation": "Compare structured data properties with visible content. Flag mismatches."
+        },
+        {
+          "id": "schema-004",
+          "rule": "Only mark up genuinely present content",
+          "description": "Don't add schema for non-existent content types on the page.",
+          "priority": "critical",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Audit each page's schema against actual content. Remove speculative markup.",
+          "validation": "For each schema type, verify corresponding content exists and is visible."
+        },
+        {
+          "id": "schema-005",
+          "rule": "Use the most specific Schema.org type",
+          "description": "Use most specific type in hierarchy. SoftwareApplication not Thing. BlogPosting not Article.",
+          "priority": "high",
+          "applies_to": [
+            "google",
+            "bing",
+            "ai_engines"
+          ],
+          "implementation": "Check Schema.org hierarchy. Tools: SoftwareApplication. Blog: BlogPosting. Docs: TechArticle.",
+          "validation": "Review @type properties. Check for more specific subtypes."
+        },
+        {
+          "id": "schema-006",
+          "rule": "Required schema types for key pages",
+          "description": "Homepage: WebSite+SearchAction+Organization. Interior: BreadcrumbList. Tools: SoftwareApplication. Blog: BlogPosting.",
+          "priority": "critical",
+          "applies_to": [
+            "google",
+            "bing",
+            "ai_engines"
+          ],
+          "implementation": "Homepage: WebSite with SearchAction + Organization. All interior: BreadcrumbList. Tools: SoftwareApplication. Blog: BlogPosting with author, dates.",
+          "validation": "Checklist per page type. Verify with Rich Results Test."
+        },
+        {
+          "id": "schema-007",
+          "rule": "Use stable @id values to connect entities",
+          "description": "Use @id identifiers referenced across structured data to build knowledge graph.",
+          "priority": "high",
+          "applies_to": [
+            "google",
+            "bing",
+            "ai_engines"
+          ],
+          "implementation": "URL-based @id: Organization @id: 'https://example.com/#organization'. Reference: 'publisher': {'@id': '...'}.",
+          "validation": "Check @id consistency across pages. Verify cross-references match."
+        },
+        {
+          "id": "schema-008",
+          "rule": "AggregateRating only if genuinely displayed",
+          "description": "Only add if real user ratings displayed. Fake ratings result in penalties.",
+          "priority": "critical",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Only add if: real rating system, actual users, displayed on page, accurate values.",
+          "validation": "For every AggregateRating, verify rating visually displayed and matches values."
+        },
+        {
+          "id": "schema-009",
+          "rule": "Validate with Rich Results Test and Schema.org Validator",
+          "description": "Always validate before deploying. Both tools catch different issues.",
+          "priority": "high",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Test with: Rich Results Test, Schema.org Validator, Bing Markup Validator. Fix all errors.",
+          "validation": "Run both validators on representative pages. Zero errors required."
+        },
+        {
+          "id": "schema-010",
+          "rule": "FAQPage restricted since late 2023",
+          "description": "Google restricted FAQPage rich results to government/health sites in August 2023.",
+          "priority": "medium",
+          "applies_to": [
+            "google"
+          ],
+          "implementation": "Don't rely on FAQPage for rich results. Keep for AI/semantic purposes or remove.",
+          "validation": "If FAQPage exists, understand no rich results. Keep for AI or remove."
+        },
+        {
+          "id": "schema-011",
+          "rule": "HowTo rich results deprecated since September 2023",
+          "description": "HowTo no longer produces visual rich results in Google.",
+          "priority": "medium",
+          "applies_to": [
+            "google"
+          ],
+          "implementation": "Don't add HowTo expecting rich results. Keep for semantic value or remove.",
+          "validation": "Check for HowTo schema. Decide: keep for semantic value or remove."
+        },
+        {
+          "id": "schema-012",
+          "rule": "Structured data enables rich results, not direct ranking boost",
+          "description": "Doesn't directly boost rankings. Enables rich results improving CTR ~35%.",
+          "priority": "medium",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Implement for rich result benefits and AI understanding, not as ranking factor.",
+          "validation": "Monitor rich results in GSC Enhancements. Track CTR changes."
+        },
+        {
+          "id": "schema-013",
+          "rule": "~35% higher CTR with proper structured data",
+          "description": "Pages with rich results have ~35% higher click-through rates.",
+          "priority": "medium",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Prioritize types producing visible rich results: Product, Article, BreadcrumbList, SoftwareApplication.",
+          "validation": "Compare CTR for pages with/without rich results in GSC."
+        }
+      ]
+    },
+    "robots_txt": {
+      "name": "Robots.txt",
+      "description": "Rules for the robots.txt file controlling search engine crawler access.",
+      "rules": [
+        {
+          "id": "robots-001",
+          "rule": "Place at root as /robots.txt",
+          "description": "Must be at domain root, case-sensitive, lowercase, UTF-8 encoded.",
+          "priority": "critical",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Create at web root. Serve with text/plain. UTF-8 encoding.",
+          "validation": "Access /robots.txt in browser. Verify 200 status and text/plain content type."
+        },
+        {
+          "id": "robots-002",
+          "rule": "Controls crawling, NOT indexing",
+          "description": "Controls whether bots crawl pages. Does NOT prevent indexing. Use noindex for that.",
+          "priority": "critical",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Prevent crawling: robots.txt Disallow. Prevent indexing: <meta noindex>. Don't block AND noindex (bot can't see noindex if blocked).",
+          "validation": "Check if blocked pages still appear in results. If so, need noindex instead."
+        },
+        {
+          "id": "robots-003",
+          "rule": "Include Sitemap directive with absolute URL",
+          "description": "Sitemap directive tells bots where to find your sitemap.",
+          "priority": "high",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Add: Sitemap: https://yourdomain.com/sitemap.xml. Absolute URL with HTTPS.",
+          "validation": "Check for Sitemap directive. Verify absolute URL. Access sitemap URL."
+        },
+        {
+          "id": "robots-004",
+          "rule": "Never block CSS/JS files needed for rendering",
+          "description": "Bots need to render pages. Blocking CSS/JS prevents proper rendering.",
+          "priority": "critical",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Don't Disallow /static/, /assets/, /css/, /js/. Be specific if blocking.",
+          "validation": "Use URL Inspection to check rendering. If different from user view, check robots.txt."
+        },
+        {
+          "id": "robots-005",
+          "rule": "Bing supports Crawl-delay directive",
+          "description": "Bing respects Crawl-delay. Google does NOT (use Search Console).",
+          "priority": "low",
+          "applies_to": [
+            "bing"
+          ],
+          "implementation": "For Bing: User-agent: Bingbot / Crawl-delay: 5. Only if server load is issue.",
+          "validation": "Check Crawl-delay in robots.txt. Verify under Bing-specific block."
+        },
+        {
+          "id": "robots-006",
+          "rule": "Pattern matching with wildcards",
+          "description": "Supports * (any chars) and $ (end of URL) for precise blocking.",
+          "priority": "medium",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Block PDFs: /*.pdf$. Block params: /*?sort=. Block patterns: /admin/*.",
+          "validation": "Test patterns with robots.txt testers. Verify matches."
+        },
+        {
+          "id": "robots-007",
+          "rule": "Test with robots.txt testers before deploying",
+          "description": "Misconfigured robots.txt can block important pages.",
+          "priority": "high",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Use GSC and Bing Webmaster Tools testers. Test critical URLs.",
+          "validation": "After changes, test: homepage, landing pages, sitemap, CSS/JS files."
+        }
+      ]
+    },
+    "meta_robots": {
+      "name": "Meta Robots Tags",
+      "description": "Rules for meta robots tags and X-Robots-Tag HTTP header controlling indexing and snippet behavior.",
+      "rules": [
+        {
+          "id": "metarobots-001",
+          "rule": "Default is index, follow",
+          "description": "No tag needed for default behavior. Only add to change defaults.",
+          "priority": "medium",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Don't add redundant 'index, follow'. Only add when changing default.",
+          "validation": "Remove any 'index, follow' only tags."
+        },
+        {
+          "id": "metarobots-002",
+          "rule": "noindex prevents page indexing",
+          "description": "Tells search engines not to include page in index. Crawler must access page to see it.",
+          "priority": "high",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Apply to: admin, thank-you, internal search, staging, user-specific pages. Don't block in robots.txt AND noindex.",
+          "validation": "Search site:yourdomain.com for noindex pages appearing. Monitor GSC."
+        },
+        {
+          "id": "metarobots-003",
+          "rule": "nofollow prevents following links",
+          "description": "Tells bots not to follow or pass signals through links. Use sparingly.",
+          "priority": "medium",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Use for untrusted/UGC pages. For individual links, use rel='nofollow' on <a> tag.",
+          "validation": "Review pages with nofollow. Ensure intentional."
+        },
+        {
+          "id": "metarobots-004",
+          "rule": "noarchive/nocache prevents cached copies",
+          "description": "Prevents cached copy display. Bing: 'nocache', Google: 'noarchive'.",
+          "priority": "low",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Use for rapidly changing or privacy-sensitive content.",
+          "validation": "Check important pages don't have unneeded noarchive/nocache."
+        },
+        {
+          "id": "metarobots-005",
+          "rule": "nosnippet prevents text snippets",
+          "description": "Page appears with only title and URL. Generally not recommended.",
+          "priority": "low",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Use only with specific reason. Snippets help CTR.",
+          "validation": "Verify nosnippet is intentional on affected pages."
+        },
+        {
+          "id": "metarobots-006",
+          "rule": "max-snippet limits snippet length",
+          "description": "Limits text snippet to N characters. -1 for no limit, 0 for none.",
+          "priority": "low",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "<meta name='robots' content='max-snippet:150'>.",
+          "validation": "If set, verify allows enough text (100+ chars)."
+        },
+        {
+          "id": "metarobots-007",
+          "rule": "max-image-preview controls image preview size",
+          "description": "Options: none, standard, large. 'large' required for Discover.",
+          "priority": "medium",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Use 'large' for most pages for best visual presentation.",
+          "validation": "Check content pages have max-image-preview:large."
+        },
+        {
+          "id": "metarobots-008",
+          "rule": "max-video-preview limits video preview duration",
+          "description": "Controls preview duration in seconds. -1 for no limit.",
+          "priority": "low",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Set to -1 (no limit) recommended.",
+          "validation": "If video, verify allows sufficient preview."
+        },
+        {
+          "id": "metarobots-009",
+          "rule": "data-nosnippet excludes specific sections",
+          "description": "HTML attribute excluding elements from snippets while allowing rest.",
+          "priority": "low",
+          "applies_to": [
+            "google"
+          ],
+          "implementation": "<div data-nosnippet>Excluded content</div>.",
+          "validation": "Verify data-nosnippet on correct elements only."
+        },
+        {
+          "id": "metarobots-010",
+          "rule": "X-Robots-Tag HTTP header for non-HTML files",
+          "description": "Applies directives to PDFs, images, videos via HTTP header.",
+          "priority": "medium",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Set in server config. Example: X-Robots-Tag: noindex.",
+          "validation": "Check HTTP headers of non-HTML resources."
+        },
+        {
+          "id": "metarobots-011",
+          "rule": "Bot must crawl page to see meta robots",
+          "description": "If blocked by robots.txt, bot can't see meta directives.",
+          "priority": "high",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Don't combine robots.txt blocking with noindex. Allow crawling for noindex to work.",
+          "validation": "Cross-reference blocked URLs with noindex pages. Flag overlaps."
+        },
+        {
+          "id": "metarobots-012",
+          "rule": "More restrictive directive wins when conflicting",
+          "description": "If index and noindex from different sources, noindex wins.",
+          "priority": "medium",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Avoid conflicting directives across meta tags, HTTP headers, robots.txt.",
+          "validation": "Check all directive sources for conflicts."
+        }
+      ]
+    },
+    "sitemap_xml": {
+      "name": "XML Sitemap",
+      "description": "Rules for creating and maintaining XML sitemaps for URL discovery.",
+      "rules": [
+        {
+          "id": "sitemap-001",
+          "rule": "Include only canonical, indexable URLs",
+          "description": "Only URLs returning 200, self-canonical, and indexable. No bad URLs.",
+          "priority": "critical",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Filter: 200 OK, self-canonical, no noindex. Exclude redirects, 404s, noindex, non-canonical.",
+          "validation": "Crawl sitemap URLs. Flag non-200, noindex, or non-canonical."
+        },
+        {
+          "id": "sitemap-002",
+          "rule": "No noindex, redirect, or blocked pages",
+          "description": "Including these contradicts their directives.",
+          "priority": "high",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Filter out noindex, redirecting, and robots.txt-blocked pages.",
+          "validation": "Cross-reference sitemap with noindex, redirects, robots.txt blocks."
+        },
+        {
+          "id": "sitemap-003",
+          "rule": "Split at 50,000 URLs per file",
+          "description": "Max 50,000 URLs and 50MB uncompressed per file.",
+          "priority": "medium",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Use sitemap index for larger sites.",
+          "validation": "Check file size (<50MB) and URL count (<50,000)."
+        },
+        {
+          "id": "sitemap-004",
+          "rule": "Accurate lastmod dates",
+          "description": "Reflect actual content changes. Don't auto-set to today.",
+          "priority": "high",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Track real modification dates. ISO 8601 format.",
+          "validation": "Check dates against actual changes. Flag identical dates."
+        },
+        {
+          "id": "sitemap-005",
+          "rule": "Submit in GSC and Bing Webmaster Tools",
+          "description": "Explicit submission ensures discovery and feedback.",
+          "priority": "high",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Submit in both tools. Re-submit after major changes.",
+          "validation": "Verify submitted and processed. Check for errors."
+        },
+        {
+          "id": "sitemap-006",
+          "rule": "Reference in robots.txt",
+          "description": "Sitemap directive with absolute URL.",
+          "priority": "high",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Add: Sitemap: https://yourdomain.com/sitemap.xml",
+          "validation": "Check robots.txt for Sitemap directive."
+        },
+        {
+          "id": "sitemap-007",
+          "rule": "Update when pages added, removed, or changed",
+          "description": "Keep sitemap current with live content.",
+          "priority": "high",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Automate generation in build process.",
+          "validation": "Compare sitemap with actual site URLs."
+        }
+      ]
+    },
+    "canonicalization": {
+      "name": "Canonicalization",
+      "description": "Rules for canonical URLs preventing duplicate content and consolidating ranking signals.",
+      "rules": [
+        {
+          "id": "canon-001",
+          "rule": "Every indexable page should have self-referencing canonical",
+          "description": "Confirms preferred URL version. Prevents parameter/trailing slash issues.",
+          "priority": "critical",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Add <link rel='canonical' href='...'> pointing to own clean URL on every page.",
+          "validation": "Crawl for missing canonical tags. Verify self-referencing correctness."
+        },
+        {
+          "id": "canon-002",
+          "rule": "Use rel='canonical' for duplicate content",
+          "description": "Point all duplicate versions to preferred URL.",
+          "priority": "high",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Identify duplicates (/page and /page?ref=email). Point duplicate to preferred.",
+          "validation": "Verify duplicate groups all point to same canonical."
+        },
+        {
+          "id": "canon-003",
+          "rule": "Never point canonical to noindex page",
+          "description": "Contradictory signals: canonical says index, noindex says don't.",
+          "priority": "high",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Audit canonical targets. None should have noindex.",
+          "validation": "Crawl canonical targets. Check for noindex."
+        },
+        {
+          "id": "canon-004",
+          "rule": "Never point canonical to a redirect",
+          "description": "Should point to final destination, not redirecting URL.",
+          "priority": "high",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Canonical URLs must resolve with 200, not 301/302.",
+          "validation": "Check HTTP status of canonical targets. Flag redirects."
+        },
+        {
+          "id": "canon-005",
+          "rule": "Only one canonical tag per page",
+          "description": "Multiple canonicals create ambiguity. May all be ignored.",
+          "priority": "high",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Check for duplicates from CMS plugins or template layering.",
+          "validation": "Parse rendered HTML. Count canonicals. Flag >1."
+        },
+        {
+          "id": "canon-006",
+          "rule": "Canonical must be in <head> section",
+          "description": "Tags in <body> are ignored.",
+          "priority": "high",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Place between <head> and </head>. Ensure in server-rendered HTML for SPAs.",
+          "validation": "Verify canonical appears in <head> section."
+        }
+      ]
+    },
+    "indexing": {
+      "name": "Indexing Control",
+      "description": "Rules for controlling which pages get indexed.",
+      "rules": [
+        {
+          "id": "index-001",
+          "rule": "noindex appropriate page types",
+          "description": "Admin, thank-you, duplicates, staging, search results, login, profiles.",
+          "priority": "high",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Apply <meta name='robots' content='noindex'> to non-public pages.",
+          "validation": "List all page types. Verify noindex on non-public types."
+        },
+        {
+          "id": "index-002",
+          "rule": "robots.txt blocks crawling but NOT indexing",
+          "description": "Blocked pages can still appear in results if linked from elsewhere.",
+          "priority": "high",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Use noindex to prevent indexing. Don't block in robots.txt so crawler sees noindex.",
+          "validation": "Search site:yourdomain.com for blocked pages. Switch to noindex."
+        },
+        {
+          "id": "index-003",
+          "rule": "Combine methods for complete removal",
+          "description": "noindex + GSC removal request + 404/410 for complete removal.",
+          "priority": "medium",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Add noindex, submit removal request, return 404/410 for deleted content.",
+          "validation": "Monitor GSC for index status. Allow 2-4 weeks."
+        },
+        {
+          "id": "index-004",
+          "rule": "Use 404/410 for permanently removed content",
+          "description": "410 signals permanent removal for faster de-indexing.",
+          "priority": "medium",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Return 410 for permanent, 404 for temporary. Don't redirect to homepage.",
+          "validation": "Check for soft 404s (200 status with 'not found' content)."
+        },
+        {
+          "id": "index-005",
+          "rule": "Index pruning for zero-traffic pages",
+          "description": "Zero traffic 12+ months = wasting crawl budget.",
+          "priority": "medium",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Analyze 12 months GSC data. Improve, consolidate, redirect, or noindex zero-traffic pages.",
+          "validation": "Export GSC data. Filter zero-click pages in 12 months."
+        }
+      ]
+    },
+    "core_web_vitals": {
+      "name": "Core Web Vitals",
+      "description": "Rules for meeting Google's Core Web Vitals performance thresholds.",
+      "rules": [
+        {
+          "id": "cwv-001",
+          "rule": "LCP under 2.5 seconds",
+          "description": "Largest Contentful Paint. Good: <2.5s. Poor: >4s.",
+          "priority": "critical",
+          "applies_to": [
+            "google"
+          ],
+          "implementation": "fetchpriority='high' on LCP image, preload critical resources, WebP/AVIF, eliminate render-blocking.",
+          "validation": "Test PageSpeed Insights. Monitor CrUX in GSC. Target <2.5s at 75th percentile."
+        },
+        {
+          "id": "cwv-002",
+          "rule": "CLS under 0.1",
+          "description": "Cumulative Layout Shift. Good: <0.1. Poor: >0.25.",
+          "priority": "critical",
+          "applies_to": [
+            "google"
+          ],
+          "implementation": "Explicit width/height on images. Reserve space for ads. font-display: swap. No inserting above existing content.",
+          "validation": "Test PageSpeed Insights. Target <0.1 at 75th percentile."
+        },
+        {
+          "id": "cwv-003",
+          "rule": "INP under 200ms",
+          "description": "Interaction to Next Paint. Replaced FID March 2024. Good: <200ms. Poor: >500ms.",
+          "priority": "critical",
+          "applies_to": [
+            "google"
+          ],
+          "implementation": "scheduler.yield(), debounce handlers, defer non-critical JS, web workers for heavy computation.",
+          "validation": "Monitor CrUX in GSC. Target <200ms at 75th percentile."
+        },
+        {
+          "id": "cwv-004",
+          "rule": "Fix LCP: preload, compress, prioritize",
+          "description": "Preload LCP resource, compress images, fetchpriority='high', content-visibility: auto.",
+          "priority": "high",
+          "applies_to": [
+            "google"
+          ],
+          "implementation": "Identify LCP with Lighthouse. Preload, fetchpriority='high', WebP/AVIF, remove render-blocking.",
+          "validation": "Run Lighthouse. Check LCP timing."
+        },
+        {
+          "id": "cwv-005",
+          "rule": "Fix CLS: explicit dimensions, reserved space, font-display",
+          "description": "Width/height on images, min-height for ads, font-display: swap.",
+          "priority": "high",
+          "applies_to": [
+            "google"
+          ],
+          "implementation": "Images: always width/height. Ads: CSS min-height. Fonts: font-display: swap/optional.",
+          "validation": "Run Lighthouse CLS audit. Total <0.1."
+        },
+        {
+          "id": "cwv-006",
+          "rule": "Fix INP: yield, debounce, defer",
+          "description": "scheduler.yield(), debounce handlers, defer scripts, React.lazy.",
+          "priority": "high",
+          "applies_to": [
+            "google"
+          ],
+          "implementation": "scheduler.yield() or requestIdleCallback. Debounce scroll/resize/input. async/defer on scripts.",
+          "validation": "Chrome DevTools Performance panel. No >200ms blocking during interaction."
+        }
+      ]
+    },
+    "mobile_first": {
+      "name": "Mobile-First Design",
+      "description": "Rules for mobile-first design since Google uses mobile-first indexing.",
+      "rules": [
+        {
+          "id": "mobile-001",
+          "rule": "Google uses mobile version for indexing/ranking",
+          "description": "Mobile version is what Google crawls, indexes, ranks.",
+          "priority": "critical",
+          "applies_to": [
+            "google"
+          ],
+          "implementation": "All content, links, structured data, meta tags on mobile. Responsive design. Test Mobile-Friendly.",
+          "validation": "URL Inspection in GSC. Compare mobile/desktop rendered pages."
+        },
+        {
+          "id": "mobile-002",
+          "rule": "Same content on mobile and desktop",
+          "description": "Hidden mobile content = hidden from Google's index.",
+          "priority": "critical",
+          "applies_to": [
+            "google"
+          ],
+          "implementation": "Don't hide content on mobile. Accordion/tab content should be in DOM.",
+          "validation": "Compare rendered content at mobile vs desktop widths."
+        },
+        {
+          "id": "mobile-003",
+          "rule": "Structured data must be on mobile pages",
+          "description": "JSON-LD must be in mobile HTML for mobile-first indexing.",
+          "priority": "high",
+          "applies_to": [
+            "google"
+          ],
+          "implementation": "Ensure JSON-LD in mobile-served HTML. Automatic for responsive.",
+          "validation": "Test mobile URL with Rich Results Test."
+        },
+        {
+          "id": "mobile-004",
+          "rule": "Minimum 16px body text",
+          "description": "Text <16px difficult to read without zooming.",
+          "priority": "high",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Base font-size 16px. No important text <14px. Use rem/em.",
+          "validation": "Mobile-Friendly Test. Lighthouse 'Text too small'."
+        },
+        {
+          "id": "mobile-005",
+          "rule": "Touch targets 48x48px with spacing",
+          "description": "Interactive elements 48x48px minimum with 8px+ spacing.",
+          "priority": "high",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Min 48px touch targets. 8px+ spacing. Use padding.",
+          "validation": "Lighthouse tap target audit. Flag <48px."
+        },
+        {
+          "id": "mobile-006",
+          "rule": "No intrusive interstitials",
+          "description": "Full-screen mobile popups lower rankings.",
+          "priority": "high",
+          "applies_to": [
+            "google"
+          ],
+          "implementation": "No full-screen popups on mobile load. OK: small banners, legal notices.",
+          "validation": "Test landing pages on mobile for blocking popups."
+        },
+        {
+          "id": "mobile-007",
+          "rule": "Responsive design preferred",
+          "description": "Google recommends responsive over separate mobile URLs.",
+          "priority": "high",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "CSS media queries. <meta name='viewport' content='width=device-width, initial-scale=1'>. Same HTML all devices.",
+          "validation": "Verify viewport meta. Test at multiple widths. No horizontal scroll."
+        }
+      ]
+    },
+    "https_security": {
+      "name": "HTTPS & Security",
+      "description": "Rules for HTTPS implementation, a confirmed ranking signal.",
+      "rules": [
+        {
+          "id": "https-001",
+          "rule": "Valid auto-renewing SSL/TLS certificate",
+          "description": "HTTPS is confirmed ranking signal. Must be valid, trusted, auto-renewing.",
+          "priority": "critical",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Use Let's Encrypt or trusted CA. Auto-renewal. TLS 1.2+.",
+          "validation": "SSL Labs test. Verify auto-renewal. Monitor expiration."
+        },
+        {
+          "id": "https-002",
+          "rule": "All HTTP 301 redirected to HTTPS",
+          "description": "Every HTTP URL must 301 to HTTPS.",
+          "priority": "critical",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Server-level 301 from http:// to https://. Add HSTS header.",
+          "validation": "Test HTTP URLs. Verify 301 to HTTPS. Check HSTS."
+        },
+        {
+          "id": "https-003",
+          "rule": "All internal links use HTTPS",
+          "description": "Prevent unnecessary redirects and clean link graph.",
+          "priority": "high",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Use https:// or protocol-relative in all internal links.",
+          "validation": "Crawl internal links. Flag http://."
+        },
+        {
+          "id": "https-004",
+          "rule": "Canonical tags point to HTTPS",
+          "description": "Canonical URLs must use HTTPS.",
+          "priority": "high",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Ensure all canonicals use https://.",
+          "validation": "Crawl canonical URLs. Flag http://."
+        },
+        {
+          "id": "https-005",
+          "rule": "Sitemap uses HTTPS URLs only",
+          "description": "All sitemap URLs must be HTTPS.",
+          "priority": "high",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Ensure sitemap generation uses https://.",
+          "validation": "Parse sitemap. Check all URLs start with https://."
+        },
+        {
+          "id": "https-006",
+          "rule": "No mixed content",
+          "description": "HTTPS pages must not load HTTP resources.",
+          "priority": "high",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "All resources over HTTPS. Add CSP: upgrade-insecure-requests.",
+          "validation": "Chrome DevTools for mixed content warnings. Lighthouse security audit."
+        }
+      ]
+    },
+    "internal_linking": {
+      "name": "Internal Linking",
+      "description": "Rules for effective internal link structure.",
+      "rules": [
+        {
+          "id": "intlink-001",
+          "rule": "2-6 internal links per important page",
+          "description": "Important pages need multiple contextual internal links.",
+          "priority": "high",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Ensure 2-6 pages link to each important page with relevant anchors.",
+          "validation": "Crawl tool: check internal link counts. Flag <2."
+        },
+        {
+          "id": "intlink-002",
+          "rule": "Descriptive anchor text",
+          "description": "Describe target page. Never 'click here' or 'read more'.",
+          "priority": "high",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "'Our JSON formatter tool' not 'click here'.",
+          "validation": "Extract anchor text. Flag generic anchors."
+        },
+        {
+          "id": "intlink-003",
+          "rule": "Use crawlable <a href> elements",
+          "description": "Standard <a href> required for bot discovery.",
+          "priority": "critical",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Always <a href='/path'>. No onClick-only navigation.",
+          "validation": "Check navigation uses <a href>. Disable JS to verify."
+        },
+        {
+          "id": "intlink-004",
+          "rule": "Every important page within 3 clicks of homepage",
+          "description": "Deep pages get less crawl priority.",
+          "priority": "high",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Use breadcrumbs, categories, footer links to reduce depth.",
+          "validation": "Measure click depth. Flag 4+ clicks."
+        },
+        {
+          "id": "intlink-005",
+          "rule": "No orphan pages",
+          "description": "Pages with no internal links are undiscoverable.",
+          "priority": "high",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Every sitemap page needs at least one internal link.",
+          "validation": "Compare sitemap with crawled URLs. Orphans = in sitemap but not crawled."
+        },
+        {
+          "id": "intlink-006",
+          "rule": "Fix broken internal links",
+          "description": "404 links waste budget and hurt UX.",
+          "priority": "high",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Monthly crawl for broken links. Update, redirect, or remove.",
+          "validation": "Monthly crawl. Fix all broken links."
+        },
+        {
+          "id": "intlink-007",
+          "rule": "Flatten redirect chains",
+          "description": "A->B->C wastes budget. Link directly to C.",
+          "priority": "medium",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Update internal links to final URL. Fix redirects to single-hop.",
+          "validation": "Crawl for chains. Target zero chains."
+        }
+      ]
+    },
+    "external_links": {
+      "name": "External Links",
+      "description": "Rules for outbound links and link profile.",
+      "rules": [
+        {
+          "id": "extlink-001",
+          "rule": "Link only to trustworthy resources",
+          "description": "Linking to spam hurts trust signals.",
+          "priority": "high",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Only reputable, authoritative sources.",
+          "validation": "Audit outbound links periodically."
+        },
+        {
+          "id": "extlink-002",
+          "rule": "nofollow on untrusted/user-generated links",
+          "description": "rel='nofollow' on UGC and untrusted links. rel='ugc' for UGC. rel='sponsored' for paid.",
+          "priority": "high",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "nofollow on comments, user URLs. ugc for UGC. sponsored for paid.",
+          "validation": "Check UGC areas for missing nofollow/ugc."
+        },
+        {
+          "id": "extlink-003",
+          "rule": "Quality over quantity for inbound links",
+          "description": "Few high-authority links > hundreds of low-quality.",
+          "priority": "high",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Create link-worthy content. Build relationships. Avoid mass link-building.",
+          "validation": "Monitor in GSC and Bing. Disavow toxic if needed."
+        },
+        {
+          "id": "extlink-004",
+          "rule": "No buying or selling links",
+          "description": "Prohibited. Results in penalties.",
+          "priority": "critical",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Never buy links. rel='sponsored' on paid links. Earn natural links.",
+          "validation": "Audit practices. Check GSC manual actions."
+        },
+        {
+          "id": "extlink-005",
+          "rule": "Diverse, natural anchor text",
+          "description": "Unnatural anchor profile signals manipulation.",
+          "priority": "medium",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Don't over-optimize anchors. Use brand, URL, natural phrases.",
+          "validation": "Check distribution. >30% exact-match = suspicious."
+        },
+        {
+          "id": "extlink-006",
+          "rule": "No link farms, PBNs, or automated building",
+          "description": "All link schemes violate guidelines.",
+          "priority": "critical",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "No PBNs, link wheels, automated submissions. Build through relationships.",
+          "validation": "Review all link activities. Check GSC manual actions."
+        }
+      ]
+    },
+    "error_pages_404": {
+      "name": "404 Error Pages",
+      "description": "Rules for handling missing pages.",
+      "rules": [
+        {
+          "id": "error-001",
+          "rule": "Return proper 404 HTTP status",
+          "description": "Must return 404, not 200 (soft 404). Confuses search engines.",
+          "priority": "critical",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Configure server for 404 on missing pages. SPAs: handle unknown routes with 404.",
+          "validation": "Request non-existent URLs. Verify 404 status. GSC reports soft 404s."
+        },
+        {
+          "id": "error-002",
+          "rule": "Use 410 for permanently removed content",
+          "description": "410 signals permanent removal for faster de-indexing.",
+          "priority": "medium",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Return 410 for permanently removed. 404 for never-existed.",
+          "validation": "Verify deleted URLs return 410."
+        },
+        {
+          "id": "error-003",
+          "rule": "Custom 404 page with search and navigation",
+          "description": "Retains users hitting broken URLs.",
+          "priority": "medium",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Include: search box, popular links, navigation, friendly message.",
+          "validation": "Visit non-existent URL. Verify custom 404, search, navigation, 404 status."
+        },
+        {
+          "id": "error-004",
+          "rule": "Don't redirect all 404s to homepage",
+          "description": "Blanket homepage redirect = poor UX and confusing signals.",
+          "priority": "high",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Moved: 301 to new URL. Deleted: 404/410 with helpful page. Never mass-redirect.",
+          "validation": "Test non-existent URLs. None should redirect to homepage."
+        },
+        {
+          "id": "error-005",
+          "rule": "Monitor crawl errors regularly",
+          "description": "Regular monitoring catches problems early.",
+          "priority": "high",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Check GSC and Bing weekly. Alert on spikes.",
+          "validation": "Review reports. Track counts. Investigate increases."
+        },
+        {
+          "id": "error-006",
+          "rule": "Fix broken internal links promptly",
+          "description": "Internal 404 links indicate poor maintenance.",
+          "priority": "high",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Crawl regularly. Update, redirect, or remove broken links.",
+          "validation": "Monthly crawl. Target zero broken internal links."
+        }
+      ]
+    },
+    "ai_search_optimization": {
+      "name": "AI Search Optimization (AEO)",
+      "description": "Rules for AI-powered search engines, LLMs, and answer engines.",
+      "rules": [
+        {
+          "id": "aeo-001",
+          "rule": "Allow AI crawlers in robots.txt",
+          "description": "Don't block: GPTBot, ChatGPT-User, ClaudeBot, PerplexityBot, Google-Extended, Amazonbot, Applebot, cohere-ai, YouBot, BraveBot, Bytespider, FacebookBot, CCBot.",
+          "priority": "critical",
+          "applies_to": [
+            "ai_engines"
+          ],
+          "implementation": "Don't block AI crawler user agents. Ensure User-agent: * doesn't block important content.",
+          "validation": "Review robots.txt for AI crawler blocks. Test each user-agent."
+        },
+        {
+          "id": "aeo-002",
+          "rule": "Consider creating llms.txt at site root",
+          "description": "Emerging standard providing LLMs guidance about your site.",
+          "priority": "medium",
+          "applies_to": [
+            "ai_engines"
+          ],
+          "implementation": "Create /llms.txt with: site description, content categories, citation format, key pages, licensing.",
+          "validation": "Access /llms.txt. Verify useful information."
+        },
+        {
+          "id": "aeo-003",
+          "rule": "Clear H2/H3 headings for extraction",
+          "description": "AI parses headings to extract sections. Clear headings improve citation.",
+          "priority": "high",
+          "applies_to": [
+            "ai_engines"
+          ],
+          "implementation": "Question-format headings: 'What Is JSON?' not 'Introduction'. Self-explanatory.",
+          "validation": "Read heading outline. Each should clearly indicate content topic."
+        },
+        {
+          "id": "aeo-004",
+          "rule": "Short paragraphs with direct answers",
+          "description": "AI prefers concise, extractable content.",
+          "priority": "high",
+          "applies_to": [
+            "ai_engines"
+          ],
+          "implementation": "2-3 sentences per paragraph. Start with key point. Answer immediately after question headings.",
+          "validation": "Paragraphs under 100 words. First sentences contain key info."
+        },
+        {
+          "id": "aeo-005",
+          "rule": "Definition lists 30-40% more cited by LLMs",
+          "description": "HTML <dl>/<dt>/<dd> particularly effective for AI citation.",
+          "priority": "high",
+          "applies_to": [
+            "ai_engines"
+          ],
+          "implementation": "Use for glossaries, features, FAQ. <dl><dt>Term</dt><dd>Definition</dd></dl>.",
+          "validation": "Identify suitable content. Verify proper HTML structure."
+        },
+        {
+          "id": "aeo-006",
+          "rule": "BLUF method for AI citation",
+          "description": "Core answer in first sentence maximizes citation likelihood.",
+          "priority": "high",
+          "applies_to": [
+            "ai_engines"
+          ],
+          "implementation": "Sentence 1 = answer, 2-3 = evidence, rest = examples. Inverted pyramid.",
+          "validation": "First sentence of each section: standalone answer?"
+        },
+        {
+          "id": "aeo-007",
+          "rule": "Cite authoritative sources with statistics",
+          "description": "Sourced statistics = 30-40% more AI visibility.",
+          "priority": "high",
+          "applies_to": [
+            "ai_engines"
+          ],
+          "implementation": "Specific numbers from authoritative sources. Inline citations. Update annually.",
+          "validation": "Check for unsourced claims. Verify statistics current (<2 years)."
+        },
+        {
+          "id": "aeo-008",
+          "rule": "Refresh content quarterly minimum",
+          "description": "AI favors fresh content. Quarterly = maintenance signal.",
+          "priority": "high",
+          "applies_to": [
+            "ai_engines"
+          ],
+          "implementation": "Quarterly reviews. Update statistics, examples, dateModified. Show 'Last updated'.",
+          "validation": "Flag >3 months stale. Verify dateModified reflects real changes."
+        },
+        {
+          "id": "aeo-009",
+          "rule": "Build multi-platform presence",
+          "description": "AI aggregates from multiple sources.",
+          "priority": "medium",
+          "applies_to": [
+            "ai_engines"
+          ],
+          "implementation": "Profiles on Reddit, YouTube, LinkedIn, Stack Overflow, GitHub. Cross-reference website.",
+          "validation": "Check brand on major platforms. Verify website links."
+        },
+        {
+          "id": "aeo-010",
+          "rule": "IndexNow for fast AI feed updates",
+          "description": "Updates to Bing, Yandex, ChatGPT feeds within minutes.",
+          "priority": "high",
+          "applies_to": [
+            "bing",
+            "ai_engines"
+          ],
+          "implementation": "Implement IndexNow API. Host key file. POST URLs on changes. CDN one-click integration.",
+          "validation": "Verify key file. Check Bing Webmaster Tools."
+        },
+        {
+          "id": "aeo-011",
+          "rule": "No special markup for Google AI Overviews",
+          "description": "Standard SEO is the pathway.",
+          "priority": "medium",
+          "applies_to": [
+            "google"
+          ],
+          "implementation": "Standard SEO best practices. Clear, comprehensive content.",
+          "validation": "Monitor AI Overviews in GSC."
+        },
+        {
+          "id": "aeo-012",
+          "rule": "Standard SEO is pathway to AI features",
+          "description": "Strong SEO = AI search visibility.",
+          "priority": "high",
+          "applies_to": [
+            "google",
+            "bing",
+            "ai_engines"
+          ],
+          "implementation": "Don't treat AEO separate from SEO. Quality content, technical SEO, E-E-A-T, structured data, UX.",
+          "validation": "Track traditional rankings and AI citations. Should correlate."
+        }
+      ]
+    },
+    "social_signals": {
+      "name": "Social Signals & Open Graph",
+      "description": "Rules for social signals and sharing markup.",
+      "rules": [
+        {
+          "id": "social-001",
+          "rule": "Bing uses social signals as ranking factor",
+          "description": "Bing confirms social signals influence rankings.",
+          "priority": "high",
+          "applies_to": [
+            "bing"
+          ],
+          "implementation": "Active social presence. Consistent sharing. Authoritative engagement.",
+          "validation": "Monitor Bing rankings with social activity."
+        },
+        {
+          "id": "social-002",
+          "rule": "Authoritative account shares influence Bing",
+          "description": "Established accounts carry more weight.",
+          "priority": "medium",
+          "applies_to": [
+            "bing"
+          ],
+          "implementation": "Build relationships with authoritative accounts. Share-worthy content.",
+          "validation": "Track who shares content. Note verified accounts."
+        },
+        {
+          "id": "social-003",
+          "rule": "Implement Open Graph tags",
+          "description": "Control appearance on Facebook, LinkedIn, etc.",
+          "priority": "high",
+          "applies_to": [
+            "all"
+          ],
+          "implementation": "og:title, og:description, og:image (1200x630), og:url, og:type, og:site_name per page.",
+          "validation": "Facebook Sharing Debugger. Verify rendering."
+        },
+        {
+          "id": "social-004",
+          "rule": "Implement Twitter Card tags",
+          "description": "Control appearance on Twitter/X.",
+          "priority": "medium",
+          "applies_to": [
+            "all"
+          ],
+          "implementation": "twitter:card (summary_large_image), twitter:title, twitter:description, twitter:image.",
+          "validation": "Twitter Card Validator. Verify rendering."
+        },
+        {
+          "id": "social-005",
+          "rule": "OG image recommended 1200x630px",
+          "description": "1.91:1 ratio for proper cross-platform display.",
+          "priority": "medium",
+          "applies_to": [
+            "all"
+          ],
+          "implementation": "1200x630px. Descriptive visuals. JPEG/PNG. Fast CDN.",
+          "validation": "Check og:image dimensions. Test on platforms."
+        }
+      ]
+    },
+    "publication_dates": {
+      "name": "Publication Dates",
+      "description": "Rules for publication and modification date markup.",
+      "rules": [
+        {
+          "id": "pubdate-001",
+          "rule": "Visible date with clear labeling",
+          "description": "Display dates visibly with 'Published'/'Updated' labels.",
+          "priority": "high",
+          "applies_to": [
+            "google",
+            "bing",
+            "ai_engines"
+          ],
+          "implementation": "Show: 'Published: January 15, 2026' or 'Last updated: April 10, 2026'. Near title.",
+          "validation": "Check dated content has visible dates with clear labels."
+        },
+        {
+          "id": "pubdate-002",
+          "rule": "datePublished and dateModified in structured data",
+          "description": "ISO 8601 format in Article/BlogPosting schema.",
+          "priority": "high",
+          "applies_to": [
+            "google",
+            "bing",
+            "ai_engines"
+          ],
+          "implementation": "'datePublished': '2026-01-15T09:00:00+05:00'. Always ISO 8601 with timezone.",
+          "validation": "Check structured data dates. Verify format. Compare with visible dates."
+        },
+        {
+          "id": "pubdate-003",
+          "rule": "Never specify future dates",
+          "description": "Future dates are deceptive and confuse algorithms.",
+          "priority": "high",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Validate dates. datePublished not in future.",
+          "validation": "Check for future dates in structured data or visible."
+        },
+        {
+          "id": "pubdate-004",
+          "rule": "Match visible dates with structured data",
+          "description": "Discrepancies cause search engines to ignore dates.",
+          "priority": "high",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Update visible date and structured data simultaneously.",
+          "validation": "Compare visible and structured data dates per page."
+        },
+        {
+          "id": "pubdate-005",
+          "rule": "Include timezone when possible",
+          "description": "Removes ambiguity in ISO 8601.",
+          "priority": "low",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Use '2026-04-10T14:30:00+05:00' not just '2026-04-10'.",
+          "validation": "Check for timezone in structured data dates."
+        },
+        {
+          "id": "pubdate-006",
+          "rule": "Minimize competing dates on page",
+          "description": "Multiple dates confuse which is publication date.",
+          "priority": "medium",
+          "applies_to": [
+            "google"
+          ],
+          "implementation": "Article date most prominent. Other dates less prominent. Structured data clarifies.",
+          "validation": "Check for multiple dates. Ensure article date is primary."
+        }
+      ]
+    },
+    "favicon": {
+      "name": "Favicon",
+      "description": "Rules for favicons in search results and browser tabs.",
+      "rules": [
+        {
+          "id": "favicon-001",
+          "rule": "Favicon link tag in homepage header",
+          "description": "Google uses homepage <link> tag.",
+          "priority": "medium",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "<link rel='icon'> in <head>. Include apple-touch-icon.",
+          "validation": "Check homepage for favicon links. Access URLs."
+        },
+        {
+          "id": "favicon-002",
+          "rule": "Min 8x8px, recommended 48x48px+",
+          "description": "Google recommends 48x48px or multiples.",
+          "priority": "medium",
+          "applies_to": [
+            "google"
+          ],
+          "implementation": "Multiple sizes: 16, 32, 48, 180, 192. SVG for scaling.",
+          "validation": "Check dimensions. Ensure 48x48+ exists."
+        },
+        {
+          "id": "favicon-003",
+          "rule": "Square 1:1 aspect ratio",
+          "description": "Non-square will be distorted.",
+          "priority": "medium",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Width equals height. Center in square canvas.",
+          "validation": "Verify all favicon files are square."
+        },
+        {
+          "id": "favicon-004",
+          "rule": "Must be crawlable",
+          "description": "Blocked favicon won't display in results.",
+          "priority": "medium",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Don't block favicon in robots.txt.",
+          "validation": "Test favicon URL against robots.txt."
+        },
+        {
+          "id": "favicon-005",
+          "rule": "Keep URL stable",
+          "description": "Google caches. Changes take weeks.",
+          "priority": "low",
+          "applies_to": [
+            "google"
+          ],
+          "implementation": "Stable URL: /favicon.ico, /favicon.svg.",
+          "validation": "Verify URL hasn't changed recently."
+        }
+      ]
+    },
+    "site_name": {
+      "name": "Site Name",
+      "description": "Rules for site name in search results.",
+      "rules": [
+        {
+          "id": "sitename-001",
+          "rule": "WebSite schema on homepage",
+          "description": "Google uses WebSite structured data for site name.",
+          "priority": "high",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "WebSite schema with name, url, SearchAction on homepage.",
+          "validation": "Check homepage for WebSite schema. Rich Results Test."
+        },
+        {
+          "id": "sitename-002",
+          "rule": "Unique, accurate identity",
+          "description": "Should uniquely represent your site.",
+          "priority": "medium",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Unique, brand-consistent name. Not generic.",
+          "validation": "Search site name - should uniquely identify site."
+        },
+        {
+          "id": "sitename-003",
+          "rule": "Concise, commonly recognized",
+          "description": "1-3 words matching audience recognition.",
+          "priority": "medium",
+          "applies_to": [
+            "google"
+          ],
+          "implementation": "Shortest recognized name. No taglines.",
+          "validation": "WebSite schema 'name' should be concise brand only."
+        },
+        {
+          "id": "sitename-004",
+          "rule": "Priority: WebSite > og:site_name > title > headings",
+          "description": "Multiple sources, priority order.",
+          "priority": "medium",
+          "applies_to": [
+            "google"
+          ],
+          "implementation": "Set consistently: WebSite schema, og:site_name, title brand, header.",
+          "validation": "Verify consistency across all sources."
+        }
+      ]
+    },
+    "video_seo": {
+      "name": "Video SEO",
+      "description": "Rules for video content optimization.",
+      "rules": [
+        {
+          "id": "video-001",
+          "rule": "Proper HTML video elements",
+          "description": "Discover via <video>, <embed>, <iframe>.",
+          "priority": "high",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "<video> for self-hosted, <iframe> for embedded. In initial HTML.",
+          "validation": "Check video pages for proper HTML elements."
+        },
+        {
+          "id": "video-002",
+          "rule": "VideoObject structured data",
+          "description": "Enables rich video results.",
+          "priority": "high",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "VideoObject: name, description, thumbnailUrl, uploadDate, contentUrl/embedUrl.",
+          "validation": "Rich Results Test. GSC Video Indexing."
+        },
+        {
+          "id": "video-003",
+          "rule": "Video sitemaps",
+          "description": "Helps discover dynamic/JS videos.",
+          "priority": "medium",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Video sitemap with video-specific metadata.",
+          "validation": "Verify valid and complete."
+        },
+        {
+          "id": "video-004",
+          "rule": "Unique page per video with text",
+          "description": "Dedicated page with surrounding text content.",
+          "priority": "medium",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Title, summary, transcript, related content per video.",
+          "validation": "200+ words text. Each video has own URL."
+        },
+        {
+          "id": "video-005",
+          "rule": "Thumbnail min 60x30px, recommended 1280x720",
+          "description": "For rich results display.",
+          "priority": "medium",
+          "applies_to": [
+            "google"
+          ],
+          "implementation": "High-quality 1280x720+. Stable URL.",
+          "validation": "Check dimensions and accessibility."
+        },
+        {
+          "id": "video-006",
+          "rule": "MP4 preferred format",
+          "description": "Most widely supported.",
+          "priority": "medium",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "MP4 (H.264) primary. WebM fallback. Not blocked.",
+          "validation": "Check formats. MP4 available."
+        },
+        {
+          "id": "video-007",
+          "rule": "Video elements in initial page load",
+          "description": "Don't rely on user interaction to load.",
+          "priority": "medium",
+          "applies_to": [
+            "google"
+          ],
+          "implementation": "HTML elements in initial render. Lazy-load file OK.",
+          "validation": "View source for video elements."
+        }
+      ]
+    },
+    "hreflang_international": {
+      "name": "Hreflang & International SEO",
+      "description": "Rules for multilingual/multi-regional sites.",
+      "rules": [
+        {
+          "id": "hreflang-001",
+          "rule": "Self-referencing hreflang",
+          "description": "Every page must reference itself.",
+          "priority": "high",
+          "applies_to": [
+            "google"
+          ],
+          "implementation": "Include self-referencing hreflang with all language versions.",
+          "validation": "Check every hreflang page includes self-reference."
+        },
+        {
+          "id": "hreflang-002",
+          "rule": "Bidirectional references",
+          "description": "If A references B, B must reference A.",
+          "priority": "high",
+          "applies_to": [
+            "google"
+          ],
+          "implementation": "When adding X->Y, also update Y to reference X.",
+          "validation": "Crawl hreflang. Verify bidirectional. Flag unidirectional."
+        },
+        {
+          "id": "hreflang-003",
+          "rule": "Always include x-default",
+          "description": "Fallback for unmatched languages.",
+          "priority": "high",
+          "applies_to": [
+            "google"
+          ],
+          "implementation": "hreflang='x-default' on all pages with hreflang.",
+          "validation": "Check all hreflang pages for x-default."
+        },
+        {
+          "id": "hreflang-004",
+          "rule": "Proper locale codes",
+          "description": "ISO 639-1 language + optional ISO 3166-1 region.",
+          "priority": "high",
+          "applies_to": [
+            "google"
+          ],
+          "implementation": "Correct: en-US, en-GB, fr-CA, pt-BR. Common mistakes: 'uk' not 'en-GB', 'jp' not 'ja'.",
+          "validation": "Verify valid ISO codes. Use validation tools."
+        }
+      ]
+    },
+    "javascript_rendering": {
+      "name": "JavaScript & Rendering",
+      "description": "Rules for JS-heavy sites and SPAs.",
+      "rules": [
+        {
+          "id": "jsrender-001",
+          "rule": "ISR preferred",
+          "description": "ISR/SSG provides fully rendered HTML for best SEO.",
+          "priority": "high",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Use ISR/SSG where possible. SSR for dynamic. Pre-rendering if CSR unavoidable.",
+          "validation": "View page source. Content in initial HTML."
+        },
+        {
+          "id": "jsrender-002",
+          "rule": "Serve content with 200 OK before JS execution",
+          "description": "Initial response should contain meaningful content.",
+          "priority": "high",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Server-render critical content: title, meta, heading, primary text.",
+          "validation": "curl page. Should contain content, not empty div#root."
+        },
+        {
+          "id": "jsrender-003",
+          "rule": "Only hydrate interactive islands",
+          "description": "Static content doesn't need JS hydration.",
+          "priority": "medium",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Island architecture. Static as server HTML. Only hydrate interactive components.",
+          "validation": "Check JS bundle and hydration time."
+        },
+        {
+          "id": "jsrender-004",
+          "rule": "Verify with URL Inspection Tool",
+          "description": "See exactly what Google sees.",
+          "priority": "high",
+          "applies_to": [
+            "google"
+          ],
+          "implementation": "Check every page type in GSC URL Inspection. Compare with user view.",
+          "validation": "URL Inspection on representative pages."
+        },
+        {
+          "id": "jsrender-005",
+          "rule": "CSS content property NOT indexed",
+          "description": "Text via ::before/::after not visible to search engines.",
+          "priority": "medium",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Never place important content in CSS content property.",
+          "validation": "Search CSS for content: with meaningful text."
+        },
+        {
+          "id": "jsrender-006",
+          "rule": "SPAs need unique URLs per screen",
+          "description": "Each view must have own URL.",
+          "priority": "critical",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Client-side routing updating URLs. History API. Direct navigation support.",
+          "validation": "Navigate SPA. URL changes per screen. Copy URL to new tab: correct content."
+        }
+      ]
+    },
+    "crawl_budget": {
+      "name": "Crawl Budget",
+      "description": "Rules for efficient crawl budget management.",
+      "rules": [
+        {
+          "id": "crawl-001",
+          "rule": "Critical for 1000+ page sites",
+          "description": "Small sites fully crawled. Large sites need optimization.",
+          "priority": "medium",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Prioritize important pages. Remove low-value. Fix errors. Fast responses.",
+          "validation": "GSC Crawl Stats. Monitor rate and pages crawled."
+        },
+        {
+          "id": "crawl-002",
+          "rule": "Don't waste on parameter URLs",
+          "description": "Sort/filter/session params create huge URL spaces.",
+          "priority": "high",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Block params in robots.txt. Canonical tags. Configure in GSC.",
+          "validation": "Check if Googlebot crawls many parameter URLs."
+        },
+        {
+          "id": "crawl-003",
+          "rule": "Block sort and session parameters",
+          "description": "Create duplicate content.",
+          "priority": "medium",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Disallow sort/session params. Canonicalize tracking params.",
+          "validation": "Search site:yourdomain.com inurl:sort. Block if indexed."
+        },
+        {
+          "id": "crawl-004",
+          "rule": "Fix redirect chains",
+          "description": "Multiple hops waste budget.",
+          "priority": "medium",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Single-hop redirects. Update internal links to final URLs.",
+          "validation": "Crawl for chains. Target zero."
+        },
+        {
+          "id": "crawl-005",
+          "rule": "Remove or block stale content",
+          "description": "Stale pages consume budget without value.",
+          "priority": "medium",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Audit zero-traffic pages (12+ months). Improve, consolidate, noindex, or 410.",
+          "validation": "GSC data. Identify zero-click pages."
+        }
+      ]
+    },
+    "bing_specific": {
+      "name": "Bing-Specific Optimizations",
+      "description": "Bing-specific rules and features.",
+      "rules": [
+        {
+          "id": "bing-001",
+          "rule": "Bing uses social signals",
+          "description": "Explicitly confirmed as ranking factor.",
+          "priority": "high",
+          "applies_to": [
+            "bing"
+          ],
+          "implementation": "Active social presence. Share content. Engage authoritative accounts.",
+          "validation": "Monitor Bing rankings with social activity."
+        },
+        {
+          "id": "bing-002",
+          "rule": "Crawl-delay supported",
+          "description": "Bing respects Crawl-delay in robots.txt.",
+          "priority": "low",
+          "applies_to": [
+            "bing"
+          ],
+          "implementation": "User-agent: Bingbot / Crawl-delay: 5. Only if needed.",
+          "validation": "Check Bing Webmaster Tools crawl rate."
+        },
+        {
+          "id": "bing-003",
+          "rule": "IndexNow for instant notification",
+          "description": "Push protocol for immediate updates.",
+          "priority": "high",
+          "applies_to": [
+            "bing",
+            "ai_engines"
+          ],
+          "implementation": "Generate key. Host file. POST URLs on changes.",
+          "validation": "Bing Webmaster Tools IndexNow status."
+        },
+        {
+          "id": "bing-004",
+          "rule": "Submit sitemaps to Bing separately",
+          "description": "Requires separate submission.",
+          "priority": "high",
+          "applies_to": [
+            "bing"
+          ],
+          "implementation": "Bing Webmaster Tools. Verify site. Submit sitemap.",
+          "validation": "Verify submitted and processed."
+        },
+        {
+          "id": "bing-005",
+          "rule": "Bing Markup Validator",
+          "description": "Bing's own structured data validator.",
+          "priority": "medium",
+          "applies_to": [
+            "bing"
+          ],
+          "implementation": "Test with Bing Markup Validator alongside Google Rich Results Test.",
+          "validation": "Run key pages. Fix Bing-specific issues."
+        },
+        {
+          "id": "bing-006",
+          "rule": "Titles under 65 characters",
+          "description": "Bing recommends under 65.",
+          "priority": "medium",
+          "applies_to": [
+            "bing"
+          ],
+          "implementation": "Aim under 65 characters.",
+          "validation": "Check against 65-char limit."
+        },
+        {
+          "id": "bing-007",
+          "rule": "Content freshness strongly valued",
+          "description": "Regular updates rank better in Bing.",
+          "priority": "high",
+          "applies_to": [
+            "bing"
+          ],
+          "implementation": "Update regularly. Show modified dates. dateModified in schema.",
+          "validation": "Ensure important pages updated quarterly."
+        },
+        {
+          "id": "bing-008",
+          "rule": "Clean URL hierarchy",
+          "description": "Well-structured URLs help Bing understand architecture.",
+          "priority": "medium",
+          "applies_to": [
+            "bing"
+          ],
+          "implementation": "Descriptive, hierarchical. Max 3-4 levels. Hyphens.",
+          "validation": "Review structure for depth and cleanliness."
+        }
+      ]
+    },
+    "google_discover": {
+      "name": "Google Discover",
+      "description": "Rules for Google Discover feed optimization.",
+      "rules": [
+        {
+          "id": "discover-001",
+          "rule": "Auto-qualifies if indexed",
+          "description": "No special registration. Algorithmic selection.",
+          "priority": "medium",
+          "applies_to": [
+            "google"
+          ],
+          "implementation": "Standard SEO. Engaging content. No special implementation.",
+          "validation": "GSC > Performance > Discover."
+        },
+        {
+          "id": "discover-002",
+          "rule": "Images min 1200px wide, 300K pixels",
+          "description": "For large image treatment.",
+          "priority": "high",
+          "applies_to": [
+            "google"
+          ],
+          "implementation": "1200px+ wide. 16:9 preferred. High quality.",
+          "validation": "Check dimensions. 1200x675 meets both."
+        },
+        {
+          "id": "discover-003",
+          "rule": "16:9 aspect ratio preferred",
+          "description": "Best display for large cards.",
+          "priority": "medium",
+          "applies_to": [
+            "google"
+          ],
+          "implementation": "1200x675 or 1600x900.",
+          "validation": "Check featured image ratios."
+        },
+        {
+          "id": "discover-004",
+          "rule": "Enable with max-image-preview:large",
+          "description": "Required for large image format.",
+          "priority": "high",
+          "applies_to": [
+            "google"
+          ],
+          "implementation": "<meta name='robots' content='max-image-preview:large'>.",
+          "validation": "Check meta robots. No conflicting directives."
+        },
+        {
+          "id": "discover-005",
+          "rule": "No clickbait or text-heavy images",
+          "description": "Prohibited by Discover policies.",
+          "priority": "high",
+          "applies_to": [
+            "google"
+          ],
+          "implementation": "Honest titles. No misleading thumbnails. Text overlay <20%.",
+          "validation": "Review titles and images."
+        },
+        {
+          "id": "discover-006",
+          "rule": "Traffic fluctuates - supplemental",
+          "description": "Volatile. Don't depend on it.",
+          "priority": "low",
+          "applies_to": [
+            "google"
+          ],
+          "implementation": "Focus on standard SEO. Discover = bonus.",
+          "validation": "Monitor but focus on organic search."
+        }
+      ]
+    },
+    "featured_snippets": {
+      "name": "Featured Snippets",
+      "description": "Rules for featured snippet selection.",
+      "rules": [
+        {
+          "id": "snippet-001",
+          "rule": "Cannot request - algorithmic",
+          "description": "Selected by algorithm. Optimize structure for eligibility.",
+          "priority": "medium",
+          "applies_to": [
+            "google"
+          ],
+          "implementation": "Question headings. Direct answers. Lists, tables, definitions.",
+          "validation": "Search target queries. Optimize page 1 content."
+        },
+        {
+          "id": "snippet-002",
+          "rule": "Opt out with nosnippet/data-nosnippet",
+          "description": "Remove from featured snippets.",
+          "priority": "low",
+          "applies_to": [
+            "google"
+          ],
+          "implementation": "Full: <meta content='nosnippet'>. Selective: data-nosnippet. nosnippet removes ALL snippets.",
+          "validation": "Verify opt-out intentional."
+        },
+        {
+          "id": "snippet-003",
+          "rule": "max-snippet low value discourages",
+          "description": "Low max-snippet makes selection unlikely but not guaranteed.",
+          "priority": "low",
+          "applies_to": [
+            "google"
+          ],
+          "implementation": "max-snippet:50 discourages. Use nosnippet for guaranteed prevention.",
+          "validation": "Verify value low enough (<50 chars)."
+        }
+      ]
+    },
+    "things_to_avoid": {
+      "name": "Things to Avoid (Spam Policies)",
+      "description": "Prohibited practices resulting in penalties.",
+      "rules": [
+        {
+          "id": "avoid-001",
+          "rule": "No cloaking",
+          "description": "Different content for bots vs users = severe violation.",
+          "priority": "critical",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Never serve different HTML by user-agent. Content must match.",
+          "validation": "URL Inspection vs browser. Check for user-agent routing."
+        },
+        {
+          "id": "avoid-002",
+          "rule": "No hidden text or links",
+          "description": "Invisible text (white-on-white, font-size:0) = penalties.",
+          "priority": "critical",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "No same-color text, font-size:0, off-screen positioning. Exception: sr-only.",
+          "validation": "Search CSS for hiding techniques on content text."
+        },
+        {
+          "id": "avoid-003",
+          "rule": "No keyword stuffing",
+          "description": "Unnatural repetition is spam signal.",
+          "priority": "critical",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Write naturally. 2-3 keyword uses. Synonyms.",
+          "validation": "Read aloud. Density <3%. Check alt and meta."
+        },
+        {
+          "id": "avoid-004",
+          "rule": "No link schemes",
+          "description": "Buying/selling links, exchanges, PBNs.",
+          "priority": "critical",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Never buy links. rel='sponsored'. Natural earning.",
+          "validation": "Audit practices. GSC manual actions."
+        },
+        {
+          "id": "avoid-005",
+          "rule": "No doorway pages",
+          "description": "Low-quality pages for keyword variations.",
+          "priority": "high",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Every page: unique value. No location-only variations.",
+          "validation": "Check for similar pages targeting slight variations."
+        },
+        {
+          "id": "avoid-006",
+          "rule": "No scraped/copied content",
+          "description": "Copying without adding value violates policies.",
+          "priority": "critical",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Original content. Add analysis if referencing. Attribute.",
+          "validation": "Copyscape. GSC manual actions."
+        },
+        {
+          "id": "avoid-007",
+          "rule": "No deceptive redirects",
+          "description": "Different destinations for bots and users.",
+          "priority": "critical",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Same destination for all. No user-agent routing.",
+          "validation": "Test as browser and bot. Same destination."
+        },
+        {
+          "id": "avoid-008",
+          "rule": "No rich snippet abuse",
+          "description": "Fake reviews, fabricated ratings, invisible markup.",
+          "priority": "critical",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Only visible, genuine content. Real ratings. Never fabricate.",
+          "validation": "Verify visible counterpart for every structured property."
+        },
+        {
+          "id": "avoid-009",
+          "rule": "No auto-generated low-quality content",
+          "description": "Mass thin content without human oversight.",
+          "priority": "high",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Human oversight required. AI content OK if reviewed and valuable.",
+          "validation": "Review quality. Flag machine-generated without editing."
+        },
+        {
+          "id": "avoid-010",
+          "rule": "No intrusive mobile interstitials",
+          "description": "Full-screen popups on mobile = ranking penalty.",
+          "priority": "high",
+          "applies_to": [
+            "google"
+          ],
+          "implementation": "No popups on mobile load. OK: small banners, legal notices.",
+          "validation": "Mobile from search. No blocking popups."
+        }
+      ]
+    },
+    "monitoring_tools": {
+      "name": "Monitoring & Validation Tools",
+      "description": "Essential SEO monitoring and validation tools.",
+      "rules": [
+        {
+          "id": "monitor-001",
+          "rule": "Google Search Console primary",
+          "description": "Authoritative for Google indexing, performance, CWV, manual actions.",
+          "priority": "critical",
+          "applies_to": [
+            "google"
+          ],
+          "implementation": "Verify site. Weekly: Performance, Indexing, CWV, Manual actions.",
+          "validation": "GSC set up. Pages indexed. No manual actions."
+        },
+        {
+          "id": "monitor-002",
+          "rule": "Bing Webmaster Tools",
+          "description": "Bing insights, IndexNow, Markup Validator.",
+          "priority": "high",
+          "applies_to": [
+            "bing"
+          ],
+          "implementation": "Verify. Submit sitemaps. IndexNow. Review reports.",
+          "validation": "Setup verified. Sitemap processed."
+        },
+        {
+          "id": "monitor-003",
+          "rule": "Rich Results Test",
+          "description": "Validates structured data, shows rich result eligibility.",
+          "priority": "high",
+          "applies_to": [
+            "google"
+          ],
+          "implementation": "Test every page type. Fix all errors.",
+          "validation": "Run on representative pages. Zero errors."
+        },
+        {
+          "id": "monitor-004",
+          "rule": "Schema.org Validator",
+          "description": "General spec validation. Catches issues Google misses.",
+          "priority": "medium",
+          "applies_to": [
+            "google",
+            "bing"
+          ],
+          "implementation": "Test at validator.schema.org. Use with Rich Results Test.",
+          "validation": "Run key pages. Fix compliance issues."
+        },
+        {
+          "id": "monitor-005",
+          "rule": "PageSpeed Insights",
+          "description": "Lab and field CWV data.",
+          "priority": "high",
+          "applies_to": [
+            "google"
+          ],
+          "implementation": "Test key pages. Address Opportunities. Aim 90+.",
+          "validation": "Run on key pages. Track scores."
+        },
+        {
+          "id": "monitor-006",
+          "rule": "Chrome DevTools and Lighthouse",
+          "description": "Comprehensive performance, accessibility, SEO audits.",
+          "priority": "high",
+          "applies_to": [
+            "all"
+          ],
+          "implementation": "Lighthouse on key pages. All categories. SEO 90+. Performance 80+.",
+          "validation": "Run Lighthouse. Address flagged issues."
+        },
+        {
+          "id": "monitor-007",
+          "rule": "Screaming Frog for crawls",
+          "description": "Desktop crawler finding technical issues.",
+          "priority": "medium",
+          "applies_to": [
+            "all"
+          ],
+          "implementation": "Monthly crawl (free 500 URLs). Broken links, duplicates, missing meta, redirects.",
+          "validation": "Full crawl. Fix identified issues."
+        },
+        {
+          "id": "monitor-008",
+          "rule": "Core Web Vitals report in GSC",
+          "description": "Real-world CWV data by status and metric.",
+          "priority": "high",
+          "applies_to": [
+            "google"
+          ],
+          "implementation": "Monthly review. Focus on 'Poor'. Diagnose with PageSpeed.",
+          "validation": "All URLs 'Good'. Fix 'Poor' first."
+        }
+      ]
+    },
+    "feed_rss": {
+      "name": "RSS Feed",
+      "description": "Rules for RSS feeds.",
+      "rules": [
+        {
+          "id": "feed-001",
+          "rule": "Valid RSS 2.0 with atom:link self-reference",
+          "description": "Conform to spec with self-referencing atom:link.",
+          "priority": "high",
+          "applies_to": [
+            "all"
+          ],
+          "implementation": "RSS 2.0 with xmlns:atom and atom:link rel='self'. Validate at w3.org/feed/.",
+          "validation": "Validate. Check atom:link. Test in readers."
+        },
+        {
+          "id": "feed-002",
+          "rule": "Proper lastBuildDate",
+          "description": "Reflect most recent content update.",
+          "priority": "medium",
+          "applies_to": [
+            "all"
+          ],
+          "implementation": "RFC 822 date of most recent item or generation time.",
+          "validation": "Check lastBuildDate matches recent update."
+        },
+        {
+          "id": "feed-003",
+          "rule": "Category per item",
+          "description": "Categorize each feed item.",
+          "priority": "medium",
+          "applies_to": [
+            "all"
+          ],
+          "implementation": "<category> on each <item>. Match site taxonomy.",
+          "validation": "Each item has category. Consistent taxonomy."
+        },
+        {
+          "id": "feed-004",
+          "rule": "Keep updated, remove deleted",
+          "description": "No 404 links in feed. Current content.",
+          "priority": "high",
+          "applies_to": [
+            "all"
+          ],
+          "implementation": "Regenerate on changes. Remove deleted. Automate in build.",
+          "validation": "Check item links. None 404."
+        },
+        {
+          "id": "feed-005",
+          "rule": "Max 50,000 entries or 50MB",
+          "description": "Practical limits. Paginate if needed.",
+          "priority": "low",
+          "applies_to": [
+            "all"
+          ],
+          "implementation": "50-100 recent items. Category feeds for large libraries.",
+          "validation": "Check size and count."
+        }
+      ]
+    },
+    "indexnow_protocol": {
+      "name": "IndexNow Protocol",
+      "description": "Rules for IndexNow instant URL notification.",
+      "rules": [
+        {
+          "id": "indexnow-001",
+          "rule": "Push protocol for instant notification",
+          "description": "Notify search engines immediately on content changes.",
+          "priority": "high",
+          "applies_to": [
+            "bing",
+            "ai_engines"
+          ],
+          "implementation": "Generate key at bing.com/indexnow. Host key file. POST URLs on changes.",
+          "validation": "Key file accessible. Bing Webmaster Tools status."
+        },
+        {
+          "id": "indexnow-002",
+          "rule": "Supported by Bing, Yandex, ChatGPT feeds",
+          "description": "Shared across participants. Google not yet.",
+          "priority": "medium",
+          "applies_to": [
+            "bing",
+            "ai_engines"
+          ],
+          "implementation": "Submit to api.indexnow.org. Auto-shared. Continue sitemaps for Google.",
+          "validation": "Bing Webmaster Tools confirmation."
+        },
+        {
+          "id": "indexnow-003",
+          "rule": "Updates within minutes vs days",
+          "description": "Minutes instead of days for crawl discovery.",
+          "priority": "high",
+          "applies_to": [
+            "bing",
+            "ai_engines"
+          ],
+          "implementation": "Trigger immediately after changes. Integrate into build pipeline.",
+          "validation": "Check Bing results within 1 hour."
+        },
+        {
+          "id": "indexnow-004",
+          "rule": "CDN one-click integration",
+          "description": "Cloudflare, Akamai offer built-in support.",
+          "priority": "medium",
+          "applies_to": [
+            "bing",
+            "ai_engines"
+          ],
+          "implementation": "Enable in CDN dashboard. Cloudflare: Speed > Optimization.",
+          "validation": "Check CDN settings. Verify submissions."
+        },
+        {
+          "id": "indexnow-005",
+          "rule": "Up to 10,000 URLs per request",
+          "description": "Batch submissions for efficiency.",
+          "priority": "low",
+          "applies_to": [
+            "bing",
+            "ai_engines"
+          ],
+          "implementation": "POST batch with urlList (max 10K). Include host, key, keyLocation.",
+          "validation": "Verify 200 OK. Check for rejected URLs."
+        }
+      ]
+    }
+  }
+}
