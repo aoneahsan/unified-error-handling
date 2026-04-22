@@ -177,3 +177,5 @@ pids
 
 # Ignore files marked with .ignore prefix
 .ignore.*
+# Firebase hosting cache (per 2026-04-22: untracked across all projects)
+.firebase/hosting.*
