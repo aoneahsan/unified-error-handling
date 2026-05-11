@@ -179,3 +179,12 @@ pids
 .ignore.*
 # Firebase hosting cache (per 2026-04-22: untracked across all projects)
 .firebase/hosting.*
+
+# Yarn 4 (Berry) — ignore cache/state, allow patches/plugins/releases/sdks/versions
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
+.pnp.*
