@@ -1,6 +1,6 @@
 # CLAUDE.md — unified-error-handling
 
-> Last Updated: 2026-04-03
+> Last Updated: 2026-05-29
 
 ## Project Identity
 
@@ -15,10 +15,18 @@
 
 ## Current Verified State
 
-- Reviewed on: `2026-03-24`
-- Build: `yarn build` passed
+- Reviewed on: `2026-05-29`
+- Version: `2.1.1`
 - Typecheck: `yarn typecheck` passed
+- Build: `yarn build` passed (ESM + CJS + types)
 - Tests: `yarn test` passed with 33 tests
+- Lint: `yarn lint` passed (ESLint 9 flat config)
+- Bundle size: core `dist/index.js` = 6.98 KB (limit 10 KB ✓); React `dist/react/index.js` = 10.05 KB vs 8 KB budget — pre-existing overage from the grown React surface (extra hooks/HOCs), NOT a build failure. Revisit the budget or trim the React entry before next release.
+
+### Held-back major dependency bumps (published-package conservatism — 2026-05-29)
+- **`typescript` held at `~5.9.3`** (TS 6.0 available): TS 6.0 turns `moduleResolution: "node"` (node10) in `tsconfig.json` into a hard error. Migrating moduleResolution on a package that emits dual ESM/CJS `.d.ts` is risky; defer until a deliberate tsconfig migration.
+- **`eslint` held at `^9.39.2`** (ESLint 10 available): ESLint 10 no longer bundles `@eslint/js`/`globals`, which `eslint.config.js` imports — flat config breaks. Dev-only tooling (zero consumer impact). The global rule also discourages a direct `@eslint/js` dependency, so a config refactor is needed before adopting ESLint 10.
+- All other devDependencies bumped to latest stable (esbuild 0.28, vitest 4.1, @typescript-eslint 8.60, @types/node 25.9, @types/react 19.2.15, lint-staged 17, prettier 3.8.3, size-limit 12.1, rimraf 6.1.3).
 
 ## Commands
 
@@ -94,13 +102,18 @@ Each subdirectory has its own `CLAUDE.md` + `AGENTS.md` with domain-specific rul
 - Preserve the package's zero-dependency core positioning
 - Bundle size limits: Core <10KB, React <8KB — check with `yarn size` before any release
 
-## Root Portfolio File Maintenance Rule
+## Portfolio Info File — Weekly Update Rule
 
-- Maintain exactly one current root portfolio info file
-- File naming: `UNIFIED-ERROR-HANDLING_portfolio-info_YYYY-MM-DD.md`
-- Refresh only after at least 7 days unless a major release happens sooner
-- Keep at most 10 update-history records inside the portfolio file
-- When the portfolio file changes, update `Readme.md` and this `CLAUDE.md` in the same pass
+- Canonical portfolio info file: `/home/ahsan/Documents/ahsan-notebook/static/assets/personal/projects-info-as-portfolio-item/packages/UNIFIED-ERROR-HANDLING_portfolio-info_<YYYY-MM-DD>.md`
+- Update at least once per week (and on any material change). Keep the last-updated date in the filename.
+- Keep a max-10-entry update history inside the file. On each refresh: prepend today's row, delete the previous dated file, write the new one.
+- Tracker: `/home/ahsan/Documents/01-code/docs/tracking/portfolio-info-files-update-tracker.json`
+- Last applied: 2026-05-29
+- When the portfolio file changes, also update `Readme.md` and this `CLAUDE.md` in the same pass.
+
+## Package Upgrades: Use `npm-check-updates`
+
+For dependency upgrades use `npx -y npm-check-updates -u && yarn install` (latest STABLE), NOT `yarn upgrade --latest`. Full rule in global `~/.claude/CLAUDE.md`. For this PUBLISHED package, hold back risky majors and record them under "Held-back major dependency bumps". Last applied: 2026-05-29
 
 ## Package Update History
 

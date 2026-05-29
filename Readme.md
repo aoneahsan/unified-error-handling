@@ -11,12 +11,12 @@ A lightweight, zero-dependency error handling library with dynamic adapter loadi
 ## Current State
 
 - Package version: `2.1.1`
-- Verified on: `2026-03-24`
-- Build: `yarn build` succeeds
+- Verified on: `2026-05-29`
 - Typecheck: `yarn typecheck` succeeds
+- Build: `yarn build` succeeds (ESM + CJS + types)
 - Tests: `yarn test` passes with 33 tests
-- Root portfolio info file:
-  - `UNIFIED-ERROR-HANDLING_portfolio-info_2026-03-24.md`
+- Lint: `yarn lint` passes (ESLint 9 flat config)
+- Portfolio info file (canonical location): `ahsan-notebook/static/assets/personal/projects-info-as-portfolio-item/packages/UNIFIED-ERROR-HANDLING_portfolio-info_2026-05-29.md`
 
 ## Verified Package Architecture
 

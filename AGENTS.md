@@ -1,6 +1,6 @@
 # AGENTS.md — unified-error-handling
 
-> Last Updated: 2026-04-03
+> Last Updated: 2026-05-29
 > AI Agent Instructions for Unified Error Handling Package Development
 
 ## Project Identity
@@ -117,6 +117,23 @@ npm publish          # Publish to npm
 ```
 
 Pre-publish checklist: build passes, tests pass, lint passes, size under limits.
+
+## Portfolio Info File — Weekly Update Rule
+
+- Canonical portfolio info file: `/home/ahsan/Documents/ahsan-notebook/static/assets/personal/projects-info-as-portfolio-item/packages/UNIFIED-ERROR-HANDLING_portfolio-info_<YYYY-MM-DD>.md`
+- Update at least once per week (and on any material change). Keep the last-updated date in the filename.
+- Keep a max-10-entry update history inside the file. On each refresh: prepend today's row, delete the previous dated file, write the new one.
+- Tracker: `/home/ahsan/Documents/01-code/docs/tracking/portfolio-info-files-update-tracker.json`
+- Last applied: 2026-05-29
+
+## Package Upgrades: Use `npm-check-updates`
+
+For dependency upgrades use `npx -y npm-check-updates -u && yarn install` (latest STABLE), NOT `yarn upgrade --latest`. Full rule in global `~/.claude/CLAUDE.md`. Last applied: 2026-05-29
+
+### Held-back major dependency bumps (2026-05-29 — published-package conservatism)
+- `typescript` held at `~5.9.3` (TS 6.0 makes `moduleResolution:"node"` a hard error in `tsconfig.json` — risky for a dual ESM/CJS `.d.ts`-emitting package).
+- `eslint` held at `^9.39.2` (ESLint 10 unbundles `@eslint/js`/`globals`, breaking the flat config; dev-only, zero consumer impact).
+- All other devDependencies bumped to latest stable. Verified: typecheck/build/test/lint all green.
 
 ## Architecture
 
