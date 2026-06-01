@@ -143,3 +143,12 @@ For dependency upgrades use `npx -y npm-check-updates -u && yarn install` (lates
 - CLAUDE.md/AGENTS.md: split into optimized nested structure
 
 ### Next Audit Due: 2026-04-06
+
+<!-- project-links:start -->
+## Links
+
+- Live: https://www.npmjs.com/package/unified-error-handling
+- NPM: https://www.npmjs.com/package/unified-error-handling
+
+_URL source of truth: `01-code/projects/project-live-urls.json` (auto-generated — do not hand-edit between these markers)._
+<!-- project-links:end -->

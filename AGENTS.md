@@ -145,3 +145,12 @@ Each `src/` subdirectory has its own `CLAUDE.md` + `AGENTS.md` with domain-speci
 - `src/utils/` — Interceptors and enrichment utilities
 - `src/types/` — TypeScript type definitions
 - `docs/` — Documentation maintenance rules
+
+<!-- project-links:start -->
+## Links
+
+- Live: https://www.npmjs.com/package/unified-error-handling
+- NPM: https://www.npmjs.com/package/unified-error-handling
+
+_URL source of truth: `01-code/projects/project-live-urls.json` (auto-generated — do not hand-edit between these markers)._
+<!-- project-links:end -->
