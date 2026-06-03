@@ -36,10 +36,6 @@
     "build",
     "android",
     "ios",
-    "**/*.spec.ts",
-    "**/*.test.ts",
-    "**/*.test.tsx",
-    "test-app",
-    "examples"
+    "test-app"
   ]
 }
