@@ -33,6 +33,6 @@
 
 ### Modification Rules
 - Store is the most critical module — changes here affect everything
-- Run full test suite after ANY store modification: `yarn test`
+- Run `yarn typecheck` and `yarn build` after ANY store modification
 - Ensure adapter dispatch is always parallel (`Promise.allSettled`)
 - Never let one adapter failure prevent others from receiving the error

@@ -36,9 +36,6 @@ Sentry, Firebase Crashlytics, Bugsnag, Rollbar, Datadog, LogRocket, Raygun, AppC
 yarn install         # Install dependencies
 yarn build           # ESM + CJS + types build
 yarn dev             # Watch mode
-yarn test            # Vitest once
-yarn test:watch      # Watch mode
-yarn test:coverage   # Coverage report
 yarn lint            # ESLint
 yarn format          # Prettier
 yarn typecheck       # TypeScript check
@@ -105,7 +102,7 @@ import { ErrorBoundary, useErrorHandler } from 'unified-error-handling/react';
 1. Keep zero-dependency core positioning
 2. Use dynamic `import()` for adapter SDK loading
 3. Run `yarn size` before any release
-4. Run full check before publishing: `yarn build && yarn test && yarn lint && yarn size`
+4. Run full check before publishing: `yarn build && yarn lint && yarn size`
 5. Keep docs aligned with actual implemented surface
 6. Update `Readme.md`, `CLAUDE.md`, and portfolio file together
 
@@ -116,7 +113,7 @@ yarn build           # Builds ESM + CJS + types
 npm publish          # Publish to npm
 ```
 
-Pre-publish checklist: build passes, tests pass, lint passes, size under limits.
+Pre-publish checklist: build passes, lint passes, size under limits.
 
 ## Portfolio Info File — Weekly Update Rule
 

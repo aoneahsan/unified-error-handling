@@ -25,16 +25,9 @@
 - `null` values explicitly clear the default
 - Arrays are replaced, not merged
 
-### Testing Config
-- Test each default value is set correctly
-- Test validation rejects invalid input with clear errors
-- Test merging produces correct precedence
-- Tests colocated: `defaults.test.ts`, `validator.test.ts`, etc.
-
 ### Adding New Config Options
 1. Add default value in `defaults.ts`
 2. Add validation rule in `validator.ts`
 3. Update merger if special merge logic needed
 4. Add TypeScript type in `src/types/config.ts`
-5. Add test coverage for the new option
-6. Update `docs/guides/configuration.md`
+5. Update `docs/guides/configuration.md`

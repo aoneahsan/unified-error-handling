@@ -14,7 +14,6 @@ A lightweight, zero-dependency error handling library with dynamic adapter loadi
 - Verified on: `2026-05-29`
 - Typecheck: `yarn typecheck` succeeds
 - Build: `yarn build` succeeds (ESM + CJS + types)
-- Tests: `yarn test` passes with 33 tests
 - Lint: `yarn lint` passes (ESLint 9 flat config)
 - Portfolio info file (canonical location): `ahsan-notebook/static/assets/personal/projects-info-as-portfolio-item/packages/UNIFIED-ERROR-HANDLING_portfolio-info_2026-05-29.md`
 
@@ -31,7 +30,6 @@ A lightweight, zero-dependency error handling library with dynamic adapter loadi
 ```bash
 yarn build
 yarn typecheck
-yarn test
 ```
 
 ## Features

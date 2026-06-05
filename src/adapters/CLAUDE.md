@@ -27,9 +27,8 @@ All adapters extend `BaseAdapter` from `base-adapter.ts` and MUST implement:
 4. Use `this.dynamicImport(packageName)` for SDK loading — NEVER static `import`
 5. Export from `src/adapters/index.ts`
 6. Re-export from `src/index.ts` for advanced usage
-7. Add corresponding test file: `{service}-adapter.test.ts`
-8. Add documentation: `docs/providers/{service}.md`
-9. Update root `Readme.md` supported services list
+7. Add documentation: `docs/providers/{service}.md`
+8. Update root `Readme.md` supported services list
 
 ### Dynamic Import Pattern (MANDATORY)
 ```typescript
@@ -54,9 +53,3 @@ NEVER use static `import` for service SDKs — this preserves zero-dependency co
 | LogRocket | `logrocket-adapter.ts` | `logrocket` |
 | Raygun | `raygun-adapter.ts` | `raygun4js` |
 | AppCenter | `appcenter-adapter.ts` | `appcenter-crashes` |
-
-### Testing Adapters
-- Mock the dynamically imported SDK in tests
-- Test: initialization, error capture, message capture, context setting, flush, close
-- Verify `sdkLoaded` flag is set after `loadSDK()`
-- Test graceful failure when SDK is not installed

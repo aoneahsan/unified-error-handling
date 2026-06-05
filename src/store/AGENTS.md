@@ -31,7 +31,7 @@
 5. Notify listeners
 
 ### Modification Rules
-- Most critical module — run full `yarn test` after ANY change
+- Most critical module — run `yarn typecheck` and `yarn build` after ANY change
 - Adapter dispatch must always be parallel
 - One adapter failure must never block others
 

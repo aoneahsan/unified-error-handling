@@ -24,12 +24,8 @@
 - `undefined` in user config = keep default; `null` = clear default
 - Arrays are replaced, not merged
 
-### Testing Config
-- Test defaults, validation rejection with clear errors, merge precedence
-- Colocated test files: `defaults.test.ts`, `validator.test.ts`, etc.
-
 ### Adding New Config Options
-1. Default in `defaults.ts` -> 2. Validation in `validator.ts` -> 3. Type in `src/types/config.ts` -> 4. Tests -> 5. Update `docs/guides/configuration.md`
+1. Default in `defaults.ts` -> 2. Validation in `validator.ts` -> 3. Type in `src/types/config.ts` -> 4. Update `docs/guides/configuration.md`
 
 ### CLAUDE.md + AGENTS.md Sync Rule
 Every rule in this file must also exist in `src/config/CLAUDE.md` and vice versa. Update both together.

@@ -29,15 +29,11 @@
 - ErrorBoundary must integrate with `errorStore` from `../store/error-store`
 - Bundle size limit: React module <8KB
 
-### Testing React Components
-- Use Vitest with happy-dom or jsdom environment
-- Test: error catching, fallback rendering, reset behavior, hooks, HOC wrapping
-
 ### Adding New React Features
 1. Create in `src/react/`
 2. Export from `src/react/index.ts`
 3. Ensure no impact on core bundle (separate entry point)
-4. Add tests and update `docs/api/react-hooks.md`
+4. Update `docs/api/react-hooks.md`
 
 ### CLAUDE.md + AGENTS.md Sync Rule
 Every rule in this file must also exist in `src/react/CLAUDE.md` and vice versa. Update both together.

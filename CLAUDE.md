@@ -19,7 +19,6 @@
 - Version: `2.1.1`
 - Typecheck: `yarn typecheck` passed
 - Build: `yarn build` passed (ESM + CJS + types)
-- Tests: `yarn test` passed with 33 tests
 - Lint: `yarn lint` passed (ESLint 9 flat config)
 - Bundle size: core `dist/index.js` = 6.98 KB (limit 10 KB ✓); React `dist/react/index.js` = 10.05 KB vs 8 KB budget — pre-existing overage from the grown React surface (extra hooks/HOCs), NOT a build failure. Revisit the budget or trim the React entry before next release.
 
@@ -33,9 +32,6 @@
 ```bash
 yarn build          # ESM + CJS + types
 yarn dev            # Watch mode
-yarn test           # Vitest once
-yarn test:watch     # Watch mode
-yarn test:coverage  # Coverage report
 yarn lint           # ESLint
 yarn format         # Prettier
 yarn typecheck      # TypeScript check
@@ -138,7 +134,6 @@ For dependency upgrades use `npx -y npm-check-updates -u && yarn install` (lates
 - Dependencies: no dependency audit performed in this pass
 - Build: passes
 - TypeScript: passes
-- Tests: passes
 - Features: current adapter and React surface reflected in docs
 - CLAUDE.md/AGENTS.md: split into optimized nested structure
 

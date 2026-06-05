@@ -82,8 +82,6 @@
 | ESLint Warnings | 0 | 0 |
 | TypeScript Errors | 0 | 0 |
 | Build Errors | 0 | 0 |
-| Test Pass Rate | 100% | 100% |
-| Test Count | 33 | - |
 
 ## Bundle Size
 
@@ -178,8 +176,7 @@ src/
 ├── config/            # Configuration management
 │   ├── defaults.ts
 │   ├── validator.ts
-│   ├── merger.ts
-│   └── defaults.test.ts
+│   └── merger.ts
 ├── react/             # React integration
 │   ├── error-boundary.tsx
 │   ├── hooks.ts
@@ -209,9 +206,6 @@ src/
 pnpm install          # Install dependencies
 pnpm dev              # Watch mode build
 pnpm build            # Production build
-pnpm test             # Run tests
-pnpm test:watch       # Watch mode tests
-pnpm test:coverage    # Coverage report
 pnpm lint             # ESLint check
 pnpm format           # Prettier format
 pnpm typecheck        # TypeScript check
