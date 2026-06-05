@@ -1,6 +1,6 @@
 # CLAUDE.md — unified-error-handling
 
-> Last Updated: 2026-05-29
+> Last Updated: 2026-06-05
 
 ## Project Identity
 
@@ -15,17 +15,20 @@
 
 ## Current Verified State
 
-- Reviewed on: `2026-05-29`
+- Reviewed on: `2026-06-05`
 - Version: `2.1.1`
-- Typecheck: `yarn typecheck` passed
+- Typecheck: `yarn typecheck` passed (TypeScript 6.0.3)
 - Build: `yarn build` passed (ESM + CJS + types)
-- Lint: `yarn lint` passed (ESLint 9 flat config)
-- Bundle size: core `dist/index.js` = 6.98 KB (limit 10 KB ✓); React `dist/react/index.js` = 10.05 KB vs 8 KB budget — pre-existing overage from the grown React surface (extra hooks/HOCs), NOT a build failure. Revisit the budget or trim the React entry before next release.
+- Lint: `yarn lint` passed (ESLint 10.4.1 flat config — 0 errors, 8 `preserve-caught-error` warnings, cosmetic/pre-existing from the new ESLint 10 rule set)
+- Tests: N/A — no automated test suite in this repo (Vitest infra removed under the global testing-removal policy; `package.json` has no `test` script and there are no `*.test.ts` files). Running tests as a gate is therefore not applicable.
+- Bundle size: core `dist/index.js` = 6.98 KB (limit 10 KB ✓); React `dist/react/index.js` = 10.08 KB vs 8 KB budget — pre-existing overage from the grown React surface (extra hooks/HOCs), NOT a build failure (`yarn size` exits non-zero only because the React budget is exceeded). Revisit the budget or trim the React entry before next release.
+- ncu (2026-06-05): bumped only `@types/node` ^25.9.1→^25.9.2 and `@types/react` ^19.2.16→^19.2.17 (type-only dev deps); gates re-verified green.
 
-### Held-back major dependency bumps (published-package conservatism — 2026-05-29)
-- **`typescript` held at `~5.9.3`** (TS 6.0 available): TS 6.0 turns `moduleResolution: "node"` (node10) in `tsconfig.json` into a hard error. Migrating moduleResolution on a package that emits dual ESM/CJS `.d.ts` is risky; defer until a deliberate tsconfig migration.
-- **`eslint` held at `^9.39.2`** (ESLint 10 available): ESLint 10 no longer bundles `@eslint/js`/`globals`, which `eslint.config.js` imports — flat config breaks. Dev-only tooling (zero consumer impact). The global rule also discourages a direct `@eslint/js` dependency, so a config refactor is needed before adopting ESLint 10.
-- All other devDependencies bumped to latest stable (esbuild 0.28, vitest 4.1, @typescript-eslint 8.60, @types/node 25.9, @types/react 19.2.15, lint-staged 17, prettier 3.8.3, size-limit 12.1, rimraf 6.1.3).
+### Previously-held major bumps — NOW RESOLVED (2026-06-05)
+The 2026-05-29 holds on `typescript` and `eslint` have been LIFTED: a subsequent committed migration unblocked both, and all gates are green on the new majors. **Do NOT pin these back** — that would regress working committed code.
+- **`typescript` now `~6.0.3`** (was held at 5.9): the blocker was `moduleResolution: "node"` becoming a hard error in TS 6. `tsconfig.json` was migrated to `moduleResolution: "bundler"`, so TS 6 typechecks and emits dual ESM/CJS `.d.ts` cleanly.
+- **`eslint` now `^10.4.1`** (was held at 9): the blocker was ESLint 10 unbundling `@eslint/js`/`globals`. Both are now explicit devDependencies (`@eslint/js` ^10.0.1, `globals` ^17.6.0), so the flat `eslint.config.js` resolves them and lint passes.
+- All other devDependencies are at latest stable (esbuild 0.28, @typescript-eslint 8.60, @types/node 25.9.2, @types/react 19.2.17, lint-staged 17, prettier 3.8.3, size-limit 12.1, rimraf 6.1.3).
 
 ## Commands
 
@@ -104,17 +107,18 @@ Each subdirectory has its own `CLAUDE.md` + `AGENTS.md` with domain-specific rul
 - Update at least once per week (and on any material change). Keep the last-updated date in the filename.
 - Keep a max-10-entry update history inside the file. On each refresh: prepend today's row, delete the previous dated file, write the new one.
 - Tracker: `/home/ahsan/Documents/01-code/docs/tracking/portfolio-info-files-update-tracker.json`
-- Last applied: 2026-05-29
+- Last applied: 2026-06-05
 - When the portfolio file changes, also update `Readme.md` and this `CLAUDE.md` in the same pass.
 
 ## Package Upgrades: Use `npm-check-updates`
 
-For dependency upgrades use `npx -y npm-check-updates -u && yarn install` (latest STABLE), NOT `yarn upgrade --latest`. Full rule in global `~/.claude/CLAUDE.md`. For this PUBLISHED package, hold back risky majors and record them under "Held-back major dependency bumps". Last applied: 2026-05-29
+For dependency upgrades use `npx -y npm-check-updates -u && yarn install` (latest STABLE), NOT `yarn upgrade --latest`. Full rule in global `~/.claude/CLAUDE.md`. For this PUBLISHED package, hold back only genuinely build-breaking majors and record them above. Last applied: 2026-06-05
 
 ## Package Update History
 
 | Date | Updated By | Notes |
 |------|-----------|-------|
+| 2026-06-05 | Claude | Portfolio re-refresh (2026-05-29→2026-06-05). ncu bumped `@types/node`+`@types/react` patches. Confirmed prior TS 6 / ESLint 10 migration is green (tsconfig→`moduleResolution:bundler`; explicit `@eslint/js`/`globals`); lifted the stale holds in docs. typecheck/build/lint all pass; no test suite (testing infra removed). |
 | 2026-04-03 | Claude | Split CLAUDE.md/AGENTS.md into optimized nested structure |
 | 2026-03-24 | Codex | Refreshed docs, verified package state, added portfolio maintenance rule |
 | 2026-02-02 | Claude | Full update to latest versions, all checks passing |

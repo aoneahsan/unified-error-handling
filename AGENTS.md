@@ -1,6 +1,6 @@
 # AGENTS.md — unified-error-handling
 
-> Last Updated: 2026-05-29
+> Last Updated: 2026-06-05
 > AI Agent Instructions for Unified Error Handling Package Development
 
 ## Project Identity
@@ -121,16 +121,17 @@ Pre-publish checklist: build passes, lint passes, size under limits.
 - Update at least once per week (and on any material change). Keep the last-updated date in the filename.
 - Keep a max-10-entry update history inside the file. On each refresh: prepend today's row, delete the previous dated file, write the new one.
 - Tracker: `/home/ahsan/Documents/01-code/docs/tracking/portfolio-info-files-update-tracker.json`
-- Last applied: 2026-05-29
+- Last applied: 2026-06-05
 
 ## Package Upgrades: Use `npm-check-updates`
 
-For dependency upgrades use `npx -y npm-check-updates -u && yarn install` (latest STABLE), NOT `yarn upgrade --latest`. Full rule in global `~/.claude/CLAUDE.md`. Last applied: 2026-05-29
+For dependency upgrades use `npx -y npm-check-updates -u && yarn install` (latest STABLE), NOT `yarn upgrade --latest`. Full rule in global `~/.claude/CLAUDE.md`. Last applied: 2026-06-05
 
-### Held-back major dependency bumps (2026-05-29 — published-package conservatism)
-- `typescript` held at `~5.9.3` (TS 6.0 makes `moduleResolution:"node"` a hard error in `tsconfig.json` — risky for a dual ESM/CJS `.d.ts`-emitting package).
-- `eslint` held at `^9.39.2` (ESLint 10 unbundles `@eslint/js`/`globals`, breaking the flat config; dev-only, zero consumer impact).
-- All other devDependencies bumped to latest stable. Verified: typecheck/build/test/lint all green.
+### Major dependency bumps — holds RESOLVED (2026-06-05)
+The 2026-05-29 holds on `typescript` and `eslint` are LIFTED; all gates are green on the new majors. Do NOT pin them back (regresses working committed code).
+- `typescript` now `~6.0.3` — `tsconfig.json` migrated to `moduleResolution: "bundler"`, so TS 6 typechecks and emits dual ESM/CJS `.d.ts` cleanly.
+- `eslint` now `^10.4.1` — `@eslint/js` (^10.0.1) and `globals` (^17.6.0) are explicit devDependencies, so the flat `eslint.config.js` resolves them; lint passes (0 errors, 8 cosmetic warnings).
+- ncu (2026-06-05) additionally bumped `@types/node`→25.9.2 and `@types/react`→19.2.17. No automated test suite remains (Vitest removed under the global testing-removal policy). Verified: typecheck/build/lint all green.
 
 ## Architecture
 
