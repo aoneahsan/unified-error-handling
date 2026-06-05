@@ -188,3 +188,8 @@ pids
 !.yarn/sdks
 !.yarn/versions
 .pnp.*
+
+# Nested sub-project (test-app) Yarn artifacts — never commit
+**/.yarn/cache
+**/.yarn/install-state.gz
+**/.yarn/build-state.yml

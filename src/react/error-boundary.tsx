@@ -241,7 +241,14 @@ export const DefaultErrorFallback: React.FC<ErrorFallbackProps> = ({
   resetError,
   retry,
 }) => {
-  const isDevelopment = process.env.NODE_ENV === 'development';
+  // Read NODE_ENV in a browser-safe, dependency-free way. `process` is a
+  // Node global that may be absent in the browser and is no longer implicitly
+  // typed under TypeScript 6 in a DOM-only `lib`, so access it through a
+  // narrowly-typed `globalThis` guard instead of `@types/node`.
+  const nodeEnv = (
+    globalThis as { process?: { env?: { NODE_ENV?: string } } }
+  ).process?.env?.NODE_ENV;
+  const isDevelopment = nodeEnv === 'development';
 
   return (
     <div style={{
