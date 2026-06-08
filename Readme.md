@@ -51,8 +51,6 @@ yarn typecheck
 npm install unified-error-handling
 # or
 yarn add unified-error-handling
-# or
-pnpm add unified-error-handling
 ```
 
 ## Quick Start

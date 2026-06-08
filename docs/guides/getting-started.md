@@ -9,13 +9,7 @@ This guide will help you install and set up the Unified Error Handling library i
 
 ## Installation
 
-Install the library using pnpm (recommended):
-
-```bash
-pnpm add unified-error-handling
-```
-
-Or using npm:
+Install the library using npm:
 
 ```bash
 npm install unified-error-handling
@@ -161,10 +155,10 @@ Make sure you've installed the required SDK:
 
 ```bash
 # For Sentry
-pnpm add @sentry/browser
+npm install @sentry/browser
 
 # For Firebase
-pnpm add firebase
+npm install firebase
 ```
 
 ### TypeScript Types Not Found

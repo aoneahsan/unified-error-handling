@@ -203,13 +203,13 @@ src/
 
 ```bash
 # Development
-pnpm install          # Install dependencies
-pnpm dev              # Watch mode build
-pnpm build            # Production build
-pnpm lint             # ESLint check
-pnpm format           # Prettier format
-pnpm typecheck        # TypeScript check
-pnpm size             # Bundle size check
+yarn install          # Install dependencies
+yarn dev              # Watch mode build
+yarn build            # Production build
+yarn lint             # ESLint check
+yarn format           # Prettier format
+yarn typecheck        # TypeScript check
+yarn size             # Bundle size check
 ```
 
 ## Contact
