@@ -117,6 +117,5 @@
     "*.{js,json,md}": [
       "prettier --write"
     ]
-  },
-  "packageManager": "yarn@4.14.1"
+  }
 }
