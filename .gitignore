@@ -11,6 +11,11 @@ node_modules/
 dist/
 build/
 lib/
+www/
+.output/
+.vite/
+.next/
+.wxt/
 *.tsbuildinfo
 *.d.ts.map
 
@@ -109,12 +114,8 @@ debug.log
 # =======================
 # Environment & Config
 # =======================
-.env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
-.env.*.local
+# PRIVATE repo — .env / secrets ARE tracked in git (NOT ignored).
+# Keep template files (.env.example/.env.sample/.env.template) as-is.
 
 # =======================
 # Temporary & Cache
@@ -176,7 +177,8 @@ pids
 .husky/_
 
 # Ignore files marked with .ignore prefix
-.ignore.*
+*.ignore.*
+project-record-ignore/
 # Firebase hosting cache (per 2026-04-22: untracked across all projects)
 .firebase/hosting.*
 
