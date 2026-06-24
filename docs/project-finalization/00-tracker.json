@@ -1,0 +1,85 @@
+{
+  "$schema": "unified-error-handling-finalization-tracker",
+  "description": "Resumable production-finalization tracker. The first phase/sub-task with status 'pending' or 'in_progress' is the next thing to work on.",
+  "project": "unified-error-handling",
+  "type": "npm-package (zero-dependency error-handling library)",
+  "stack": "TypeScript 6 + esbuild (ESM/CJS) + tsc d.ts + ESLint 10 flat config; optional React 19 peer (subpath ./react); 10 dynamic adapters (console/custom/Sentry/Firebase/Datadog/Bugsnag/Rollbar/LogRocket/Raygun/AppCenter)",
+  "appRepo": "github.com/aoneahsan/unified-error-handling (PRIVATE)",
+  "docsRepo": "github.com/aoneahsan/unified-error-handling-docs (PUBLIC, new)",
+  "createdAt": "2026-06-24",
+  "lastUpdated": "2026-06-24",
+  "verifyGates": {
+    "typecheck": "yarn typecheck — PASS (0 errors)",
+    "build": "yarn build — PASS (ESM + CJS + d.ts)",
+    "lint": "yarn lint — 0 errors (was 8 preserve-caught-error warnings; fixed in phase03)"
+  },
+  "envSecrets": "NONE — pure zero-dependency library. No .env/.firebaserc/google-services.json/service-account anywhere in the tree. Privacy gate: app repo PRIVATE (no secrets to add). Docs repo PUBLIC (no secrets).",
+  "gapInventory": [
+    {
+      "id": "gap-01",
+      "title": "8 ESLint preserve-caught-error warnings — re-thrown errors drop the original cause",
+      "where": "src/adapters/base-adapter.ts:54 + appcenter/bugsnag/datadog/firebase/logrocket/raygun/rollbar adapters loadSDK catch blocks",
+      "class": "AUTOMATABLE",
+      "reason": "On-mission for an error-handling library: attach { cause } when wrapping the SDK-load failure so the original import error is preserved in the chain. Zero-cost, backward-compatible.",
+      "status": "complete",
+      "builtInPhase": "phase03"
+    },
+    {
+      "id": "gap-02",
+      "title": "Doc drift: store nested CLAUDE.md/AGENTS.md claim 'dispatch to ALL adapters in parallel (Promise.allSettled)' but code sends to the single activeAdapter",
+      "where": "src/store/CLAUDE.md + src/store/AGENTS.md vs src/store/error-store.ts sendToAdapter()",
+      "class": "AUTOMATABLE",
+      "reason": "Accuracy fix — make the nested docs match the real single-active-adapter dispatch model.",
+      "status": "complete",
+      "builtInPhase": "phase03"
+    },
+    {
+      "id": "gap-03",
+      "title": "Root AGENTS.md says 'Repository: Public' but app repo is PRIVATE",
+      "where": "AGENTS.md Project Identity table",
+      "class": "AUTOMATABLE",
+      "reason": "Correct to PRIVATE to match gh repo view.",
+      "status": "complete",
+      "builtInPhase": "phase00"
+    },
+    {
+      "id": "gap-04",
+      "title": "No public documentation site for the package",
+      "where": "n/a (new repo unified-error-handling-docs)",
+      "class": "AUTOMATABLE",
+      "reason": "Build a Docusaurus 3 docs site (public repo) with full SEO floor + dual hosting config, modeled on capacitor-auth-manager-docs. Content source-accurate from src/.",
+      "status": "complete",
+      "builtInPhase": "phaseD"
+    },
+    {
+      "id": "gap-05",
+      "title": "React subpath bundle 10.08 KB exceeds the 8 KB size-limit budget",
+      "where": "dist/react/index.js vs package.json size-limit",
+      "class": "MANUAL",
+      "reason": "Product/identity decision only the owner can make: either raise the documented budget or trim the public React hook/HOC surface (a breaking API change). Already a documented known overage in CLAUDE.md. Not a broken feature — build passes; `yarn size` is the only non-zero exit.",
+      "status": "deferred"
+    },
+    {
+      "id": "gap-06",
+      "title": "Publish the cause-chain fix to npm + deploy docs site",
+      "where": "npm registry + Firebase Hosting / GitHub Pages",
+      "class": "MANUAL",
+      "reason": "Deploy/publish actions are user-only (npm auth + DNS for custom domain + hosting). See docs/MANUAL-TASKS.md.",
+      "status": "deferred"
+    }
+  ],
+  "phases": [
+    { "id": "phase00", "title": "Setup: tracker + MANUAL-TASKS + refresh CLAUDE/AGENTS to true state", "status": "complete", "completedAt": "2026-06-24" },
+    { "id": "phase01", "title": "Env/secret scan + privacy gate", "status": "complete", "completedAt": "2026-06-24", "note": "No secret files exist; nothing to force-add. App repo PRIVATE." },
+    { "id": "phase02", "title": "Gap audit → classified gapInventory", "status": "complete", "completedAt": "2026-06-24" },
+    { "id": "phase03", "title": "Build automatable code/doc gaps (cause-chain fix + store doc-drift)", "status": "complete", "completedAt": "2026-06-24" },
+    { "id": "phaseD", "title": "Docs site (new PUBLIC repo, Docusaurus 3, SEO + dual hosting)", "status": "complete", "completedAt": "2026-06-24" },
+    { "id": "phaseN1", "title": "Manual-task consolidation", "status": "complete", "completedAt": "2026-06-24" },
+    { "id": "phaseN2", "title": "Finalize: verify gates + tracker + git sync", "status": "complete", "completedAt": "2026-06-24" }
+  ],
+  "runHistory": [
+    { "date": "2026-06-24", "summary": "Full finalization pass: read real src/, fixed 8 preserve-caught-error lint warnings (cause-chain), corrected store doc-drift + repo-visibility doc, built new public Docusaurus docs site (unified-error-handling-docs) with full SEO floor + dual hosting, consolidated MANUAL-TASKS. All gates green.", "commit": "pending" }
+  ],
+  "readiness": 97,
+  "resumeInstructions": "1) Read this tracker. 2) Find first pending/in_progress phase. 3) Resume. All phases complete as of 2026-06-24 — only MANUAL items (publish patch, deploy docs, DNS, React-budget decision) remain, tracked in docs/MANUAL-TASKS.md."
+}

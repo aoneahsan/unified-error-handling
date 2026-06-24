@@ -1,7 +1,13 @@
 # AGENTS.md — unified-error-handling
 
-> Last Updated: 2026-06-08
+> Last Updated: 2026-06-24
 > AI Agent Instructions for Unified Error Handling Package Development
+
+## Docs Site + Manual Tasks (pointers)
+
+- **Public docs site:** separate PUBLIC repo `github.com/aoneahsan/unified-error-handling-docs` (Docusaurus 3, source-accurate from `src/`). Live target: `https://unified-error-handling-docs.aoneahsan.com` (deploy is user-only — Firebase Hosting or GitHub Pages, both wired).
+- **Human-only tasks:** `docs/MANUAL-TASKS.md` (npm publish, docs deploy/DNS, React size-budget decision).
+- **Finalization tracker:** `docs/project-finalization/00-tracker.json` (resumable).
 
 ## Task Speed Over Docs (IRON-SOLID — BEHAVIORAL)
 
@@ -14,7 +20,7 @@ Finish the real task fast + correctly FIRST; docs/trackers/sync are a footnote (
 | Package | `unified-error-handling` |
 | Version | `2.1.1` |
 | License | MIT |
-| Repository | Public |
+| Repository | Private (npm package published from it) |
 | Package Manager | `yarn` |
 | Node.js | >= 24.13.0 |
 

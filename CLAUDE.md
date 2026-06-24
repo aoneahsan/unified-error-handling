@@ -1,6 +1,12 @@
 # CLAUDE.md — unified-error-handling
 
-> Last Updated: 2026-06-08
+> Last Updated: 2026-06-24
+
+## Docs Site + Manual Tasks (pointers)
+
+- **Public docs site:** separate PUBLIC repo `github.com/aoneahsan/unified-error-handling-docs` (Docusaurus 3, source-accurate from `src/`). Live target: `https://unified-error-handling-docs.aoneahsan.com` (deploy is user-only — Firebase Hosting or GitHub Pages, both wired).
+- **Human-only tasks:** `docs/MANUAL-TASKS.md` (npm publish, docs deploy/DNS, React size-budget decision).
+- **Finalization tracker:** `docs/project-finalization/00-tracker.json` (resumable).
 
 ## Task Speed Over Docs (IRON-SOLID — BEHAVIORAL)
 
