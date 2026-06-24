@@ -1,0 +1,61 @@
+{
+  "$schema": "unified-error-handling-docs-seo-content-tracker",
+  "description": "Per-page SEO/AEO content enrichment progress for the unified-error-handling-docs site. Resumable across sessions. The docs site lives in its own PUBLIC repo (github.com/aoneahsan/unified-error-handling-docs).",
+  "docsRepo": "github.com/aoneahsan/unified-error-handling-docs",
+  "docsRoot": "unified-error-handling-docs/docs",
+  "liveUrl": "https://unified-error-handling-docs.aoneahsan.com",
+  "totalPages": 26,
+  "enrichedPages": 26,
+  "remainingPages": 0,
+  "lastUpdated": "2026-06-24",
+  "batchSize": 15,
+  "wordsPerPageMin": 250,
+  "expert": "Ahsan Mahmood",
+  "seoFloor": {
+    "robotsAiBotAllowlist": true,
+    "sitemapXml": true,
+    "llmsTxt": true,
+    "jsonLd": ["WebSite", "Organization", "SoftwareSourceCode"],
+    "perPageMetaAndOG": true,
+    "securityTxt": true,
+    "humansTxt": true
+  },
+  "pages": [
+    { "id": "intro", "status": "complete" },
+    { "id": "getting-started/installation", "status": "complete" },
+    { "id": "getting-started/quick-start", "status": "complete" },
+    { "id": "getting-started/configuration", "status": "complete" },
+    { "id": "guides/adapters", "status": "complete" },
+    { "id": "guides/context-and-breadcrumbs", "status": "complete" },
+    { "id": "guides/offline-and-interceptors", "status": "complete" },
+    { "id": "guides/custom-adapters", "status": "complete" },
+    { "id": "guides/react", "status": "complete" },
+    { "id": "providers/overview", "status": "complete" },
+    { "id": "providers/console", "status": "complete" },
+    { "id": "providers/sentry", "status": "complete" },
+    { "id": "providers/firebase", "status": "complete" },
+    { "id": "providers/datadog", "status": "complete" },
+    { "id": "providers/bugsnag", "status": "complete" },
+    { "id": "providers/rollbar", "status": "complete" },
+    { "id": "providers/logrocket", "status": "complete" },
+    { "id": "providers/raygun", "status": "complete" },
+    { "id": "providers/appcenter", "status": "complete" },
+    { "id": "providers/custom", "status": "complete" },
+    { "id": "api/core", "status": "complete" },
+    { "id": "api/react", "status": "complete" },
+    { "id": "api/types", "status": "complete" },
+    { "id": "faq", "status": "complete" },
+    { "id": "changelog", "status": "complete" },
+    { "id": "about-the-author", "status": "complete" }
+  ],
+  "nextBatchSuggestion": {
+    "rationale": "All 26 initial pages are written and source-accurate. Future long-tail enrichment: add comparison pages (e.g. 'unified-error-handling vs raw Sentry SDK'), per-framework guides (Vue, Angular, Node.js, React Native), and a troubleshooting page. Each new page must include distinct title (50-60 chars) + meta description (140-160 chars), definition-first intro, examples, and stay 100% source-accurate.",
+    "candidatePages": [
+      "frameworks/vue",
+      "frameworks/angular",
+      "frameworks/nodejs",
+      "guides/troubleshooting",
+      "comparisons/vs-direct-sdk"
+    ]
+  }
+}

@@ -78,7 +78,10 @@
     { "id": "phaseN2", "title": "Finalize: verify gates + tracker + git sync", "status": "complete", "completedAt": "2026-06-24" }
   ],
   "runHistory": [
-    { "date": "2026-06-24", "summary": "Full finalization pass: read real src/, fixed 8 preserve-caught-error lint warnings (cause-chain), corrected store doc-drift + repo-visibility doc, built new public Docusaurus docs site (unified-error-handling-docs) with full SEO floor + dual hosting, consolidated MANUAL-TASKS. All gates green.", "commit": "pending" }
+    { "date": "2026-06-24", "phase": "phase00-02", "summary": "Setup: tracker + MANUAL-TASKS; refreshed CLAUDE/AGENTS (repo Public->Private fix); env scan = no secrets.", "commit": "8b1e2cd" },
+    { "date": "2026-06-24", "phase": "phase03", "summary": "Fixed 8 preserve-caught-error warnings (attach { cause }) in all adapters + corrected pnpm->yarn install hints + store doc-drift fix. typecheck/lint/build all 0.", "commit": "417faaf" },
+    { "date": "2026-06-24", "phase": "phaseD", "summary": "New PUBLIC docs repo unified-error-handling-docs: Docusaurus 3, 26 source-accurate pages, full SEO floor (robots AI allowlist, sitemap 27 urls, llms.txt, JSON-LD WebSite+Organization+SoftwareSourceCode), dual hosting (firebase + Pages), brand assets. yarn build + typecheck clean.", "commit": "19dc7c5 (docs repo)" },
+    { "date": "2026-06-24", "phase": "phaseN1-N2", "summary": "Scaffolded docs SEO content tracker; finalized this tracker; final app gates re-verified green.", "commit": "pending" }
   ],
   "readiness": 97,
   "resumeInstructions": "1) Read this tracker. 2) Find first pending/in_progress phase. 3) Resume. All phases complete as of 2026-06-24 — only MANUAL items (publish patch, deploy docs, DNS, React-budget decision) remain, tracked in docs/MANUAL-TASKS.md."
