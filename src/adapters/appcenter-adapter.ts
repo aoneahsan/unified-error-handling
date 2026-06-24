@@ -20,12 +20,13 @@ export class AppCenterAdapter extends BaseAdapter {
       this.analytics = AppCenterAnalytics.default || AppCenterAnalytics;
 
       this.sdkLoaded = true;
-    } catch (_error) {
+    } catch (error) {
       throw new Error(
         `Failed to load AppCenter SDK. Please install:\n` +
-          `pnpm add appcenter-crashes appcenter-analytics\n` +
+          `yarn add appcenter-crashes appcenter-analytics\n` +
           `Note: AppCenter is primarily for React Native/mobile apps.\n` +
-          `For web apps, consider using a different adapter.`
+          `For web apps, consider using a different adapter.`,
+        { cause: error }
       );
     }
   }

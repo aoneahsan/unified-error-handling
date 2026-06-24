@@ -12,11 +12,12 @@ export class RaygunAdapter extends BaseAdapter {
       const RaygunModule = await this.dynamicImport('raygun4js');
       this.raygun = RaygunModule.default || RaygunModule;
       this.sdkLoaded = true;
-    } catch (_error) {
+    } catch (error) {
       throw new Error(
         `Failed to load Raygun SDK. Please install:\n` +
-          `pnpm add raygun4js\n` +
-          `or include Raygun SDK via CDN`
+          `yarn add raygun4js\n` +
+          `or include Raygun SDK via CDN`,
+        { cause: error }
       );
     }
   }

@@ -12,11 +12,12 @@ export class RollbarAdapter extends BaseAdapter {
       const RollbarModule = await this.dynamicImport('rollbar');
       this.rollbar = RollbarModule.default || RollbarModule;
       this.sdkLoaded = true;
-    } catch (_error) {
+    } catch (error) {
       throw new Error(
         `Failed to load Rollbar SDK. Please install:\n` +
-          `pnpm add rollbar\n` +
-          `or include Rollbar SDK via CDN`
+          `yarn add rollbar\n` +
+          `or include Rollbar SDK via CDN`,
+        { cause: error }
       );
     }
   }

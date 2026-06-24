@@ -38,11 +38,12 @@ export class FirebaseAdapter extends BaseAdapter {
       }
 
       this.sdkLoaded = true;
-    } catch (_error) {
+    } catch (error) {
       throw new Error(
         `Failed to load Firebase SDK. Please install:\n` +
-        `npm install firebase\n` +
-        `or include Firebase SDK via CDN`
+        `yarn add firebase\n` +
+        `or include Firebase SDK via CDN`,
+        { cause: error }
       );
     }
   }

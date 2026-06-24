@@ -49,13 +49,15 @@ export abstract class BaseAdapter implements ErrorAdapter {
     try {
       // Try to import from node_modules first
       return await import(packageName);
-    } catch (_error) {
-      // If that fails, provide helpful error message
+    } catch (error) {
+      // If that fails, provide a helpful error message while preserving the
+      // original import failure in the error chain (`cause`).
       throw new Error(
         `Failed to load ${packageName}. Please install it:\n` +
         `npm install ${packageName}\n` +
         `or\n` +
-        `yarn add ${packageName}`
+        `yarn add ${packageName}`,
+        { cause: error }
       );
     }
   }

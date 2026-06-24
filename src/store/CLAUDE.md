@@ -1,6 +1,6 @@
 # src/store/ — CLAUDE.md
 
-> Last Updated: 2026-04-03
+> Last Updated: 2026-06-24
 
 ## Error Store Rules
 
@@ -14,7 +14,7 @@
 - **Singleton pattern** — `errorStore` is the single global instance
 - Manages: adapter registry, error queue, user context, breadcrumbs, listeners
 - All public API functions (`initialize`, `captureError`, `setUser`, etc.) delegate to the store
-- Store dispatches errors to ALL registered adapters in parallel
+- Store dispatches each error to the SINGLE active adapter (`activeAdapter` — the last one passed to `useAdapter()`). Multiple adapters may be registered, but only one is active at a time; switching adapters re-points `activeAdapter`.
 
 ### Store Rules
 - NEVER create multiple store instances — singleton is enforced
@@ -28,11 +28,12 @@
 1. Error enters via `captureError()` or interceptor
 2. Error is normalized to `NormalizedError` format
 3. Error is enriched (breadcrumbs, context, device info)
-4. Error is dispatched to all registered adapters in parallel
-5. Listeners are notified
+4. `beforeSend` hook runs; error is queued if offline (and `enableOfflineQueue`)
+5. Error is dispatched to the active adapter (`sendToAdapter`, wrapped in try/catch)
+6. Listeners are notified
 
 ### Modification Rules
 - Store is the most critical module — changes here affect everything
 - Run `yarn typecheck` and `yarn build` after ANY store modification
-- Ensure adapter dispatch is always parallel (`Promise.allSettled`)
-- Never let one adapter failure prevent others from receiving the error
+- A failing adapter `captureError` must never throw out of the store (it is caught + logged)
+- If multi-adapter fan-out is ever added, dispatch with `Promise.allSettled` so one adapter failure never blocks the others

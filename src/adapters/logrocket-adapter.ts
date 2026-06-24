@@ -12,11 +12,12 @@ export class LogRocketAdapter extends BaseAdapter {
       const LogRocketModule = await this.dynamicImport('logrocket');
       this.logRocket = LogRocketModule.default || LogRocketModule;
       this.sdkLoaded = true;
-    } catch (_error) {
+    } catch (error) {
       throw new Error(
         `Failed to load LogRocket SDK. Please install:\n` +
-          `pnpm add logrocket\n` +
-          `or include LogRocket SDK via CDN`
+          `yarn add logrocket\n` +
+          `or include LogRocket SDK via CDN`,
+        { cause: error }
       );
     }
   }

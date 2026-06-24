@@ -17,11 +17,12 @@ export class DataDogAdapter extends BaseAdapter {
       this.datadogLogs = ddLogs.datadogLogs;
 
       this.sdkLoaded = true;
-    } catch (_error) {
+    } catch (error) {
       throw new Error(
         `Failed to load DataDog SDK. Please install:\n` +
-          `pnpm add @datadog/browser-rum @datadog/browser-logs\n` +
-          `or include DataDog SDK via CDN`
+          `yarn add @datadog/browser-rum @datadog/browser-logs\n` +
+          `or include DataDog SDK via CDN`,
+        { cause: error }
       );
     }
   }

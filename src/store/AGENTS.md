@@ -1,6 +1,6 @@
 # src/store/ — AGENTS.md
 
-> Last Updated: 2026-04-03
+> Last Updated: 2026-06-24
 
 ## Error Store Rules for AI Agents
 
@@ -14,7 +14,7 @@
 - **Singleton** — `errorStore` is the single global instance
 - Manages: adapter registry, error queue, user context, breadcrumbs, listeners
 - Public API functions delegate to the store
-- Dispatches errors to ALL registered adapters in parallel
+- Dispatches each error to the SINGLE active adapter (`activeAdapter` — the last one passed to `useAdapter()`). Adapters can be registered without being active; only one is active at a time.
 
 ### Store Rules
 - NEVER create multiple instances — singleton enforced
@@ -27,13 +27,14 @@
 1. Enter via `captureError()` or interceptor
 2. Normalize to `NormalizedError`
 3. Enrich (breadcrumbs, context, device)
-4. Dispatch to all adapters (`Promise.allSettled`)
-5. Notify listeners
+4. Apply `beforeSend` hook; queue if offline (and `enableOfflineQueue`)
+5. Dispatch to the active adapter (`sendToAdapter` — try/catch isolates adapter failures)
+6. Notify listeners
 
 ### Modification Rules
 - Most critical module — run `yarn typecheck` and `yarn build` after ANY change
-- Adapter dispatch must always be parallel
-- One adapter failure must never block others
+- A failing adapter `captureError` must never throw out of the store (it is caught + logged)
+- If multi-adapter fan-out is ever introduced, use `Promise.allSettled` so one adapter failure never blocks the others
 
 ### CLAUDE.md + AGENTS.md Sync Rule
 Every rule in this file must also exist in `src/store/CLAUDE.md` and vice versa. Update both together.

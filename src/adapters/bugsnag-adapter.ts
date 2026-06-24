@@ -12,11 +12,12 @@ export class BugsnagAdapter extends BaseAdapter {
       const BugsnagModule = await this.dynamicImport('@bugsnag/js');
       this.bugsnag = BugsnagModule.default || BugsnagModule;
       this.sdkLoaded = true;
-    } catch (_error) {
+    } catch (error) {
       throw new Error(
         `Failed to load Bugsnag SDK. Please install:\n` +
-          `pnpm add @bugsnag/js\n` +
-          `or include Bugsnag SDK via CDN`
+          `yarn add @bugsnag/js\n` +
+          `or include Bugsnag SDK via CDN`,
+        { cause: error }
       );
     }
   }
