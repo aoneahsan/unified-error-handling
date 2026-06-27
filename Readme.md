@@ -2,7 +2,7 @@
 
 - **[AI Integration Guide](./AI-INTEGRATION-GUIDE.md)** - Quick reference for AI development agents (Claude, Cursor, Copilot)
 
-[![npm version](https://img.shields.io/npm/v/unified-error-handling.svg)](https://www.npmjs.com/package/unified-error-handling)
+[![npm version](https://img.shields.io/npm/v/unified-error-handling.svg)](https://npmjs.com/package/unified-error-handling)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Bundle Size](https://img.shields.io/bundlephobia/minzip/unified-error-handling)](https://bundlephobia.com/package/unified-error-handling)
 
@@ -14,8 +14,8 @@ A lightweight, zero-dependency error handling library with dynamic adapter loadi
 - Verified on: `2026-05-29`
 - Typecheck: `yarn typecheck` succeeds
 - Build: `yarn build` succeeds (ESM + CJS + types)
-- Lint: `yarn lint` passes (ESLint 9 flat config)
-- Portfolio info file (canonical location): `ahsan-notebook/static/assets/personal/projects-info-as-portfolio-item/packages/UNIFIED-ERROR-HANDLING_portfolio-info_2026-05-29.md`
+- Lint: `yarn lint` passes (ESLint 10 flat config)
+- Portfolio info file (canonical location): `ahsan-notebook/static/assets/personal/projects-info-as-portfolio-item/packages/UNIFIED-ERROR-HANDLING_portfolio-info_2026-06-26.md`
 
 ## Verified Package Architecture
 
@@ -384,8 +384,8 @@ Contributions are welcome! Please read our [Contributing Guide](CONTRIBUTING.md)
 <!-- project-links:start -->
 ## Links
 
-- Live: https://www.npmjs.com/package/unified-error-handling
-- NPM: https://www.npmjs.com/package/unified-error-handling
+- Live: https://npmjs.com/package/unified-error-handling
+- NPM: https://npmjs.com/package/unified-error-handling
 
 _URL source of truth: `01-code/projects/project-live-urls.json` (auto-generated — do not hand-edit between these markers)._
 <!-- project-links:end -->

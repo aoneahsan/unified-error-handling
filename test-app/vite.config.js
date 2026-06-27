@@ -14,5 +14,5 @@ export default defineConfig({
     // app's real react copy so the library's named hook imports resolve.
     dedupe: ['react', 'react-dom']
   },
-  logLevel: process.env.NODE_ENV === 'production' ? 'error' : 'info',
+  logLevel: 'info',
 });
