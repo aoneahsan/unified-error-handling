@@ -121,7 +121,7 @@ Each subdirectory has its own `CLAUDE.md` + `AGENTS.md` with domain-specific rul
 
 - Keep docs aligned with actual implemented adapter and React surface. Do not describe the project as "provider implementations not started".
 - Use `yarn` as the documented workflow — never npm/pnpm for local work
-- When refreshing package info, update `Readme.md`, this file, and the portfolio info file in the same pass
+- When refreshing package info, update `README.md`, this file, and the portfolio info file in the same pass
 - Preserve the package's zero-dependency core positioning
 - Bundle size limits: Core <10KB, React <8KB — check with `yarn size` before any release
 
@@ -132,7 +132,7 @@ Each subdirectory has its own `CLAUDE.md` + `AGENTS.md` with domain-specific rul
 - Keep a max-10-entry update history inside the file. On each refresh: prepend today's row, delete the previous dated file, write the new one.
 - Tracker: `/home/ahsan/Documents/01-code/docs/tracking/portfolio-info-files-update-tracker.json`
 - Last applied: 2026-06-05
-- When the portfolio file changes, also update `Readme.md` and this `CLAUDE.md` in the same pass.
+- When the portfolio file changes, also update `README.md` and this `CLAUDE.md` in the same pass.
 
 ## Package Upgrades: Use `npm-check-updates`
 

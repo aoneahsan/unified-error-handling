@@ -1,7 +1,7 @@
 {
   "name": "unified-error-handling",
   "version": "2.1.1",
-  "description": "A lightweight, zero-dependency error handling library with dynamic adapter loading for multiple error tracking services",
+  "description": "One error-capture API for your app, with the tracking SDK loaded only when you use it.",
   "type": "module",
   "main": "dist/index.js",
   "module": "dist/index.js",
@@ -21,6 +21,7 @@
   "files": [
     "dist/",
     "README.md",
+    "CHANGELOG.md",
     "LICENSE",
     "AI-INTEGRATION-GUIDE.md"
   ],
@@ -34,22 +35,25 @@
     "type": "git",
     "url": "git+https://github.com/aoneahsan/unified-error-handling.git"
   },
+  "homepage": "https://unified-error-handling-docs.aoneahsan.com",
   "bugs": {
     "url": "https://github.com/aoneahsan/unified-error-handling/issues"
+  },
+  "funding": {
+    "type": "individual",
+    "url": "https://aoneahsan.com/payment?project-id=unified-error-handling&project-identifier=unified-error-handling"
   },
   "keywords": [
     "error-handling",
     "crash-reporting",
+    "error-tracking",
     "sentry",
-    "firebase-crashlytics",
     "bugsnag",
     "rollbar",
     "datadog",
     "logrocket",
     "raygun",
-    "appcenter",
     "zero-dependency",
-    "provider-less",
     "react",
     "typescript"
   ],
@@ -103,7 +107,7 @@
     },
     {
       "path": "dist/react/index.js",
-      "limit": "8 KB"
+      "limit": "12 KB"
     }
   ],
   "engines": {

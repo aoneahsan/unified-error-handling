@@ -1,261 +1,229 @@
-# AI Integration Guide - unified-error-handling
+# AI Integration Guide — unified-error-handling
 
-Quick reference for AI development agents (Claude Code, Cursor, Copilot, etc.) to integrate unified-error-handling into projects.
+A precise reference for coding agents (Claude Code, Cursor, Copilot) integrating this package. Every
+signature below is taken from the source of version 2.1.1. Prose docs live at
+https://unified-error-handling-docs.aoneahsan.com
 
-## Installation
+## The one thing to get right
+
+**The store dispatches to a single active adapter.** `useAdapter(name, config)` makes that adapter the only
+destination and replaces whichever was active before. Errors are **not** fanned out to several services.
+
+```ts
+await useAdapter('console');
+await useAdapter('sentry', { dsn }); // console is no longer the destination
+captureError(err);                   // goes to Sentry only
+```
+
+**With no active adapter, captured errors are discarded** — logged to the console only when the store was
+initialised with `debug: true`. So a correct integration is always two calls:
+
+```ts
+initialize(config);
+await useAdapter(name, adapterConfig);
+```
+
+To reach two services, write one custom adapter whose `send` forwards to both, or use `subscribe()`.
+
+## Install
 
 ```bash
 yarn add unified-error-handling
-# or
-npm install unified-error-handling
 ```
 
-## Core Concepts
+Then install only the vendor SDK for the adapter you activate. The library never bundles one.
 
-unified-error-handling provides:
-- **Zero Dependencies** - Core library has no dependencies
-- **Dynamic Adapter Loading** - Load SDKs on demand
-- **Multi-Platform Support** - Sentry, Firebase Crashlytics, Bugsnag, DataDog, etc.
-- **Provider-less Architecture** - No Context needed
+## Core API — `unified-error-handling`
 
-## Quick Start
+| Function | Signature |
+|---|---|
+| `initialize` | `(config?: ErrorStoreConfig) => void` |
+| `captureError` | `(error: Error \| string, context?: Partial<ErrorContext>) => void` |
+| `captureMessage` | `(message: string, level?: string) => void` |
+| `setUser` | `(user: UserContext \| null) => void` |
+| `setContext` | `(context: Partial<ErrorContext>) => void` |
+| `addBreadcrumb` | `(crumb: Omit<Breadcrumb, 'timestamp'>) => void` |
+| `clearBreadcrumbs` | `() => void` |
+| `useAdapter` | `(name: string, config?: unknown) => Promise<void>` |
+| `removeAdapter` | `(name: string) => void` |
+| `registerAdapter` | `(name: string, adapter: ErrorAdapter) => void` |
+| `createAdapter` | `(name: string, config: CustomAdapterConfig) => void` |
+| `createCustomAdapter` | `(config: CustomAdapterConfig) => ErrorAdapter` |
+| `subscribe` | `(listener: (error: NormalizedError) => void) => () => void` |
+| `flush` | `() => Promise<void>` |
+| `reset` | `() => void` |
+| `errorStore` | the singleton instance |
 
-### Basic Usage
+`setContext` takes **one object**, not a key/value pair. `captureError`'s second argument is a
+`Partial<ErrorContext>` — arbitrary keys belong under `extra`, not at the top level.
 
-```typescript
-import { initialize, captureError, captureMessage, useAdapter } from 'unified-error-handling';
+## Configuration
 
-// Initialize once at app start
-initialize({
-  enableGlobalHandlers: true,  // Catch unhandled errors
-  enableConsoleCapture: true,  // Capture console.error
-});
-
-// Enable console adapter (built-in)
-await useAdapter('console');
-
-// Capture errors
-try {
-  throw new Error('Something went wrong!');
-} catch (error) {
-  captureError(error);
-}
-
-// Capture messages
-captureMessage('User completed checkout', 'info');
-```
-
-### With Sentry
-
-```typescript
-import { initialize, useAdapter } from 'unified-error-handling';
-
-initialize({ enableGlobalHandlers: true });
-
-await useAdapter('sentry', {
-  dsn: import.meta.env.VITE_SENTRY_DSN,
-  environment: import.meta.env.MODE,
-  release: 'my-app@1.0.0',
-});
-```
-
-### With Firebase Crashlytics
-
-```typescript
-import { initialize, useAdapter } from 'unified-error-handling';
-import { initializeApp } from 'firebase/app';
-
-const firebaseApp = initializeApp(firebaseConfig);
-
-initialize({ enableGlobalHandlers: true });
-
-await useAdapter('firebase', {
-  app: firebaseApp,
-});
-```
-
-### Multiple Adapters
-
-```typescript
-// Use multiple error tracking services simultaneously
-await useAdapter('console');
-await useAdapter('sentry', { dsn: '...' });
-await useAdapter('firebase', { app: firebaseApp });
-
-// All adapters receive errors
-captureError(error); // Sent to console, Sentry, AND Firebase
-```
-
-## React Integration
-
-```tsx
-import { initialize, useAdapter, captureError } from 'unified-error-handling';
-import { ErrorBoundary, useErrorHandler } from 'unified-error-handling/react';
-
-// Initialize once
-initialize({ enableGlobalHandlers: true });
-
-function App() {
-  useEffect(() => {
-    useAdapter('sentry', { dsn: '...' });
-  }, []);
-
-  return (
-    <ErrorBoundary fallback={<ErrorPage />}>
-      <MyApp />
-    </ErrorBoundary>
-  );
-}
-
-// In components
-function MyComponent() {
-  const { captureError, setUser } = useErrorHandler();
-
-  const handleClick = async () => {
-    try {
-      await riskyOperation();
-    } catch (error) {
-      captureError(error, { context: 'button_click' });
-    }
-  };
-
-  return <button onClick={handleClick}>Do Something</button>;
-}
-```
-
-## API Reference
-
-### Core Functions
-
-| Function | Description | Returns |
-|----------|-------------|---------|
-| `initialize(config)` | Initialize error handling | `void` |
-| `captureError(error, context?)` | Capture and report error | `void` |
-| `captureMessage(message, level?)` | Capture a log message | `void` |
-| `setUser(user)` | Set user context | `void` |
-| `setContext(key, value)` | Set custom context | `void` |
-| `addBreadcrumb(breadcrumb)` | Add breadcrumb trail | `void` |
-| `clearBreadcrumbs()` | Clear all breadcrumbs | `void` |
-| `useAdapter(name, config?)` | Enable an adapter | `Promise<void>` |
-| `removeAdapter(name)` | Disable an adapter | `void` |
-| `flush()` | Flush pending errors | `Promise<void>` |
-| `reset()` | Reset all state | `void` |
-| `subscribe(listener)` | Subscribe to errors | `() => void` |
-
-### Configuration
-
-```typescript
+```ts
 interface ErrorStoreConfig {
-  enableGlobalHandlers?: boolean;    // Catch window.onerror
-  enableConsoleCapture?: boolean;    // Capture console.error
-  enableNetworkCapture?: boolean;    // Capture fetch errors
-  maxBreadcrumbs?: number;           // Max breadcrumb count (default: 100)
-  beforeSend?: (error) => error;     // Transform before send
-  sampleRate?: number;               // Error sampling (0-1)
+  maxBreadcrumbs?: number;          // default 100
+  enableGlobalHandlers?: boolean;   // default true — browser only
+  enableOfflineQueue?: boolean;     // default true
+  enableConsoleCapture?: boolean;   // default true
+  enableNetworkCapture?: boolean;   // default false
+  beforeSend?: (error: NormalizedError) => NormalizedError | null; // null drops the error
+  environment?: string;
+  release?: string;
+  debug?: boolean;                  // default false
 }
 ```
 
-### User Context
+There is no `sampleRate` option.
 
-```typescript
-import { setUser } from 'unified-error-handling';
+## Context types
 
-setUser({
-  id: 'user-123',
-  email: 'user@example.com',
-  username: 'johndoe',
-  // Custom properties allowed
-  subscription: 'premium',
-});
+```ts
+interface ErrorContext {
+  user?: UserContext;
+  device?: DeviceContext;
+  custom?: Record<string, any>;
+  tags?: Record<string, string>;
+  extra?: Record<string, any>;
+}
+
+interface Breadcrumb {
+  timestamp: number;                // added by the store — omit when calling addBreadcrumb
+  message: string;
+  category?: string;
+  level?: 'debug' | 'info' | 'warning' | 'error';
+  data?: Record<string, any>;
+}
 ```
 
-### Breadcrumbs
+A breadcrumb has **no** `type` field.
 
-```typescript
-import { addBreadcrumb } from 'unified-error-handling';
+```ts
+setUser({ id: 'user-123', email: 'user@example.com', plan: 'premium' });
 
 addBreadcrumb({
-  type: 'navigation',
-  category: 'route',
   message: 'User navigated to /dashboard',
+  category: 'navigation',
   level: 'info',
   data: { from: '/home', to: '/dashboard' },
 });
 
-addBreadcrumb({
-  type: 'user',
-  category: 'click',
-  message: 'User clicked submit button',
-  level: 'info',
+captureError(new Error('Checkout failed'), {
+  tags: { feature: 'checkout' },
+  extra: { orderId: 'A-4471' },
 });
 ```
 
-### Custom Adapters
+## Adapters
 
-```typescript
-import { createAdapter, registerAdapter } from 'unified-error-handling';
+| Name | SDK to install | Required config |
+|---|---|---|
+| `console` | none — built in | none |
+| `sentry` | `@sentry/browser` | `dsn` |
+| `datadog` | `@datadog/browser-rum` + `@datadog/browser-logs` | `applicationId`, `clientToken` |
+| `bugsnag` | `@bugsnag/js` | `apiKey` |
+| `rollbar` | `rollbar` | `accessToken` |
+| `logrocket` | `logrocket` | `appId` |
+| `raygun` | `raygun4js` | `apiKey` |
+| `appcenter` | `appcenter-crashes` + `appcenter-analytics` | `appSecret` |
+| `firebase` | `firebase` | `firebaseConfig` — **cannot load in a browser**, see Limitations |
 
-// Simple custom adapter
+Activation throws if the SDK is missing or required config is absent. The thrown error carries the original
+import failure as its `cause`.
+
+## Custom adapters
+
+The contract is a `send` function. There is no `onError`/`onMessage` shape.
+
+```ts
+import { createAdapter, useAdapter } from 'unified-error-handling';
+
 createAdapter('my-backend', {
-  onError: async (error, context) => {
+  async send(error, context) {
     await fetch('/api/errors', {
       method: 'POST',
       body: JSON.stringify({ error, context }),
     });
   },
-  onMessage: async (message, level) => {
-    console.log(`[${level}] ${message}`);
-  },
 });
 
-// Or create a full adapter class
-import { CustomAdapter } from 'unified-error-handling';
+await useAdapter('my-backend'); // registering does not activate — this does
+```
 
-class MyAdapter extends CustomAdapter {
-  async captureError(error, context) {
-    // Custom implementation
-  }
+```ts
+interface CustomAdapterConfig {
+  send: (error: NormalizedError, context: ErrorContext) => Promise<void>;
+  initialize?: () => Promise<void>;   // receives no arguments
+  setContext?: (context: ErrorContext) => Promise<void>;
+  addBreadcrumb?: (breadcrumb: Breadcrumb) => Promise<void>;
+  flush?: () => Promise<void>;
+  close?: () => Promise<void>;
+}
+```
+
+Note that `initialize` takes no arguments, so the second argument to `useAdapter` is ignored by a custom
+adapter. Close over the values you need instead.
+
+## React — `unified-error-handling/react`
+
+No provider component exists and none is needed; the store is a module singleton.
+
+| Export | Signature |
+|---|---|
+| `ErrorBoundary` | component — props `fallback?`, `onError?`, `level?` |
+| `withErrorBoundary` | `(Component, options?) => Component` |
+| `useErrorHandler` | `() => (error: Error \| string, context?: Partial<ErrorContext>) => void` |
+| `useErrorStore` | `() => { initialized, offline, activeAdapter, captureError, setUser, ... }` |
+| `useAsyncError` | `() => (error: Error \| string) => void` |
+| `useAsyncOperation` | `<T>(op: () => Promise<T>, deps?) => { data, loading, error, execute }` |
+| `useErrorTracking` | `(componentName: string) => void` |
+| `useComponentError` | `(componentName: string) => { logComponentError }` |
+| `usePerformanceMonitor` | `() => { measurePerformance }` |
+| `useExtendedErrorHandler` | `() => { logError, logNavigation, logUserAction, setTags }` |
+
+**`useErrorHandler()` returns a function, not an object.** Destructuring it yields `undefined`. Use
+`useErrorStore()` when you need `setUser`, `addBreadcrumb` and the rest.
+
+There is no `useErrorBoundary` hook.
+
+```tsx
+import { initialize, useAdapter } from 'unified-error-handling';
+import { ErrorBoundary, useErrorHandler, useErrorStore } from 'unified-error-handling/react';
+
+initialize({ enableGlobalHandlers: true });
+await useAdapter('sentry', { dsn: import.meta.env.VITE_SENTRY_DSN });
+
+function App() {
+  return (
+    <ErrorBoundary>
+      <Checkout />
+    </ErrorBoundary>
+  );
 }
 
-registerAdapter('my-adapter', new MyAdapter());
+function Checkout() {
+  const handleError = useErrorHandler();   // a function
+  const { setUser } = useErrorStore();     // the actions object
+
+  return <button onClick={() => handleError(new Error('Boom'))}>Pay</button>;
+}
 ```
 
-## Built-in Adapters
+`ErrorBoundary`'s `fallback` prop is a **component type**, not an element:
 
-| Adapter | Service | Config Required |
-|---------|---------|-----------------|
-| `console` | Console logging | None |
-| `sentry` | Sentry | `{ dsn: string }` |
-| `firebase` | Firebase Crashlytics | `{ app: FirebaseApp }` |
-| `bugsnag` | Bugsnag | `{ apiKey: string }` |
-| `datadog` | DataDog RUM | `{ clientToken: string, applicationId: string }` |
-| `logrocket` | LogRocket | `{ appId: string }` |
-| `rollbar` | Rollbar | `{ accessToken: string }` |
-
-## React Hooks
-
-```typescript
-import { useErrorHandler, useErrorBoundary } from 'unified-error-handling/react';
-
-// Main hook
-const {
-  captureError,
-  captureMessage,
-  setUser,
-  setContext,
-  addBreadcrumb,
-} = useErrorHandler();
-
-// Error boundary hook
-const { error, resetError } = useErrorBoundary();
+```tsx
+<ErrorBoundary fallback={({ error, resetError }) => (
+  <div>
+    <p>{error.message}</p>
+    <button onClick={resetError}>Try again</button>
+  </div>
+)}>
+  <App />
+</ErrorBoundary>
 ```
 
-## Common Patterns
+## Recommended app-entry pattern
 
-### Initialize in App Entry
-
-```typescript
-// src/main.tsx
+```ts
 import { initialize, useAdapter } from 'unified-error-handling';
 
 initialize({
@@ -265,71 +233,41 @@ initialize({
 });
 
 if (import.meta.env.VITE_SENTRY_DSN) {
-  useAdapter('sentry', {
+  await useAdapter('sentry', {
     dsn: import.meta.env.VITE_SENTRY_DSN,
     environment: import.meta.env.MODE,
   });
+} else {
+  await useAdapter('console');
 }
 ```
 
-### Error Boundary Wrapper
+Without the `else` branch, errors are silently discarded whenever the DSN is unset.
 
-```tsx
-import { ErrorBoundary } from 'unified-error-handling/react';
+## Limitations to respect when generating code
 
-function App() {
-  return (
-    <ErrorBoundary
-      fallback={({ error, resetError }) => (
-        <div>
-          <h1>Something went wrong</h1>
-          <p>{error.message}</p>
-          <button onClick={resetError}>Try Again</button>
-        </div>
-      )}
-    >
-      <MyApp />
-    </ErrorBoundary>
-  );
-}
-```
-
-### API Error Handler
-
-```typescript
-import { captureError, addBreadcrumb } from 'unified-error-handling';
-
-async function apiRequest(url: string, options?: RequestInit) {
-  addBreadcrumb({
-    type: 'http',
-    category: 'fetch',
-    message: `${options?.method || 'GET'} ${url}`,
-  });
-
-  try {
-    const response = await fetch(url, options);
-    if (!response.ok) {
-      throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-    }
-    return response.json();
-  } catch (error) {
-    captureError(error, { url, method: options?.method });
-    throw error;
-  }
-}
-```
+- One active adapter at a time; `useAdapter` replaces rather than adds.
+- No active adapter means captured errors are dropped.
+- The `firebase` adapter imports `firebase/crashlytics`, which the Firebase JS SDK does not expose, so it
+  cannot load in a browser. Do not recommend it for web projects.
+- Global handlers attach to `window`; Node.js gets no `process` hooks.
+- The offline queue is in-memory and does not survive a reload.
+- `reset()` cannot detach already-installed global handlers.
+- The React entry requires React 19+.
 
 ## Troubleshooting
 
-| Issue | Solution |
-|-------|----------|
-| Errors not appearing | Check adapter is initialized with `useAdapter()` |
-| Sentry not receiving | Verify DSN is correct, check network tab |
-| Duplicate errors | Ensure `initialize()` is called only once |
-| Missing context | Call `setUser()` after user authenticates |
+| Symptom | Cause | Fix |
+|---|---|---|
+| Nothing reaches the service | no active adapter | call `useAdapter()` after `initialize()` |
+| `[ErrorStore] Not initialized` | captured before `initialize()` | initialise at the entry point |
+| `Failed to load <sdk>` | vendor SDK not installed | install it; read `error.cause` for the real reason |
+| `[ErrorStore] Already initialized` | `initialize()` called twice | call once — it is a singleton |
+| Errors stopped after a second `useAdapter` | expected — the adapter was replaced | use a custom adapter to reach two sinks |
 
 ## Links
 
-- [Full Documentation](./Readme.md)
-- [Changelog](./CHANGELOG.md)
-- [GitHub](https://github.com/aoneahsan/unified-error-handling)
+- Documentation — https://unified-error-handling-docs.aoneahsan.com
+- Repository — https://github.com/aoneahsan/unified-error-handling
+- Changelog — https://github.com/aoneahsan/unified-error-handling/blob/main/CHANGELOG.md
+- Known issues — https://github.com/aoneahsan/unified-error-handling/blob/main/docs/REPORTED-ISSUES.md

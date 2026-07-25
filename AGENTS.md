@@ -128,7 +128,7 @@ import { ErrorBoundary, useErrorHandler } from 'unified-error-handling/react';
 3. Run `yarn size` before any release
 4. Run full check before publishing: `yarn build && yarn lint && yarn size`
 5. Keep docs aligned with actual implemented surface
-6. Update `Readme.md`, `CLAUDE.md`, and portfolio file together
+6. Update `README.md`, `CLAUDE.md`, and portfolio file together
 
 ## Publishing
 

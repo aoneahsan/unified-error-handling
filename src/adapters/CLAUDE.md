@@ -28,7 +28,7 @@ All adapters extend `BaseAdapter` from `base-adapter.ts` and MUST implement:
 5. Export from `src/adapters/index.ts`
 6. Re-export from `src/index.ts` for advanced usage
 7. Add documentation: `docs/providers/{service}.md`
-8. Update root `Readme.md` supported services list
+8. Update root `README.md` supported services list
 
 ### Dynamic Import Pattern (MANDATORY)
 ```typescript
