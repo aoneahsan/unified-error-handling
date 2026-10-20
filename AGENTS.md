@@ -1,219 +1,34 @@
-# AGENTS.md — unified-error-handling
+# Unified Error Handling project guidance
 
-> Last Updated: 2026-06-24
-> AI Agent Instructions for Unified Error Handling Package Development
+**Last context pass:** 2026-10-20. **Next routine context pass:** 2026-11-19.
 
-## Docs Site + Manual Tasks (pointers)
+## Start here
 
-- **Public docs site:** separate PUBLIC repo `github.com/aoneahsan/unified-error-handling-docs` (Docusaurus 3, source-accurate from `src/`). Live target: `https://unified-error-handling-docs.aoneahsan.com` (deploy is user-only — Firebase Hosting or GitHub Pages, both wired).
-- **Human-only tasks:** `docs/MANUAL-TASKS.md` (npm publish, docs deploy/DNS, React size-budget decision).
-- **Finalization tracker:** `docs/project-finalization/00-tracker.json` (resumable).
+This public `aoneahsan/unified-error-handling` repository publishes the `unified-error-handling` npm package. The separate public docs repository is `/home/ahsan/Documents/01-code/projects/unified-error-handling-docs` and deploys to `https://unified-error-handling-docs.aoneahsan.com` through GitHub Pages. Read this pair and the nearest scoped pair before editing. Current fleet state lives in the workspace maintenance tracker.
 
-## Task Speed Over Docs (IRON-SOLID — BEHAVIORAL)
+## Product contract
 
-Finish the real task fast + correctly FIRST; docs/trackers/sync are a footnote (≤~20% of effort) — never let recording outpace the fix. HARD STOP when doc work outpaces the change → ship, then ONE line if anything. No new summary/status/completion files unless asked; edit/delete over add; delete stale docs. Full rule: `~/.claude/CLAUDE.md`. (Est. 2026-06-19)
+- Version `2.1.1` exposes `.` and `./react` as ESM, CJS, and TypeScript declarations.
+- The core has no runtime dependencies. React and React DOM are optional peers for the React entry.
+- Adapters load consumer-installed SDKs dynamically. Keep the single-active-adapter behavior and do not imply fan-out.
+- Bundle limits are 10 kB for `dist/index.js` and 12 kB for `dist/react/index.js` under `size-limit`.
+- Open implementation defects are recorded in `docs/REPORTED-ISSUES.md`; do not claim an affected adapter or export works until its entry is resolved.
 
-## Gitignore Hygiene (IRON-SOLID)
-`.gitignore` stays current with the project structure — ignore only recoverable artifacts (build/`dist`/`www`/`node_modules`/logs/caches/IDE), never lose source. Custom rules always present: `*.ignore.*`, `project-record-ignore/`. This is a **PRIVATE** repo -> `.env`/secrets/keystores ARE tracked in git.
-Full rule + private/public protocol: `~/.claude/rules/project-config.md`.
-Gitignore Last Verified: 2026-06-24
+## Repository map
 
-## Project Identity
+- `src/` owns the library; its domain folders have focused guides.
+- `scripts/` contains package utilities, `examples/` contains consumer examples, and `test-app/` is a private manual sandbox.
+- `docs/` holds package maintenance records. Public user documentation belongs in the separate docs repository.
+- `dist/` is generated and ignored. Never hand-edit it.
 
-| Property | Value |
-|----------|-------|
-| Package | `unified-error-handling` |
-| Version | `2.1.1` |
-| License | MIT |
-| Repository | Private (npm package published from it) |
-| Package Manager | `yarn` |
-| Node.js | >= 24.13.0 |
+## Working rules
 
-### Supported Services
-Sentry, Firebase Crashlytics, Bugsnag, Rollbar, Datadog, LogRocket, Raygun, AppCenter
+Use Yarn for local work. Never install, import, vendor, or copy an owner-created client package, including `@perkforce/tool-kit`. This repository is public: ignore every real environment file, token, key, credential, package archive, and local agent setting. Keep only placeholder examples. Keep README and docs claims traceable to source or current command output.
 
-### Core Constraints
-- Zero required dependencies
-- Dynamic adapter loading via `import()`
-- Bundle size: Core <10KB, React <8KB
-- React error boundaries + hooks (peer dep, optional)
+Use the current supported API when fixing build or package fallout. Preserve explicit ESM/CJS/type exports, dynamic adapter imports, source-map exclusions, and the zero-runtime-dependency core. Do not revive obsolete Rollup or removed test infrastructure merely because historical files mention them.
 
-## Agent Responsibilities
+## Verification and release
 
-| Agent | Role |
-|-------|------|
-| **Claude Code** | Primary implementation. Writes code, runs tests, publishes. |
-| **Codex** | Reviews, provides specs. Does NOT implement unless explicitly requested. |
+Run `yarn install --immutable`, `yarn typecheck`, `yarn lint`, `yarn build`, `yarn size`, and `yarn pack --dry-run`. Inspect the tarball manifest and confirm each `exports` target exists. Publishing requires a deliberate semantic version and registry verification; record the resulting version and commit. Public docs use their own build, browser, Pages, and live URL gates.
 
-## Setup & Commands
-
-```bash
-yarn install         # Install dependencies
-yarn build           # ESM + CJS + types build
-yarn dev             # Watch mode
-yarn lint            # ESLint
-yarn format          # Prettier
-yarn typecheck       # TypeScript check
-yarn size            # Bundle size check
-yarn analyze         # Bundle analysis
-```
-
-## Package Manager Hierarchy: nvm → npm (global) → yarn (local) (IRON-SOLID)
-
-Three tiers, each tool ONLY for its tier — for the best, most reproducible dev results:
-- **`nvm`** → install/update Node.js (which bundles `npm`): `nvm install --lts`. Use nvm to get/update `npm` itself.
-- **`npm`** → ALL global packages: `npm install -g yarn` (install yarn globally if missing) + `npm install -g <pkg>` (every other global CLI).
-- **`yarn`** → ALL local project work: `yarn`, `yarn add <pkg>`, `yarn add -D <pkg>` inside the project.
-
-❌ NEVER use `npm`/`pnpm` for LOCAL installs. NEVER use `pnpm` at all. ✅ Only `yarn.lock` in the project — delete `package-lock.json` and `pnpm-lock.yaml`.
-
-## Module Exports
-
-```typescript
-// Core
-import { ErrorHandler } from 'unified-error-handling';
-// React (error boundaries, hooks)
-import { ErrorBoundary, useErrorHandler } from 'unified-error-handling/react';
-```
-
----
-
-## CRITICAL RULES
-
-### 1. CLAUDE.md + AGENTS.md Sync Rule (IRON-SOLID)
-
-**Every important rule MUST exist in BOTH `CLAUDE.md` AND `AGENTS.md` at each level.**
-- When adding/updating a rule in one file, ALWAYS update the other
-- This applies to root AND all nested files
-- Never add a rule to just one file — always both
-
-### 2. CLAUDE.md + AGENTS.md Update Frequency (IRON-SOLID)
-
-**ALL `CLAUDE.md` and `AGENTS.md` files MUST be reviewed and updated at least once every 3 days.**
-- On every session start, check `Last Updated` dates across all project files
-- If any file is >3 days stale, update it BEFORE proceeding with other work
-- Every file must have a `Last Updated` date field
-
-### 3. Claude Code Agents Usage (MANDATORY)
-
-**For EVERY prompt and task, Claude Code MUST use agents to deliver the best possible experience.**
-- **Explore agent**: Codebase search, file discovery, architecture understanding
-- **Plan agent**: Implementation planning, architecture decisions
-- **general-purpose agent**: Complex multi-step tasks, parallel processing
-- Use agents proactively — don't wait for tasks to become complex
-- Launch multiple agents in parallel when tasks are independent
-- Use Explore agent before making changes to unfamiliar code
-
-### 4. Nested CLAUDE.md + AGENTS.md Files (MANDATORY)
-
-- Create reasonable nested `CLAUDE.md` and `AGENTS.md` files in all important folders
-- Rules in nested files improve development results for that specific area
-- Keep nested files focused and concise — they should NOT duplicate root rules
-- Each nested pair must stay in sync with each other
-
----
-
-## Project-Specific Rules
-
-### NEVER
-1. Add required production dependencies — zero-dependency core is non-negotiable
-2. Exceed bundle size limits (10KB core, 8KB React)
-3. Break existing adapter interfaces (BaseAdapter contract)
-4. Use npm/pnpm for local project work — yarn only
-5. Leave TODO/FIXME comments — implement or ask
-
-### ALWAYS
-1. Keep zero-dependency core positioning
-2. Use dynamic `import()` for adapter SDK loading
-3. Run `yarn size` before any release
-4. Run full check before publishing: `yarn build && yarn lint && yarn size`
-5. Keep docs aligned with actual implemented surface
-6. Update `README.md`, `CLAUDE.md`, and portfolio file together
-
-## Publishing
-
-```bash
-yarn build           # Builds ESM + CJS + types
-npm publish          # Publish to npm
-```
-
-Pre-publish checklist: build passes, lint passes, size under limits.
-
-## Portfolio Info File — Weekly Update Rule
-
-- Canonical portfolio info file: `/home/ahsan/Documents/ahsan-notebook/static/assets/personal/projects-info-as-portfolio-item/packages/UNIFIED-ERROR-HANDLING_portfolio-info_<YYYY-MM-DD>.md`
-- Update at least once per week (and on any material change). Keep the last-updated date in the filename.
-- Keep a max-10-entry update history inside the file. On each refresh: prepend today's row, delete the previous dated file, write the new one.
-- Tracker: `/home/ahsan/Documents/01-code/docs/tracking/portfolio-info-files-update-tracker.json`
-- Last applied: 2026-06-05
-
-## Package Upgrades: Use `npm-check-updates`
-
-For dependency upgrades use `npx -y npm-check-updates -u && yarn install` (latest STABLE), NOT `yarn upgrade --latest`. Full rule in global `~/.claude/CLAUDE.md`. Last applied: 2026-06-05
-
-### Major dependency bumps — holds RESOLVED (2026-06-05)
-The 2026-05-29 holds on `typescript` and `eslint` are LIFTED; all gates are green on the new majors. Do NOT pin them back (regresses working committed code).
-- `typescript` now `~6.0.3` — `tsconfig.json` migrated to `moduleResolution: "bundler"`, so TS 6 typechecks and emits dual ESM/CJS `.d.ts` cleanly.
-- `eslint` now `^10.4.1` — `@eslint/js` (^10.0.1) and `globals` (^17.6.0) are explicit devDependencies, so the flat `eslint.config.js` resolves them; lint passes (0 errors, 8 cosmetic warnings).
-- ncu (2026-06-05) additionally bumped `@types/node`→25.9.2 and `@types/react`→19.2.17. No automated test suite remains (Vitest removed under the global testing-removal policy). Verified: typecheck/build/lint all green.
-
-## Architecture
-
-Each `src/` subdirectory has its own `CLAUDE.md` + `AGENTS.md` with domain-specific rules:
-- `src/adapters/` — Adapter development contract and patterns
-- `src/config/` — Configuration validation and merging
-- `src/store/` — Core error store state management
-- `src/react/` — React components, hooks, boundaries
-- `src/utils/` — Interceptors and enrichment utilities
-- `src/types/` — TypeScript type definitions
-- `docs/` — Documentation maintenance rules
-
-<!-- project-links:start -->
-## Links
-
-- Live: https://www.npmjs.com/package/unified-error-handling
-- NPM: https://www.npmjs.com/package/unified-error-handling
-
-_URL source of truth: `01-code/projects/project-live-urls.json` (auto-generated — do not hand-edit between these markers)._
-<!-- project-links:end -->
-
-## Source maps — disabled by default — RULE
-Never generate source maps for this project unless the owner (aoneahsan) explicitly requests them.
-Production / build / published output must ship WITHOUT source maps — no `.map` files and no
-`//# sourceMappingURL` in shipped assets.
-
-- **Vite**: `build.sourcemap: false` in `vite.config.*`.
-- **Rollup**: `output.sourcemap: false` on every output.
-- **Webpack**: production `devtool: false` (dev-only inline maps for local debugging are allowed).
-- **tsup**: `sourcemap: false`.
-- **tsconfig** (library / `tsc` builds): `"sourceMap": false`, `"inlineSourceMap": false`, `"declarationMap": false`.
-
-Dev-only inline source maps for local debugging are fine; never emit source maps in production / published
-output. Do NOT re-enable production source maps or delete these settings. Only the owner, by an explicit
-request, may turn production source maps on (e.g. a one-off Sentry upload).
-
-
-## Sub-agents & Skills — Main-Context-First (IRON-SOLID)
-Default/built-in sub-agents (`general-purpose`, `Explore`, `Plan`, `claude`, `fork`, …) do NOT have
-access to `/skills`, so delegating to them silently SKIPS the skills RULE #0 requires. Do all
-skill-relevant work in the **MAIN context**; use a sub-agent ONLY when a **custom** agent exists in
-`.claude/agents/` for that job; a default `Explore`/`Plan` agent is allowed ONLY for read-only,
-no-skill search/exploration. When a relevant skill is missing, **install/enable it** rather than
-proceeding skill-less. (Owner directive 2026-07-11; full text in `~/.claude/CLAUDE.md`.)
-
-<!-- RULE:main-context-model-workflow v2026-07-16 -->
-## Main-Context + Skills + Model Workflow (IRON-SOLID — CRITICAL)
-1. **NO default/built-in sub-agents** (`general-purpose`, `Explore`, `Plan`, `claude`, `fork`, …) for ANY work in
-   this project — they cannot invoke /skills, which RULE #0 makes mandatory. Do ALL work (planning, implementation,
-   review, exploration) in the MAIN context. A sub-agent is allowed ONLY when a CUSTOM agent exists in
-   `.claude/agents/` for that exact job.
-2. **Skills always:** before any task, scan the available-skills list and invoke EVERY relevant skill; if a needed
-   skill is missing, download/enable/install it (or use the nearest installed equivalent and say so) — never
-   proceed skill-less.
-3. **Model workflow:** PLAN and REVIEW on **Fable 5**; EXECUTE the approved plan on **Opus 4.8**. Plans in
-   `~/.claude/plans/`; multi-phase features keep a resumable tracker (`docs/features/<slug>/00-tracker.json`),
-   resumed rather than re-planned from zero.
-
-Global records (rules, policy, audit reports) live in the `ahsan-notebook` repo at
-`static/assets/claude-code/`; the `~/.claude/…` paths are symlinks into it. Full text: `~/.claude/CLAUDE.md`.
-(Owner directives 2026-07-11 / 2026-07-14; fleet-rolled 2026-07-16.)
+Context optimization is complete for this pass. Do not repeat before 2026-11-19 unless the owner requests it, the tree changes materially, a hard cap is breached, or a stale instruction can cause wrong work.

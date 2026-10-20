@@ -91,7 +91,7 @@ want errors delivered to several services at once — see [Limitations](#limitat
 <a id="features"></a>
 ## ✨ Features&nbsp;[#](#features)
 
-- **Nine adapters** — console, Sentry, Firebase, DataDog, Bugsnag, Rollbar, LogRocket, Raygun and AppCenter.
+- **Dynamic adapters** — console, Sentry, DataDog, Bugsnag, Rollbar, LogRocket, Raygun and AppCenter are available; the Firebase limitation is recorded below.
 - **Dynamic SDK loading** — a vendor SDK is imported only when its adapter is activated.
 - **Zero runtime dependencies** — nothing is added to your dependency tree.
 - **No React provider** — hooks read a module singleton, so they work in any component at any depth.
@@ -364,7 +364,6 @@ exported alongside them. Full listing:
 | Capture in plain JavaScript | [basic-usage.js](https://github.com/aoneahsan/unified-error-handling/blob/main/examples/basic-usage.js) |
 | Wire up React | [react-usage.jsx](https://github.com/aoneahsan/unified-error-handling/blob/main/examples/react-usage.jsx) |
 | Send to Sentry | [sentry-adapter.js](https://github.com/aoneahsan/unified-error-handling/blob/main/examples/sentry-adapter.js) |
-| Send to Firebase | [firebase-adapter.js](https://github.com/aoneahsan/unified-error-handling/blob/main/examples/firebase-adapter.js) |
 | Write your own adapter | [custom-adapter.js](https://github.com/aoneahsan/unified-error-handling/blob/main/examples/custom-adapter.js) |
 
 <a id="advanced-features"></a>

@@ -3,7 +3,7 @@
 Every `package.json` unit in this repository, what each dependency is for, and every intentional pin.
 Keep this accurate on **every** add, remove or upgrade.
 
-**Last Updated:** 2026-07-25
+**Last Updated:** 2026-10-20
 
 ---
 
@@ -73,7 +73,7 @@ Both are marked optional in `peerDependenciesMeta`, so a non-React consumer inst
 |---|---|---|
 | `vitest`, `@vitest/ui`, `@vitest/coverage-v8` | 2026-06-03 | Automated testing infrastructure retired; `src/config/defaults.test.ts` removed with it. |
 | `cypress` | 2026-06-03 | Same pass. |
-| `rollup` | superseded | The build uses esbuild. `rollup.config.js` remains in the tree but no script references it. |
+| `rollup` | superseded | The build uses esbuild; the obsolete unreferenced configuration was removed. |
 
 ## Build outputs
 
